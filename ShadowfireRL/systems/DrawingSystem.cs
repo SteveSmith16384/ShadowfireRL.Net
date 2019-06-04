@@ -1,31 +1,28 @@
 ﻿using RLNET;
-using ShadowfireRL.components;
-using ShadowfireRL.models;
+using RoguelikeFramework.components;
+using RoguelikeFramework.models;
+using RoguelikeFramework.view;
 using ShadowfireRL.view;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShadowfireRL.systems {
 
-    public class DrawingSystem {//: AbstractSystem {
+    public class DrawingSystem {
 
         private DefaultRLView view;
-        private MapData map_data;
+        private IDataForView viewData;
 
-        public DrawingSystem(DefaultRLView _view, MapData _map_data) {
+        public DrawingSystem(DefaultRLView _view, IDataForView _viewData) {
             this.view = _view;
-            this.map_data = _map_data;
+            this.viewData = _viewData;
         }
 
 
         public void process() {
             // Draw map
-            for (int y = 0; y < this.map_data.getHeight(); y++) {
-                for (int x = 0; x < this.map_data.getWidth(); x++) {
-                    foreach (AbstractEntity sq in this.map_data.map[x, y]) {
+            MapData map_data = this.viewData.GetMapData();
+            for (int y = 0; y < map_data.getHeight(); y++) {
+                for (int x = 0; x < map_data.getWidth(); x++) {
+                    foreach (AbstractEntity sq in map_data.map[x, y]) {
                         GraphicComponent gc = (GraphicComponent)sq.getComponent(nameof(GraphicComponent));
                         if (gc.is_visible) {
                             RLCell tc = gc.getChar();
@@ -34,6 +31,17 @@ namespace ShadowfireRL.systems {
                     }
                 }
             }
+
+            // Draw log
+            var log = this.viewData.GetLog();
+            int pos = 1;
+            foreach (var line in log) {
+                this.view._messageConsole.Print(1, pos++, line, RLColor.White);
+            }
+
+            // Draw hover text
+            //todo this.view.._messageConsole.Print(1, pos++, line, RLColor.White);
+
         }
 
     }

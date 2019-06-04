@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1D12A74F-E18C-4538-A766-7D5B2DA62EE5}</ProjectGuid>
+    <ProjectGuid>{3E80ED48-FC9B-4603-B1D8-49F662C5F8B8}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>ShadowfireRL</RootNamespace>
-    <AssemblyName>ShadowfireRL</AssemblyName>
+    <RootNamespace>AlienRL</RootNamespace>
+    <AssemblyName>AlienRL</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -33,36 +33,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>ShadowfireRL.ShadowfireRL_Game</StartupObject>
+    <StartupObject>AlienRL.AlienRL_Game</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <HintPath>..\packages\OpenTK.1.1.1589.5942\lib\NET40\OpenTK.dll</HintPath>
-    </Reference>
-    <Reference Include="RLNET, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RLNET.1.0.6\lib\RLNET.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="EntityFactory.cs" />
-    <Compile Include="ShadowfireRL_Game.cs" />
-    <Compile Include="systems\DrawingSystem.cs" />
-    <Compile Include="view\IGameView.cs" />
-    <Compile Include="RLTest.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="view\DefaultRLView.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AlienRL_Game.cs" />
+    <Compile Include="EntityFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RoguelikeFramework\RoguelikeFramework.csproj">
@@ -73,14 +51,6 @@
       <Project>{6f64d258-68c8-4bf4-b740-eaca38b06b1d}</Project>
       <Name>SimpleEcs</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="components\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="terminal8x8.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

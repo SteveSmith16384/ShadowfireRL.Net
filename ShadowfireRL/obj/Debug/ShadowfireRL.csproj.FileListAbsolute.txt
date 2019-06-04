@@ -20,7 +20,10 @@ E:\mycode\ShadowfireRL.Net\ShadowfireRL\bin\Debug\ShadowfireRL.exe
 E:\mycode\ShadowfireRL.Net\ShadowfireRL\bin\Debug\ShadowfireRL.pdb
 E:\mycode\ShadowfireRL.Net\ShadowfireRL\bin\Debug\OpenTK.dll
 E:\mycode\ShadowfireRL.Net\ShadowfireRL\bin\Debug\RLNET.dll
+E:\mycode\ShadowfireRL.Net\ShadowfireRL\bin\Debug\RoguelikeFramework.exe
 E:\mycode\ShadowfireRL.Net\ShadowfireRL\bin\Debug\SimpleEcs.exe
+E:\mycode\ShadowfireRL.Net\ShadowfireRL\bin\Debug\RoguelikeFramework.pdb
+E:\mycode\ShadowfireRL.Net\ShadowfireRL\bin\Debug\RoguelikeFramework.exe.config
 E:\mycode\ShadowfireRL.Net\ShadowfireRL\bin\Debug\SimpleEcs.pdb
 E:\mycode\ShadowfireRL.Net\ShadowfireRL\bin\Debug\SimpleEcs.exe.config
 E:\mycode\ShadowfireRL.Net\ShadowfireRL\bin\Debug\OpenTK.xml

@@ -1,55 +1,23 @@
 ﻿using RLNET;
-using ShadowfireRL.components;
-using ShadowfireRL.models;
-using ShadowfireRL.systems;
-using ShadowfireRL.view;
-using System;
+using RoguelikeFramework.components;
+using RoguelikeFramework.models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ShadowfireRL {
+namespace RoguelikeFramework {
+    public abstract class AbstractRoguelike {
 
-    public class Game {
-        private BasicEcs ecs;
-        private EntityFactory entityFactory;
-        private MapData mapData;
-        private AbstractEntity currentUnit;
-        private DefaultRLView view;
-        private DrawingSystem ds;
+        protected BasicEcs ecs;
+        protected MapData mapData;
+        protected GameLog gameLog;
+        private string hoverText;
 
-        public static void Main() {
-            new Game();
-        }
+        protected AbstractEntity currentUnit;
 
-
-        private Game() {
+        public AbstractRoguelike() {
             this.ecs = new BasicEcs();
             this.mapData = new MapData();
-            this.entityFactory = new EntityFactory(this.ecs, this.mapData);
+            this.gameLog = new GameLog();
 
-            this.ecs.systems.Add(new MovementSystem(this.mapData));
-
-            this.CreateGameData();
-
-            this.view = new DefaultRLView(this);
-            ds = new DrawingSystem(view, mapData);
-            ds.process();
-            this.view.Start();
-
-        }
-
-
-        private void CreateGameData() {
-            this.mapData.createMap(this.entityFactory, 50, 50);
-
-            this.currentUnit = this.entityFactory.createPlayersUnit("Syylk", 5, 5);
-        }
-
-
-        private void SingleGameLoop() {
-            this.ecs.process();
         }
 
 
@@ -77,22 +45,52 @@ namespace ShadowfireRL {
                         m.offX = -1;
                         break;
                     }
+                case RLKey.W: {
+                        action_performed = true;
+                        break;
+                    }
             }
 
             if (action_performed) {
                 this.SingleGameLoop();
             }
-            ds.process();
+            this.repaint();
+            }
+
+
+        protected abstract void repaint();
+
+
+
+        private void SingleGameLoop() {
+            this.ecs.process();
         }
 
 
         public void HandleMouseEvent(RLMouse mouse) {
+            if (mouse.LeftPressed) {
 
+            } else {
+                this.hoverText = "todo";
+            }
+            //this.drawingSystem.process();
+            this.repaint();
         }
 
 
+        public MapData GetMapData() {
+            return this.mapData;
+        }
+
+
+        public string GetHoverText() {
+            return this.hoverText;
+        }
+
+
+        public List<string> GetLog() {
+            return this.gameLog.GetEntries();
+        }
 
     }
-
 }
-
