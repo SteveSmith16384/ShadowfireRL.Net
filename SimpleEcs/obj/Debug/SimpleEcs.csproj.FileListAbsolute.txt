@@ -1,0 +1,6 @@
+E:\mycode\ShadowfireRL\SimpleEcs\obj\Debug\SimpleEcs.csproj.CoreCompileInputs.cache
+E:\mycode\ShadowfireRL\SimpleEcs\bin\Debug\SimpleEcs.exe.config
+E:\mycode\ShadowfireRL\SimpleEcs\bin\Debug\SimpleEcs.exe
+E:\mycode\ShadowfireRL\SimpleEcs\bin\Debug\SimpleEcs.pdb
+E:\mycode\ShadowfireRL\SimpleEcs\obj\Debug\SimpleEcs.exe
+E:\mycode\ShadowfireRL\SimpleEcs\obj\Debug\SimpleEcs.pdb
