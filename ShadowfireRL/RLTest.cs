@@ -5,10 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShadowfireRL
-{
-    class RLTest
-    {
+namespace ShadowfireRL {
+    class RLTest {
         // The screen height and width are in number of tiles
         private static readonly int _screenWidth = 100;
         private static readonly int _screenHeight = 70;
@@ -35,8 +33,7 @@ namespace ShadowfireRL
         private static RLConsole _inventoryConsole;
 
 
-        public static void Main()
-        {
+        public static void Main() {
             // This must be the exact name of the bitmap font file we are using or it will error.
             string fontFileName = "terminal8x8.png";
             // The title will appear at the top of the console window
@@ -61,8 +58,7 @@ namespace ShadowfireRL
 
 
         // Event handler for RLNET's Update event
-        private static void OnRootConsoleUpdate(object sender, UpdateEventArgs e)
-        {
+        private static void OnRootConsoleUpdate(object sender, UpdateEventArgs e) {
             // Set background color and text for each console 
             // so that we can verify they are in the correct positions
             _mapConsole.SetBackColor(0, 0, _mapWidth, _mapHeight, RLColor.Black);
@@ -84,20 +80,16 @@ namespace ShadowfireRL
 
 
             RLKeyPress keyPress = _rootConsole.Keyboard.GetKeyPress();
-            if (keyPress != null)
-            {
+            if (keyPress != null) {
                 _mapConsole.Print(10, 10, "Key: " + keyPress.ToString(), RLColor.White);
-            }
-            else
-            {
+            } else {
                 var str = _rootConsole.Mouse.X + "," + _rootConsole.Mouse.Y;
                 _mapConsole.Print(10, 10, "Mouse: " + str, RLColor.White);
             }
         }
 
         // Event handler for RLNET's Render event
-        private static void OnRootConsoleRender(object sender, UpdateEventArgs e)
-        {
+        private static void OnRootConsoleRender(object sender, UpdateEventArgs e) {
             // Blit the sub consoles to the root console in the correct locations
             RLConsole.Blit(_mapConsole, 0, 0, _mapWidth, _mapHeight, _rootConsole, 0, _inventoryHeight);
             RLConsole.Blit(_statConsole, 0, 0, _statWidth, _statHeight, _rootConsole, _mapWidth, 0);

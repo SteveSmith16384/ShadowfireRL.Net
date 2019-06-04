@@ -15,7 +15,7 @@ public class AbstractEntity {
 
 	
 	public void addComponent(AbstractComponent component) {
-		this.components.Add(component.getName(), component);
+		this.components.Add(component.GetType().Name, component);
 	}
 	
 	

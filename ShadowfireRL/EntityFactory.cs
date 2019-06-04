@@ -1,5 +1,6 @@
 ﻿using RLNET;
 using ShadowfireRL.components;
+using ShadowfireRL.models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

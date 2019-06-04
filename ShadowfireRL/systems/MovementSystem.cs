@@ -1,4 +1,5 @@
 ﻿using ShadowfireRL.components;
+using ShadowfireRL.models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,8 +20,8 @@ namespace ShadowfireRL.systems
 
         public override void processEntity(AbstractEntity entity)
         {
-            MovementDataComponent md = (MovementDataComponent)entity.getComponent("MovementDataComponent");
-            PositionComponent p = (PositionComponent)entity.getComponent("PositionComponent");
+            MovementDataComponent md = (MovementDataComponent)entity.getComponent(nameof(MovementDataComponent));
+            PositionComponent p = (PositionComponent)entity.getComponent(nameof(PositionComponent));
             if (md != null && p != null)
             {
                 if (md.offX != 0 || md.offY != 0)
@@ -48,7 +49,7 @@ namespace ShadowfireRL.systems
         {
             foreach (AbstractEntity entity in entities)
             {
-                PositionComponent p = (PositionComponent)entity.getComponent("PositionComponent");
+                PositionComponent p = (PositionComponent)entity.getComponent(nameof(PositionComponent));
                 if (p.blocks_movement)
                 {
                     return false;
