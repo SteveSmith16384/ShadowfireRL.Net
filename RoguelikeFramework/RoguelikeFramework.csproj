@@ -49,6 +49,7 @@
     <Compile Include="Misc.cs" />
     <Compile Include="models\GameLog.cs" />
     <Compile Include="models\MapData.cs" />
+    <Compile Include="Mouse.cs" />
     <Compile Include="systems\MovementSystem.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="view\IDataForView.cs" />

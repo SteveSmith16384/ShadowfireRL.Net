@@ -32,6 +32,14 @@ namespace ShadowfireRL.systems {
                 }
             }
 
+            // Draw line
+            var line2 = this.viewData.GetLine();
+            if (line2 != null) {
+                foreach (var point in line2) {
+                    this.view._mapConsole.SetBackColor(point.Item1, point.Item2, RLColor.Gray);
+                }
+            }
+
             // Draw log
             var log = this.viewData.GetLog();
             int pos = 1;

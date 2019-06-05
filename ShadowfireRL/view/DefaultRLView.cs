@@ -1,4 +1,5 @@
 ﻿using RLNET;
+using RoguelikeFramework;
 
 namespace ShadowfireRL.view {
     public class DefaultRLView //: IGameView
@@ -29,7 +30,7 @@ namespace ShadowfireRL.view {
         private static RLConsole _inventoryConsole;*/
 
         private ShadowfireRL_Game game;
-        private RLMouse prevRLMouse;
+        private Mouse prevRLMouse = new Mouse();// RLMouse(0, 0, false, false);
 
         public DefaultRLView(ShadowfireRL_Game _game) {
             this.game = _game;
@@ -68,9 +69,9 @@ namespace ShadowfireRL.view {
             this._mapConsole.SetBackColor(0, 0, _mapWidth, _mapHeight, RLColor.Black);
             this._mapConsole.Print(1, 1, "Map", RLColor.White);
 
-            this._mapConsole.Set(2, 2, RLColor.Red, RLColor.Green, 'L');
+            /*this._mapConsole.Set(2, 2, RLColor.Red, RLColor.Green, 'L');
             RLCell cell = new RLCell(RLColor.Yellow, RLColor.Brown, 'X');
-            this._mapConsole.Set(3, 3, cell);
+            this._mapConsole.Set(3, 3, cell);*/
 
             this._messageConsole.SetBackColor(0, 0, _messageWidth, _messageHeight, RLColor.Gray);
             this._messageConsole.Print(1, 1, "Messages", RLColor.White);
@@ -81,6 +82,8 @@ namespace ShadowfireRL.view {
             //_inventoryConsole.SetBackColor(0, 0, _inventoryWidth, _inventoryHeight, RLColor.Cyan);
             //_inventoryConsole.Print(1, 1, "Inventory", RLColor.White);
 
+            game.repaint2();
+
             RLKeyPress keyPress = this._rootConsole.Keyboard.GetKeyPress();
             if (keyPress != null) {
                 this._mapConsole.Print(10, 10, "Key: " + keyPress.ToString(), RLColor.White);
@@ -90,10 +93,11 @@ namespace ShadowfireRL.view {
 
             //var str = _rootConsole.Mouse.X + "," + _rootConsole.Mouse.Y;
             //_mapConsole.Print(10, 10, "Mouse: " + str, RLColor.White);
-
-            if (this.prevRLMouse == null || (this.prevRLMouse.X != this._rootConsole.Mouse.X || this.prevRLMouse.Y != this._rootConsole.Mouse.Y || this.prevRLMouse.LeftPressed != this._rootConsole.Mouse.LeftPressed)) {
+            if (this.prevRLMouse.x != this._rootConsole.Mouse.X || this.prevRLMouse.y != this._rootConsole.Mouse.Y || this.prevRLMouse.left != this._rootConsole.Mouse.LeftPressed) {
                 this.game.HandleMouseEvent(this._rootConsole.Mouse);
-                this.prevRLMouse = this._rootConsole.Mouse;
+                this.prevRLMouse.x = this._rootConsole.Mouse.X;
+                this.prevRLMouse.y = this._rootConsole.Mouse.Y;
+                this.prevRLMouse.left = this._rootConsole.Mouse.GetLeftClick();
             }
         }
 

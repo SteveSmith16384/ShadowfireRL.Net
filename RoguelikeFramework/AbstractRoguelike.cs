@@ -1,6 +1,7 @@
 ﻿using RLNET;
 using RoguelikeFramework.components;
 using RoguelikeFramework.models;
+using System;
 using System.Collections.Generic;
 
 namespace RoguelikeFramework {
@@ -10,7 +11,7 @@ namespace RoguelikeFramework {
         protected MapData mapData;
         protected GameLog gameLog;
         private string hoverText;
-
+        private List<Tuple<int, int>> line;
         protected AbstractEntity currentUnit;
 
         public AbstractRoguelike() {
@@ -61,7 +62,6 @@ namespace RoguelikeFramework {
         protected abstract void repaint();
 
 
-
         private void SingleGameLoop() {
             this.ecs.process();
         }
@@ -72,6 +72,8 @@ namespace RoguelikeFramework {
 
             } else {
                 this.hoverText = "todo";
+                line = Misc.line(0, 0, mouse.X, mouse.Y);
+
             }
             //this.drawingSystem.process();
             this.repaint();
@@ -90,6 +92,10 @@ namespace RoguelikeFramework {
 
         public List<string> GetLog() {
             return this.gameLog.GetEntries();
+        }
+
+        public List<Tuple<int, int>> GetLine() {
+            return line;
         }
 
     }

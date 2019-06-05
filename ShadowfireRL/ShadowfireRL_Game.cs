@@ -4,6 +4,7 @@ using RoguelikeFramework.view;
 using RoguelikeFramework.systems;
 using ShadowfireRL.systems;
 using RoguelikeFramework;
+using System;
 
 namespace ShadowfireRL {
 
@@ -45,16 +46,20 @@ namespace ShadowfireRL {
             for (int y = 0; y < this.mapData.getHeight(); y++) {
                 for (int x = 0; x < this.mapData.getWidth(); x++) {
                     this.mapData.map[x, y] = new List<AbstractEntity>();
-                    if (Misc.random.Next(100) > 10) {
+                    //if (Misc.random.Next(100) > 10) {
                         factory.createFloorMapSquare(x, y);
-                    } else {
+                    /*} else {
                         factory.createWallMapSquare(x, y);
-                    }
+                    }*/
                 }
             }
         }
 
         protected override void repaint() {
+            this.drawingSystem.process();
+        }
+
+        public void repaint2() {
             this.drawingSystem.process();
         }
     }

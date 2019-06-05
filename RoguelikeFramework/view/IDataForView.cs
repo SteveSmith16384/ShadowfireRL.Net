@@ -1,4 +1,5 @@
 ﻿using RoguelikeFramework.models;
+using System;
 using System.Collections.Generic;
 
 namespace RoguelikeFramework.view {
@@ -11,5 +12,6 @@ namespace RoguelikeFramework.view {
 
         List<string> GetLog();
 
+        List<Tuple<int, int>> GetLine();
     }
 }
