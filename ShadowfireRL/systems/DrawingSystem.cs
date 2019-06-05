@@ -33,7 +33,7 @@ namespace ShadowfireRL.systems {
             }
 
             // Draw hover text
-            this.view.mapConsole.Print(1, ShadowfireRLView._mapHeight-1, "todo", RLColor.White);
+            this.view.mapConsole.Print(1, ShadowfireRLView._mapHeight-1, this.viewData.GetHoverText(), RLColor.White);
 
             // Draw line
             var line2 = this.viewData.GetLine();

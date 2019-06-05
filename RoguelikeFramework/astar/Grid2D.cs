@@ -34,46 +34,46 @@ namespace AStar.Examples {
     public class Grid2D {
         public GridNode[][] Grid;
 
-        public int Width { get { return Grid.Length; } }
-        public int Height { get { return Grid[0].Length; } }
+        public int Width { get { return this.Grid.Length; } }
+        public int Height { get { return this.Grid[0].Length; } }
 
         public GridNode Start;
         public GridNode Goal;
 
         public Grid2D(GridNode[][] grid, GridNode start, GridNode goal) {
-            Grid = grid;
-            Start = start;
-            Goal = goal;
+            this.Grid = grid;
+            this.Start = start;
+            this.Goal = goal;
         }
 
         public Grid2D(int width, int height, int wallPercentage, int startX, int startY, int goalX, int goalY) {
             var rand = new Random();
-            Start = new GridNode(this, startX, startY, false);
-            Goal = new GridNode(this, goalX, goalY, false);
+            this.Start = new GridNode(this, startX, startY, false);
+            this.Goal = new GridNode(this, goalX, goalY, false);
 
-            Grid = new GridNode[width][];
+            this.Grid = new GridNode[width][];
             for (var i = 0; i < width; i++)
-                Grid[i] = new GridNode[height];
+                this.Grid[i] = new GridNode[height];
 
-            Grid[Start.X][Start.Y] = Start;
-            Grid[Goal.X][Goal.Y] = Goal;
+            this.Grid[this.Start.X][this.Start.Y] = this.Start;
+            this.Grid[this.Goal.X][this.Goal.Y] = this.Goal;
 
             for (var i = 0; i < width; i++) {
                 for (var j = 0; j < height; j++) {
                     // don't overwrite start/goal nodes
-                    if (Grid[i][j] != null)
+                    if (this.Grid[i][j] != null)
                         continue;
 
-                    Grid[i][j] = new GridNode(this, i, j, rand.Next(100) < wallPercentage);
+                    this.Grid[i][j] = new GridNode(this, i, j, rand.Next(100) < wallPercentage);
                 }
             }
         }
 
         public string Print(IEnumerable<INode> path) {
             var output = "";
-            for (var i = 0; i < Width; i++) {
-                for (var j = 0; j < Height; j++) {
-                    output += Grid[i][j].Print(Start, Goal, path);
+            for (var i = 0; i < this.Width; i++) {
+                for (var j = 0; j < this.Height; j++) {
+                    output += this.Grid[i][j].Print(this.Start, this.Goal, path);
                 }
                 output += "\n";
             }

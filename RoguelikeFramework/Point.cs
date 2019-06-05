@@ -10,8 +10,8 @@ namespace RoguelikeFramework {
         public int x, y;
 
         public Point(int _x, int _y) {
-            x = _x;
-            y = _y;
+            this.x = _x;
+            this.y = _y;
         }
     }
 

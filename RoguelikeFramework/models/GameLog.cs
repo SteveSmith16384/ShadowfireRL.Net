@@ -7,7 +7,7 @@ namespace RoguelikeFramework.models {
         private List<string> entries = new List<string>();
         private int max;
         public GameLog(int m) {
-            max = m;
+            this.max = m;
         }
 
 
@@ -19,7 +19,7 @@ namespace RoguelikeFramework.models {
         public void Add(string s) {
             this.entries.Add(s);
 
-            while (this.entries.Count > max) {
+            while (this.entries.Count > this.max) {
                 this.entries.RemoveAt(0);
             }
         }

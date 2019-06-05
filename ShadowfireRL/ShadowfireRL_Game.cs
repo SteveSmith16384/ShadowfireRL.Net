@@ -56,11 +56,11 @@ namespace ShadowfireRL {
                 }
             }
         }
-
+        /*
         protected override void repaint() { // todo - delete this
             //this.drawingSystem.process();
         }
-
+        */
         public void repaint2() {
             this.drawingSystem.process();
         }

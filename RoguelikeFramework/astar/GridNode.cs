@@ -40,32 +40,32 @@ namespace AStar.Examples {
         public Grid2D Grid;
 
         public GridNode(Grid2D grid, int x, int y, bool isWall) {
-            Grid = grid;
-            X = x;
-            Y = y;
-            IsWall = isWall;
+            this.Grid = grid;
+            this.X = x;
+            this.Y = y;
+            this.IsWall = isWall;
         }
 
         /// <summary>
         /// Gets or sets whether this node is on the open list.
         /// </summary>
         public bool IsOpenList(IEnumerable<INode> openList) {
-            return isOpenList;
+            return this.isOpenList;
         }
 
         public void SetOpenList(bool value) {
-            isOpenList = value;
+            this.isOpenList = value;
         }
 
         /// <summary>
         /// If this is a wall then return as unsearchable without ever checking the node.
         /// </summary>
         public bool IsClosedList(IEnumerable<INode> closedList) {
-            return IsWall || isClosedList;
+            return this.IsWall || this.isClosedList;
         }
 
         public void SetClosedList(bool value) {
-            isClosedList = value;
+            this.isClosedList = value;
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace AStar.Examples {
         /// f = g + h
         /// TotalCost = MovementCost + EstimatedCost
         /// </summary>
-        public int TotalCost { get { return MovementCost + EstimatedCost; } }
+        public int TotalCost { get { return this.MovementCost + this.EstimatedCost; } }
 
         /// <summary>
         /// Gets the movement cost for this node.
@@ -130,12 +130,12 @@ namespace AStar.Examples {
 
                 for (int i = 0; i < childXPos.Length; i++) {
                     // skip any nodes out of bounds.
-                    if (X + childXPos[i] >= Grid.Width || Y + childYPos[i] >= Grid.Height)
+                    if (this.X + childXPos[i] >= this.Grid.Width || this.Y + childYPos[i] >= this.Grid.Height)
                         continue;
-                    if (X + childXPos[i] < 0 || Y + childYPos[i] < 0)
+                    if (this.X + childXPos[i] < 0 || this.Y + childYPos[i] < 0)
                         continue;
 
-                    children.Add(Grid.Grid[X + childXPos[i]][Y + childYPos[i]]);
+                    children.Add(this.Grid.Grid[this.X + childXPos[i]][this.Y + childYPos[i]]);
                 }
 
                 return children;
@@ -148,7 +148,7 @@ namespace AStar.Examples {
         /// <param name="goal">The goal node to compare this node against.</param>
         /// <returns>True if this node is the goal, false if it s not the goal.</returns>
         public bool IsGoal(INode goal) {
-            return IsEqual((GridNode)goal);
+            return this.IsEqual((GridNode)goal);
         }
 
         /// <summary>
@@ -161,13 +161,13 @@ namespace AStar.Examples {
         }
 
         public string Print(GridNode start, GridNode goal, IEnumerable<INode> path) {
-            if (IsWall) {
+            if (this.IsWall) {
                 return "W";
-            } else if (IsEqual(start)) {
+            } else if (this.IsEqual(start)) {
                 return "s";
-            } else if (IsEqual(goal)) {
+            } else if (this.IsEqual(goal)) {
                 return "g";
-            } else if (IsInPath(path)) {
+            } else if (this.IsInPath(path)) {
                 return ".";
             } else {
                 return " ";
@@ -176,7 +176,7 @@ namespace AStar.Examples {
 
         private bool IsInPath(IEnumerable<INode> path) {
             foreach (var node in path) {
-                if (IsEqual((GridNode)node))
+                if (this.IsEqual((GridNode)node))
                     return true;
             }
             return false;
