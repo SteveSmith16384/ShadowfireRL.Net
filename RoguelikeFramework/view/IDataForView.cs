@@ -1,4 +1,5 @@
-﻿using RoguelikeFramework.models;
+﻿using OpenTK;
+using RoguelikeFramework.models;
 using System;
 using System.Collections.Generic;
 
@@ -12,6 +13,8 @@ namespace RoguelikeFramework.view {
 
         List<string> GetLog();
 
-        List<Tuple<int, int>> GetLine();
+        List<Point> GetLine();
+
+        Dictionary<int, AbstractEntity> GetUnits();
     }
 }

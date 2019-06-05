@@ -1,4 +1,5 @@
-﻿using RLNET;
+﻿using OpenTK;
+using RLNET;
 using RoguelikeFramework.components;
 using RoguelikeFramework.models;
 using System;
@@ -7,18 +8,22 @@ using System.Collections.Generic;
 namespace RoguelikeFramework {
     public abstract class AbstractRoguelike {
 
+        public enum InputMode {Normal, SelectDestination, SelectThrowTarget };
+
         protected BasicEcs ecs;
         protected MapData mapData;
         protected GameLog gameLog;
         private string hoverText;
-        private List<Tuple<int, int>> line;
-        protected AbstractEntity currentUnit;
+        private List<Point> line;
+        private InputMode inputMode = InputMode.Normal;
 
-        public AbstractRoguelike() {
+        protected AbstractEntity currentUnit;
+        public Dictionary<int, AbstractEntity> playersUnits = new Dictionary<int, AbstractEntity>();
+
+        public AbstractRoguelike(int maxLogEntries) {
             this.ecs = new BasicEcs();
             this.mapData = new MapData();
-            this.gameLog = new GameLog();
-
+            this.gameLog = new GameLog(maxLogEntries);
         }
 
 
@@ -26,6 +31,12 @@ namespace RoguelikeFramework {
             bool action_performed = false;
 
             switch (keyPress.Key) {
+                case RLKey.Keypad1:
+                    this.currentUnit = this.playersUnits[1];
+                    break;
+                case RLKey.Keypad2:
+                    this.currentUnit = this.playersUnits[2];
+                    break;
                 case RLKey.Up: {
                         MovementDataComponent m = (MovementDataComponent)this.currentUnit.getComponent(nameof(MovementDataComponent));
                         m.offY = 1;
@@ -72,10 +83,9 @@ namespace RoguelikeFramework {
 
             } else {
                 this.hoverText = "todo";
-                line = Misc.line(0, 0, mouse.X, mouse.Y);
+                this.line = Misc.line(0, 0, mouse.X, mouse.Y);
 
             }
-            //this.drawingSystem.process();
             this.repaint();
         }
 
@@ -94,8 +104,13 @@ namespace RoguelikeFramework {
             return this.gameLog.GetEntries();
         }
 
-        public List<Tuple<int, int>> GetLine() {
-            return line;
+
+        public List<Point> GetLine() {
+            return this.line;
+        }
+
+        public Dictionary<int, AbstractEntity> GetUnits() {
+            return this.playersUnits;
         }
 
     }

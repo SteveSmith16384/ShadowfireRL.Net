@@ -33,7 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>RoguelikeFramework.Test</StartupObject>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -42,14 +43,24 @@
   <ItemGroup />
   <ItemGroup>
     <Compile Include="AbstractRoguelike.cs" />
+    <Compile Include="astar\AStar.cs" />
+    <Compile Include="astar\Grid2D.cs" />
+    <Compile Include="astar\GridNode.cs" />
+    <Compile Include="astar\INode.cs" />
+    <Compile Include="astar\SortedListExtensions.cs" />
     <Compile Include="components\ActionPointsData.cs" />
+    <Compile Include="components\CanCarryComponent.cs" />
+    <Compile Include="components\CarryableComponent.cs" />
     <Compile Include="components\GraphicComponent.cs" />
+    <Compile Include="components\MapsquareData.cs" />
     <Compile Include="components\MovementDataComponent.cs" />
+    <Compile Include="components\PlayersUnitData.cs" />
     <Compile Include="components\PositionComponent.cs" />
     <Compile Include="Misc.cs" />
     <Compile Include="models\GameLog.cs" />
     <Compile Include="models\MapData.cs" />
     <Compile Include="Mouse.cs" />
+    <Compile Include="Point.cs" />
     <Compile Include="systems\MovementSystem.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="view\IDataForView.cs" />
@@ -61,6 +72,7 @@
     <Reference Include="RLNET, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RLNET.1.0.6\lib\RLNET.dll</HintPath>
     </Reference>
+    <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SimpleEcs\SimpleEcs.csproj">

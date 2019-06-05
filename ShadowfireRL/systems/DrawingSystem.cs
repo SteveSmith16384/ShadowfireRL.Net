@@ -8,10 +8,10 @@ namespace ShadowfireRL.systems {
 
     public class DrawingSystem {
 
-        private DefaultRLView view;
+        private ShadowfireRLView view;
         private IDataForView viewData;
 
-        public DrawingSystem(DefaultRLView _view, IDataForView _viewData) {
+        public DrawingSystem(ShadowfireRLView _view, IDataForView _viewData) {
             this.view = _view;
             this.viewData = _viewData;
         }
@@ -26,29 +26,37 @@ namespace ShadowfireRL.systems {
                         GraphicComponent gc = (GraphicComponent)sq.getComponent(nameof(GraphicComponent));
                         if (gc.is_visible) {
                             RLCell tc = gc.getChar();
-                            this.view._mapConsole.Set(x, y, tc);
+                            this.view.mapConsole.Set(x, y, tc);
                         }
                     }
                 }
             }
 
+            // Draw hover text
+            this.view.mapConsole.Print(1, ShadowfireRLView._mapHeight-1, "todo", RLColor.White);
+
             // Draw line
             var line2 = this.viewData.GetLine();
             if (line2 != null) {
                 foreach (var point in line2) {
-                    this.view._mapConsole.SetBackColor(point.Item1, point.Item2, RLColor.Gray);
+                    this.view.mapConsole.SetBackColor(point.x, point.y, RLColor.Gray);
                 }
             }
+
+            // Draw crew
+            int yPos = 0;
+            foreach (AbstractEntity e in this.viewData.GetUnits().Values) {
+                this.view.crewListConsole.Print(0, yPos, (yPos+1) + ": " + e.name, RLColor.White);
+                yPos++;
+            }
+
 
             // Draw log
             var log = this.viewData.GetLog();
             int pos = 1;
             foreach (var line in log) {
-                this.view._messageConsole.Print(1, pos++, line, RLColor.White);
+                this.view.messageConsole.Print(1, pos++, line, RLColor.White);
             }
-
-            // Draw hover text
-            //todo this.view.._messageConsole.Print(1, pos++, line, RLColor.White);
 
         }
 

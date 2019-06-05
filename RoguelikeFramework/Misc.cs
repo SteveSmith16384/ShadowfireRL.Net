@@ -1,14 +1,17 @@
-﻿using System;
+﻿using OpenTK;
+using System;
 using System.Collections.Generic;
 
 namespace RoguelikeFramework {
+
+  
     public class Misc {
 
         public static Random random = new Random();
 
 
         // Modified from https://stackoverflow.com/questions/11678693/all-cases-covered-bresenhams-line-algorithm
-        public static List<Tuple<int, int>> line(int x, int y, int x2, int y2) {
+        public static List<Point> line(int x, int y, int x2, int y2) {
             int w = x2 - x;
             int h = y2 - y;
             int dx1 = 0, dy1 = 0, dx2 = 0, dy2 = 0;
@@ -24,9 +27,9 @@ namespace RoguelikeFramework {
                 dx2 = 0;
             }
             int numerator = longest >> 1;
-            List<Tuple<int, int>> list = new List<Tuple<int, int>>();
+            List<Point> list = new List<Point>();
             for (int i = 0; i <= longest; i++) {
-                list.Add(new Tuple<int, int>(x, y));
+                list.Add(new Point(x, y));
                 numerator += shortest;
                 if (!(numerator < longest)) {
                     numerator -= longest;
