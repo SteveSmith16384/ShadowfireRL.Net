@@ -45,6 +45,7 @@ namespace ShadowfireRL {
             e.addComponent(new GraphicComponent('1', RLColor.Green, RLColor.Black));
             e.addComponent(new CanCarryComponent(10));
             e.addComponent(new PlayersUnitData(num));
+            e.addComponent(new ShootOnSightComponent());
 
             this.ecs.entities.Add(e);
 
@@ -60,17 +61,32 @@ namespace ShadowfireRL {
             e.addComponent(new MovementDataComponent());
             e.addComponent(new GraphicComponent('E', RLColor.Red, RLColor.Black));
             e.addComponent(new CanCarryComponent(99));
+            e.addComponent(new ShootOnSightComponent());
             this.ecs.entities.Add(e);
             return e;
         }
 
 
-        public AbstractEntity createGunItem(int x, int y) {
-            AbstractEntity e = new AbstractEntity("Gun");
+        public AbstractEntity createGunItemForMap(int x, int y) {
+            AbstractEntity e = createGunItem();
             e.addComponent(new PositionComponent(e, this.map_data, x, y, false));
+            this.ecs.entities.Add(e);
+            return e;
+        }
+
+
+        public AbstractEntity createGunItemForUnit(AbstractEntity unit) {
+            AbstractEntity e = createGunItem();
+            //todo e.addComponent(new PositionComponent(e, this.map_data, x, y, false));
+            this.ecs.entities.Add(e);
+            return e;
+        }
+
+
+        private AbstractEntity createGunItem() {
+            AbstractEntity e = new AbstractEntity("Gun");
             e.addComponent(new GraphicComponent('L', RLColor.Yellow, RLColor.Black));
             e.addComponent(new CarryableComponent(1f));
-            this.ecs.entities.Add(e);
             return e;
         }
 

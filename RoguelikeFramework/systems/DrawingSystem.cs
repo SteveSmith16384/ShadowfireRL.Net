@@ -11,6 +11,8 @@ namespace RoguelikeFramework.systems {
         private DefaultRLView view;
         private IDataForView viewData;
 
+        private RLCell invisible = new RLCell(RLColor.Black, RLColor.Black, ' ');
+
         public DrawingSystem(DefaultRLView _view, IDataForView _viewData) {
             this.view = _view;
             this.viewData = _viewData;
@@ -26,17 +28,18 @@ namespace RoguelikeFramework.systems {
                         var entities = map_data.map[x, y];
                         var mapEnt = entities.Single(ent => ent.components.ContainsKey(nameof(MapsquareData)));
                         MapsquareData msdc = (MapsquareData)mapEnt.getComponent(nameof(MapsquareData));
-                        foreach (AbstractEntity sq in entities) {
-                            if (msdc.visible) { // Only draw stuff if mapsquare visible
+                        if (msdc.visible) { 
+                            // Only draw stuff if mapsquare visible
+                            foreach (AbstractEntity sq in entities) {
                                 GraphicComponent gc = (GraphicComponent)sq.getComponent(nameof(GraphicComponent));
                                 RLCell tc = gc.getChar();
                                 this.view.mapConsole.Set(x, y, tc);
-                            } else if (msdc.seen) {
-                                this.view.mapConsole.Set(x, y, msdc.seen_ch);
-                                break;
-                            } else {
-                                // todo - draw blank?
                             }
+                        } else if (msdc.seen) {
+                            this.view.mapConsole.Set(x, y, msdc.seen_ch);
+                            break;
+                        } else {
+                            this.view.mapConsole.Set(x, y, this.invisible);
                         }
                     }
                 }
@@ -56,14 +59,22 @@ namespace RoguelikeFramework.systems {
             // Draw crew
             int yPos = 0;
             foreach (AbstractEntity e in this.viewData.GetUnits().Values) {
-                this.view.crewListConsole.Print(0, yPos, yPos + 1 + ": " + e.name, RLColor.White);
+                RLColor c = RLColor.White;
+                if (e == this.viewData.GetCurrentUnit()) {
+                    c = RLColor.Yellow;
+                }
+                this.view.crewListConsole.Print(0, yPos, yPos + 1 + ": " + e.name, c);
                 yPos++;
             }
 
             // Draw unit stats
+            yPos = 0;
             AbstractEntity currentUnit = this.viewData.GetCurrentUnit();
             if (currentUnit != null) {
-                // todo
+                foreach (var s in this.viewData.GetStatsFor(currentUnit)) {
+                    this.view.statConsole.Print(0, yPos, s, RLColor.White);
+                    yPos++;
+                }
             }
 
             // Draw log

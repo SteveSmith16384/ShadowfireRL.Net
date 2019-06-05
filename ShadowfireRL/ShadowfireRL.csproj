@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="ShadowfireEntityFactory.cs" />
     <Compile Include="ShadowfireRL_Game.cs" />
+    <Compile Include="systems\UnitAISystem.cs" />
     <Compile Include="view\IGameView.cs" />
     <Compile Include="RLTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -74,7 +75,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="components\" />
-    <Folder Include="systems\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="terminal8x8.png">

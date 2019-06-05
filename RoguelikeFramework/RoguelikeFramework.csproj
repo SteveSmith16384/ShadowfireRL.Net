@@ -58,6 +58,7 @@
     <Compile Include="components\PlayersUnitData.cs" />
     <Compile Include="components\PositionComponent.cs" />
     <Compile Include="components\MiscStatsComponent.cs" />
+    <Compile Include="components\ShootOnSightComponent.cs" />
     <Compile Include="Misc.cs" />
     <Compile Include="models\GameLog.cs" />
     <Compile Include="models\MapData.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="systems\CheckVisibilitySystem.cs" />
     <Compile Include="systems\DrawingSystem.cs" />
     <Compile Include="systems\MovementSystem.cs" />
+    <Compile Include="systems\ShootOnSightSystem.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="view\IDataForView.cs" />
     <Compile Include="view\DefaultRLView.cs" />

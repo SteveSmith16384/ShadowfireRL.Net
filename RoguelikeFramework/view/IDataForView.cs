@@ -1,6 +1,4 @@
-﻿using OpenTK;
-using RoguelikeFramework.models;
-using System;
+﻿using RoguelikeFramework.models;
 using System.Collections.Generic;
 
 namespace RoguelikeFramework.view {
@@ -18,5 +16,7 @@ namespace RoguelikeFramework.view {
         Dictionary<int, AbstractEntity> GetUnits();
 
         AbstractEntity GetCurrentUnit();
+
+        List<string> GetStatsFor(AbstractEntity e);
     }
 }

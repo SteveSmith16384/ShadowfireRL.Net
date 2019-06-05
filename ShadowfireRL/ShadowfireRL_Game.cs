@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using RoguelikeFramework.systems;
 using RoguelikeFramework;
 using RoguelikeFramework.view;
+using ShadowfireRL.systems;
 
 namespace ShadowfireRL {
 
-    public class ShadowfireRL_Game : AbstractRoguelike {
+    public class ShadowfireRL_Game : AbstractRoguelike, IDataForView {
 
         private ShadowfireEntityFactory entityFactory;
 
@@ -15,13 +15,11 @@ namespace ShadowfireRL {
 
 
         private ShadowfireRL_Game() : base(DefaultRLView._messageHeight) {
-
-            //this.CreateGameData();
-
+            this.ecs.systems.Add(new UnitAISystem());
             this.gameLog.Add("Welcome");
+            this.SelectUnit(1);
 
             this.view.Start();
-
         }
 
 
@@ -49,7 +47,13 @@ namespace ShadowfireRL {
             }
         }
 
+
+        protected override List<string> GetStatsFor_Sub(AbstractEntity e) {
+            var str = new List<string>();
+            str.Add($"Stats for {e.name}");
+            return str;
+        }
+
     }
 
 }
-

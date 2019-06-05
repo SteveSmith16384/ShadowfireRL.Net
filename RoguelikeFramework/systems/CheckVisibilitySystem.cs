@@ -1,10 +1,6 @@
 ﻿using RoguelikeFramework.components;
 using RoguelikeFramework.models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RoguelikeFramework.systems {
     public class CheckVisibilitySystem {//: AbstractSystem {
@@ -26,9 +22,6 @@ namespace RoguelikeFramework.systems {
                     foreach (AbstractEntity sq in this.map_data.map[x, y]) {
                         MapsquareData msdc = (MapsquareData)sq.getComponent(nameof(MapsquareData));
                         if (msdc != null) {
-                            /*if (msdc.visible) {
-                                msdc.seen = true;
-                            }*/
                             msdc.visible = false;
                             break;
                         }
@@ -53,21 +46,15 @@ namespace RoguelikeFramework.systems {
                     }
                 }
             }
-
             //}
-
         }
 
 
         private void CheckVisibility(int x1, int y1, int x2, int y2) {
             List<Point> line = Misc.line(x1, y1, x2, y2);
             foreach (var p in line) { 
-            //while (line.Count > 0) {
-                //Point p = line[0];
-                //line.RemoveAt(0);
-
                 foreach (AbstractEntity sq in this.map_data.map[p.x, p.y]) {
-                    MapsquareData msdc = (MapsquareData)sq.getComponent(nameof(MapsquareData));
+                    MapsquareData msdc = (MapsquareData)sq.getComponent(nameof(MapsquareData)); // todo - better way of selecting map component
                     if (msdc != null) {
                         msdc.visible = true; // Even walls get seen
                         msdc.seen = true;

@@ -1,6 +1,4 @@
 ﻿using RLNET;
-using RoguelikeFramework;
-using System;
 
 namespace RoguelikeFramework.view {
 

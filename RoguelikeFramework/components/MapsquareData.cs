@@ -1,9 +1,4 @@
 ﻿using RLNET;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RoguelikeFramework.components {
 
@@ -20,7 +15,9 @@ namespace RoguelikeFramework.components {
             this.traverseCost = 1f;
 
             if (this.blocksView) {
-                this.seen_ch = new RLCell(RLColor.Gray, RLColor.Black, ' ');
+                this.seen_ch = new RLCell(RLColor.Gray, RLColor.Gray, ' ');
+            } else {
+                this.seen_ch = new RLCell(RLColor.Black, RLColor.Gray, '.');
             }
         }
     }

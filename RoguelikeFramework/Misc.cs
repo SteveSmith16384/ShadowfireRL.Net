@@ -1,10 +1,9 @@
-﻿using OpenTK;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace RoguelikeFramework {
 
-  
+
     public class Misc {
 
         public static Random random = new Random();

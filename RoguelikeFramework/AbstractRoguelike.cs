@@ -1,10 +1,8 @@
-﻿using OpenTK;
-using RLNET;
+﻿using RLNET;
 using RoguelikeFramework.components;
 using RoguelikeFramework.models;
 using RoguelikeFramework.systems;
 using RoguelikeFramework.view;
-using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,7 +10,7 @@ namespace RoguelikeFramework {
 
     public abstract class AbstractRoguelike : IDataForView {
 
-        public enum InputMode { Normal, SelectDestination, SelectThrowTarget };
+        public enum InputMode { Normal, SelectItemFromInv, SelectDestination, SelectThrowTarget };
 
         protected BasicEcs ecs;
         protected MapData mapData;
@@ -33,7 +31,7 @@ namespace RoguelikeFramework {
             this.mapData = new MapData();
             this.gameLog = new GameLog(maxLogEntries);
 
-            CreateData();
+            this.CreateData();
 
             this.ecs.systems.Add(new MovementSystem(this.mapData));
 
@@ -42,8 +40,9 @@ namespace RoguelikeFramework {
             this.drawingSystem.process();
 
             this.checkVisibilitySystem = new CheckVisibilitySystem(this.mapData, this.playersUnits.Values);
+            this.ecs.systems.Add(new ShootOnSightSystem());
 
-            checkVisibilitySystem.process();
+            this.checkVisibilitySystem.process();
         }
 
 
@@ -192,5 +191,11 @@ namespace RoguelikeFramework {
             this.drawingSystem.process();
         }
 
+
+        public List<string> GetStatsFor(AbstractEntity e) {
+            return GetStatsFor_Sub(e);
+        }
+
+        protected abstract List<string> GetStatsFor_Sub(AbstractEntity e);
     }
 }
