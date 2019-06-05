@@ -21,6 +21,7 @@ namespace ShadowfireRL {
             AbstractEntity e = new AbstractEntity("Floor");
             e.addComponent(new PositionComponent(e, this.map_data, x, y, false));
             e.addComponent(new GraphicComponent('.', RLColor.White, RLColor.Black));
+            e.addComponent(new MapsquareData(false));
             this.ecs.entities.Add(e);
             return e;
         }
@@ -30,6 +31,7 @@ namespace ShadowfireRL {
             AbstractEntity e = new AbstractEntity("Wall");
             e.addComponent(new PositionComponent(e, this.map_data, x, y, true));
             e.addComponent(new GraphicComponent('#', RLColor.Green, RLColor.Green));
+            e.addComponent(new MapsquareData(true));
             this.ecs.entities.Add(e);
             return e;
         }
@@ -41,7 +43,7 @@ namespace ShadowfireRL {
             e.addComponent(new MovementDataComponent());
             //e.addComponent(new CanSeeForPlayerComponent());
             e.addComponent(new GraphicComponent('1', RLColor.Green, RLColor.Black));
-            e.addComponent(new CanCarryComponent());
+            e.addComponent(new CanCarryComponent(10));
             e.addComponent(new PlayersUnitData(num));
 
             this.ecs.entities.Add(e);
@@ -57,7 +59,7 @@ namespace ShadowfireRL {
             e.addComponent(new PositionComponent(e, this.map_data, x, y, true));
             e.addComponent(new MovementDataComponent());
             e.addComponent(new GraphicComponent('E', RLColor.Red, RLColor.Black));
-            e.addComponent(new CanCarryComponent());
+            e.addComponent(new CanCarryComponent(99));
             this.ecs.entities.Add(e);
             return e;
         }

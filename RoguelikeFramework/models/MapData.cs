@@ -20,6 +20,8 @@ namespace RoguelikeFramework.models {
         }
 
 
+        //public AbstractEntity Get
+
     }
 
 }

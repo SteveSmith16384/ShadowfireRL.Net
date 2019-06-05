@@ -2,9 +2,9 @@
 using RoguelikeFramework;
 using System;
 
-namespace ShadowfireRL.view {
+namespace RoguelikeFramework.view {
 
-    public class ShadowfireRLView //: IGameView
+    public class DefaultRLView //: IGameView
     {
         // The screen height and width are in number of tiles
         private const int _screenWidth = 100;
@@ -31,10 +31,10 @@ namespace ShadowfireRL.view {
         private const int _statHeight = 70;
         public RLConsole statConsole;
 
-        private ShadowfireRL_Game game;
+        private AbstractRoguelike game;
         private Mouse prevRLMouse = new Mouse();
 
-        public ShadowfireRLView(ShadowfireRL_Game _game) {
+        public DefaultRLView(AbstractRoguelike _game) {
             this.game = _game;
 
             // This must be the exact name of the bitmap font file we are using or it will error.

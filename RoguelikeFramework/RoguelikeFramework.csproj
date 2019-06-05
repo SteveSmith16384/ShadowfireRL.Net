@@ -52,18 +52,23 @@
     <Compile Include="components\CanCarryComponent.cs" />
     <Compile Include="components\CarryableComponent.cs" />
     <Compile Include="components\GraphicComponent.cs" />
+    <Compile Include="components\HealthComponent.cs" />
     <Compile Include="components\MapsquareData.cs" />
     <Compile Include="components\MovementDataComponent.cs" />
     <Compile Include="components\PlayersUnitData.cs" />
     <Compile Include="components\PositionComponent.cs" />
+    <Compile Include="components\MiscStatsComponent.cs" />
     <Compile Include="Misc.cs" />
     <Compile Include="models\GameLog.cs" />
     <Compile Include="models\MapData.cs" />
     <Compile Include="Mouse.cs" />
     <Compile Include="Point.cs" />
+    <Compile Include="systems\CheckVisibilitySystem.cs" />
+    <Compile Include="systems\DrawingSystem.cs" />
     <Compile Include="systems\MovementSystem.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="view\IDataForView.cs" />
+    <Compile Include="view\DefaultRLView.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">

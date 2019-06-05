@@ -2,12 +2,15 @@
 using RLNET;
 using RoguelikeFramework.components;
 using RoguelikeFramework.models;
+using RoguelikeFramework.systems;
+using RoguelikeFramework.view;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace RoguelikeFramework {
-    public abstract class AbstractRoguelike {
+
+    public abstract class AbstractRoguelike : IDataForView {
 
         public enum InputMode { Normal, SelectDestination, SelectThrowTarget };
 
@@ -17,6 +20,10 @@ namespace RoguelikeFramework {
         private string hoverText;
         private List<Point> line;
         private InputMode currentInputMode = InputMode.Normal;
+        protected DefaultRLView view;
+
+        private DrawingSystem drawingSystem;
+        private CheckVisibilitySystem checkVisibilitySystem;
 
         protected AbstractEntity currentUnit;
         public Dictionary<int, AbstractEntity> playersUnits = new Dictionary<int, AbstractEntity>();
@@ -25,11 +32,27 @@ namespace RoguelikeFramework {
             this.ecs = new BasicEcs();
             this.mapData = new MapData();
             this.gameLog = new GameLog(maxLogEntries);
+
+            CreateData();
+
+            this.ecs.systems.Add(new MovementSystem(this.mapData));
+
+            this.view = new DefaultRLView(this);
+            this.drawingSystem = new DrawingSystem(this.view, this);
+            this.drawingSystem.process();
+
+            this.checkVisibilitySystem = new CheckVisibilitySystem(this.mapData, this.playersUnits.Values);
+
+            checkVisibilitySystem.process();
         }
+
+
+        protected abstract void CreateData();
 
 
         public void HandleKeyInput(RLKeyPress keyPress) {
             bool action_performed = false;
+            bool unit_moved = false; // Do we need to recalc visible squares?
 
             switch (keyPress.Key) {
 
@@ -56,35 +79,43 @@ namespace RoguelikeFramework {
                         MovementDataComponent m = (MovementDataComponent)this.currentUnit.getComponent(nameof(MovementDataComponent));
                         m.offY = -1;
                         action_performed = true;
+                        unit_moved = true;
                         break;
                     }
                 case RLKey.Down: {
                         MovementDataComponent m = (MovementDataComponent)this.currentUnit.getComponent(nameof(MovementDataComponent));
                         m.offY = 1;
                         action_performed = true;
+                        unit_moved = true;
                         break;
                     }
                 case RLKey.Left: {
                         MovementDataComponent m = (MovementDataComponent)this.currentUnit.getComponent(nameof(MovementDataComponent));
                         m.offX = -1;
                         action_performed = true;
+                        unit_moved = true;
                         break;
                     }
                 case RLKey.Right: {
                         MovementDataComponent m = (MovementDataComponent)this.currentUnit.getComponent(nameof(MovementDataComponent));
                         m.offX = 1;
                         action_performed = true;
+                        unit_moved = true;
                         break;
                     }
 
                 case RLKey.W: {
                         action_performed = true;
+                        unit_moved = true;
                         break;
                     }
             }
 
             if (action_performed) {
                 this.SingleGameLoop();
+            }
+            if (unit_moved) {
+                this.checkVisibilitySystem.process();
             }
         }
 
@@ -127,6 +158,7 @@ namespace RoguelikeFramework {
             return "";
         }
 
+
         public MapData GetMapData() {
             return this.mapData;
         }
@@ -148,6 +180,16 @@ namespace RoguelikeFramework {
 
         public Dictionary<int, AbstractEntity> GetUnits() {
             return this.playersUnits;
+        }
+
+
+        public AbstractEntity GetCurrentUnit() {
+            return this.currentUnit;
+        }
+
+
+        public void repaint2() {
+            this.drawingSystem.process();
         }
 
     }
