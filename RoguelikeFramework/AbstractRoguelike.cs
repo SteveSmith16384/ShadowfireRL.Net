@@ -30,7 +30,7 @@ namespace RoguelikeFramework {
         protected AbstractEntity currentUnit;
         public Dictionary<int, AbstractEntity> playersUnits = new Dictionary<int, AbstractEntity>();
 
-        protected Dictionary<int, AbstractEntity> menuitemList; // For when selecting item to pick up etc...
+        protected Dictionary<int, AbstractEntity> menuItemList; // For when selecting item to pick up etc...
 
         public AbstractRoguelike(int maxLogEntries) {
             this.ecs = new BasicEcs();
@@ -71,13 +71,18 @@ namespace RoguelikeFramework {
                 case RLKey.Number7:
                 case RLKey.Number8:
                 case RLKey.Number9:
+                    int idx = keyPress.Key - RLKey.Number0;
                     if (this.currentInputMode == InputMode.SelectItemFromFloor) {
                         if (this.currentInputSubMode == InputSubMode.PickingUpItem) {
-                            //todo pickupItemSystem.
+                            this.pickupItemSystem.PickupItem(this.currentUnit, this.menuItemList[idx]);
                         }
                     } else if (this.currentInputMode == InputMode.SelectItemFromInv) {
+                        if (this.currentInputSubMode == InputSubMode.DroppingItem) {
+                            PositionComponent pos = (PositionComponent)this.currentUnit.getComponent(nameof(PositionComponent));
+                            this.pickupItemSystem.DropItem(this.currentUnit, this.menuItemList[idx], this.mapData.map[pos.x, pos.y]);
+                        }
                     } else {
-                        this.SelectUnit(keyPress.Key - RLKey.Number0);
+                        this.SelectUnit(idx);
                     }
                     break;
 
@@ -115,9 +120,16 @@ namespace RoguelikeFramework {
                         break;
                     }
 
-                case RLKey.P: {
+                case RLKey.D: { // Drop
+                        this.currentInputMode = InputMode.SelectItemFromInv;
+                        this.currentInputSubMode = InputSubMode.DroppingItem;
+                        this.ListItemsInInv();
+                        break;
+                    }
+                case RLKey.P: { // Pickup
                         this.currentInputMode = InputMode.SelectItemFromFloor;
                         this.currentInputSubMode = InputSubMode.PickingUpItem;
+                        this.ListItemsOnFloor();
                         break;
                     }
             }
@@ -132,8 +144,10 @@ namespace RoguelikeFramework {
 
 
         protected void SelectUnit(int num) {
-            this.currentUnit = this.playersUnits[num];
-            this.gameLog.Add(this.currentUnit.name + " selected");
+            if (this.playersUnits.ContainsKey(num)) {
+                this.currentUnit = this.playersUnits[num];
+                this.gameLog.Add(this.currentUnit.name + " selected");
+            }
         }
 
 
@@ -212,7 +226,37 @@ namespace RoguelikeFramework {
         protected abstract List<string> GetStatsFor_Sub(AbstractEntity e);
 
         public Dictionary<int, AbstractEntity> GetItemSelectionList() {
-            return this.menuitemList;
+            return this.menuItemList;
         }
+
+
+        private void ListItemsOnFloor() {
+            this.menuItemList.Clear();
+            int idx = 1;
+            PositionComponent pos = (PositionComponent)this.currentUnit.getComponent(nameof(PositionComponent));
+            List<AbstractEntity> items = this.mapData.map[pos.x, pos.y];
+            foreach (var e in items) {
+                CarryableComponent cc = (CarryableComponent)e.getComponent(nameof(CarryableComponent));
+                if (cc != null) {
+                    this.menuItemList.Add(idx, e);
+                    idx++;
+                }
+            }
+        }
+
+
+        private void ListItemsInInv() {
+            this.menuItemList.Clear();
+            int idx = 1;
+            CanCarryComponent ccc = (CanCarryComponent)this.currentUnit.getComponent(nameof(CanCarryComponent));
+            foreach (var e in ccc.GetItems()) {
+                CarryableComponent cc = (CarryableComponent)e.getComponent(nameof(CarryableComponent));
+                if (cc != null) {
+                    this.menuItemList.Add(idx, e);
+                    idx++;
+                }
+            }
+        }
+
     }
 }

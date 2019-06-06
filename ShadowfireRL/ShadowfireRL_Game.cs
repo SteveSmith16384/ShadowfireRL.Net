@@ -31,8 +31,8 @@ namespace ShadowfireRL {
             this.currentUnit = this.entityFactory.CreatePlayersUnit("Syylk", 1, 5, 5);
             this.entityFactory.createGunItemForUnit(this.currentUnit);
 
-            //this.entityFactory.CreatePlayersUnit("Manto", 2, 7, 7);
-            //this.entityFactory.createGunItemForMap(8, 8);
+            this.entityFactory.CreatePlayersUnit("Manto", 2, 7, 7);
+            this.entityFactory.createGunItemForMap(8, 8);
 
             this.entityFactory.createEnemyUnit("Zoff", 20, 20);
         }

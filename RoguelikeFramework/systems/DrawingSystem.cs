@@ -30,7 +30,7 @@ namespace RoguelikeFramework.systems {
                         var entities = map_data.map[x, y];
                         var mapEnt = entities.Single(ent => ent.components.ContainsKey(nameof(MapsquareData)));
                         MapsquareData msdc = (MapsquareData)mapEnt.getComponent(nameof(MapsquareData));
-                        if (msdc.visible) { 
+                        if (msdc.visible) {
                             // Only draw stuff if mapsquare visible
                             foreach (AbstractEntity sq in entities) {
                                 GraphicComponent gc = (GraphicComponent)sq.getComponent(nameof(GraphicComponent));
@@ -63,7 +63,7 @@ namespace RoguelikeFramework.systems {
             foreach (AbstractEntity e in this.viewData.GetUnits().Values) {
                 RLColor c = RLColor.White;
                 if (e == this.viewData.GetCurrentUnit()) {
-                    c = RLColor.Yellow;
+                    c = RLColor.Yellow; // Highlight selected unit
                 }
                 this.view.crewListConsole.Print(0, yPos, yPos + 1 + ": " + e.name, c);
                 yPos++;
@@ -73,8 +73,12 @@ namespace RoguelikeFramework.systems {
             yPos = 0;
             Dictionary<int, AbstractEntity> items = this.viewData.GetItemSelectionList();
             if (items != null) {
-            } else { 
-            AbstractEntity currentUnit = this.viewData.GetCurrentUnit();
+                foreach (var idx in items.Keys) {
+                    this.view.statConsole.Print(0, yPos, idx + ":" + items[idx].name, RLColor.White);
+                    yPos++;
+                }
+            } else {
+                AbstractEntity currentUnit = this.viewData.GetCurrentUnit();
                 if (currentUnit != null) {
                     foreach (var s in this.viewData.GetStatsFor(currentUnit)) {
                         this.view.statConsole.Print(0, yPos, s, RLColor.White);

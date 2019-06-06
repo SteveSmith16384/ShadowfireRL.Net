@@ -79,7 +79,7 @@ namespace ShadowfireRL {
         public AbstractEntity createGunItemForUnit(AbstractEntity unit) {
             AbstractEntity gun = this.createGunItem();
             CanCarryComponent c = (CanCarryComponent)unit.getComponent(nameof(CanCarryComponent));
-            c.items.Add(gun);
+            c.AddItem(gun);
             this.ecs.entities.Add(gun);
             return gun;
         }
@@ -97,8 +97,9 @@ namespace ShadowfireRL {
         public AbstractEntity createMedikitItem(int x, int y) {
             AbstractEntity e = new AbstractEntity("Medikit");
             e.addComponent(new PositionComponent(e, this.map_data, x, y, false));
-            e.addComponent(new GraphicComponent('+', RLColor.Yellow, RLColor.Black));
+            e.addComponent(new GraphicComponent('m', RLColor.Yellow, RLColor.Black));
             e.addComponent(new CarryableComponent(.3f));
+            e.addComponent(new UseableComponent());
             this.ecs.entities.Add(e);
             return e;
         }

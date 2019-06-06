@@ -65,6 +65,7 @@
     <Compile Include="components\PositionComponent.cs" />
     <Compile Include="components\MiscStatsComponent.cs" />
     <Compile Include="components\ShootOnSightComponent.cs" />
+    <Compile Include="components\UseableComponent.cs" />
     <Compile Include="Misc.cs" />
     <Compile Include="models\GameLog.cs" />
     <Compile Include="models\MapData.cs" />
