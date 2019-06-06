@@ -15,6 +15,8 @@ namespace RoguelikeFramework.view {
 
         Dictionary<int, AbstractEntity> GetUnits();
 
+        Dictionary<int, AbstractEntity> GetItemSelectionList();
+
         AbstractEntity GetCurrentUnit();
 
         List<string> GetStatsFor(AbstractEntity e);

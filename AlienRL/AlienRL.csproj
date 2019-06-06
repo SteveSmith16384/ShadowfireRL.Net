@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="AlienRL_Game.cs" />
     <Compile Include="AlienEntityFactory.cs" />
+    <Compile Include="systems\AlienAISystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RoguelikeFramework\RoguelikeFramework.csproj">
@@ -52,8 +53,6 @@
       <Name>SimpleEcs</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="systems\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

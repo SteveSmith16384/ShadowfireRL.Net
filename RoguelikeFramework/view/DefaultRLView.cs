@@ -82,7 +82,7 @@ namespace RoguelikeFramework.view {
             this.crewListConsole.SetBackColor(0, 0, crewListWidth, crewListHeight, RLColor.Cyan);
             this.crewListConsole.Print(1, 1, "Crew", RLColor.White);
 
-            this.game.repaint2();
+            this.game.Repaint();
 
             RLKeyPress keyPress = this.rootConsole.Keyboard.GetKeyPress();
             if (keyPress != null) {

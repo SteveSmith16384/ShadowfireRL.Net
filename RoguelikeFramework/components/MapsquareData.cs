@@ -15,7 +15,7 @@ namespace RoguelikeFramework.components {
             this.traverseCost = 1f;
 
             if (this.blocksView) {
-                this.seen_ch = new RLCell(RLColor.Gray, RLColor.Gray, ' ');
+                this.seen_ch = new RLCell(RLColor.Gray, RLColor.Gray, 'S');
             } else {
                 this.seen_ch = new RLCell(RLColor.Black, RLColor.Gray, '.');
             }

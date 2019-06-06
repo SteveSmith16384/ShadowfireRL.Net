@@ -37,11 +37,10 @@ namespace ShadowfireRL {
         }
 
 
-        public AbstractEntity createPlayersUnit(String name, int num, int x, int y) {
+        public AbstractEntity CreatePlayersUnit(String name, int num, int x, int y) {
             AbstractEntity e = new AbstractEntity(name);
             e.addComponent(new PositionComponent(e, this.map_data, x, y, true));
             e.addComponent(new MovementDataComponent());
-            //e.addComponent(new CanSeeForPlayerComponent());
             e.addComponent(new GraphicComponent('1', RLColor.Green, RLColor.Black));
             e.addComponent(new CanCarryComponent(10));
             e.addComponent(new PlayersUnitData(num));
@@ -56,8 +55,8 @@ namespace ShadowfireRL {
         }
 
 
-        public AbstractEntity createEnemyUnit(int x, int y) {
-            AbstractEntity e = new AbstractEntity("Enemy");
+        public AbstractEntity createEnemyUnit(string name, int x, int y) {
+            AbstractEntity e = new AbstractEntity(name);
             e.addComponent(new PositionComponent(e, this.map_data, x, y, true));
             e.addComponent(new MovementDataComponent());
             e.addComponent(new GraphicComponent('E', RLColor.Red, RLColor.Black));
@@ -81,7 +80,6 @@ namespace ShadowfireRL {
             AbstractEntity gun = this.createGunItem();
             CanCarryComponent c = (CanCarryComponent)unit.getComponent(nameof(CanCarryComponent));
             c.items.Add(gun);
-            //todo e.addComponent(new PositionComponent(e, this.map_data, x, y, false));
             this.ecs.entities.Add(gun);
             return gun;
         }

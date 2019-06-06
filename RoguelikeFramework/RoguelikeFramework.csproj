@@ -40,7 +40,11 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="terminal8x8.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractRoguelike.cs" />
     <Compile Include="astar\AStar.cs" />
@@ -67,8 +71,10 @@
     <Compile Include="Mouse.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="systems\CheckMapVisibilitySystem.cs" />
+    <Compile Include="systems\DamageSystem.cs" />
     <Compile Include="systems\DrawingSystem.cs" />
     <Compile Include="systems\MovementSystem.cs" />
+    <Compile Include="systems\PickupItemSystem.cs" />
     <Compile Include="systems\ShootOnSightSystem.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="view\IDataForView.cs" />

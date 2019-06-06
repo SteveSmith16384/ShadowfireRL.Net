@@ -2,6 +2,7 @@
 using RoguelikeFramework.components;
 using RoguelikeFramework.models;
 using RoguelikeFramework.view;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace RoguelikeFramework.systems {
@@ -11,7 +12,7 @@ namespace RoguelikeFramework.systems {
         private DefaultRLView view;
         private IDataForView viewData;
 
-        private RLCell invisible = new RLCell(RLColor.Black, RLColor.Black, ' ');
+        private RLCell invisible = new RLCell(RLColor.Black, RLColor.Gray, 'I');
 
         public DrawingSystem(DefaultRLView _view, IDataForView _viewData) {
             this.view = _view;
@@ -23,6 +24,7 @@ namespace RoguelikeFramework.systems {
             // Draw map
             MapData map_data = this.viewData.GetMapData();
             if (map_data.map != null) {
+                this.view.mapConsole.Clear();
                 for (int y = 0; y < map_data.getHeight(); y++) {
                     for (int x = 0; x < map_data.getWidth(); x++) {
                         var entities = map_data.map[x, y];
@@ -37,7 +39,7 @@ namespace RoguelikeFramework.systems {
                             }
                         } else if (msdc.seen) {
                             this.view.mapConsole.Set(x, y, msdc.seen_ch);
-                            break;
+                            //break;
                         } else {
                             this.view.mapConsole.Set(x, y, this.invisible);
                         }
@@ -67,13 +69,17 @@ namespace RoguelikeFramework.systems {
                 yPos++;
             }
 
-            // Draw unit stats
+            // Draw unit stats or menu selection
             yPos = 0;
+            Dictionary<int, AbstractEntity> items = this.viewData.GetItemSelectionList();
+            if (items != null) {
+            } else { 
             AbstractEntity currentUnit = this.viewData.GetCurrentUnit();
-            if (currentUnit != null) {
-                foreach (var s in this.viewData.GetStatsFor(currentUnit)) {
-                    this.view.statConsole.Print(0, yPos, s, RLColor.White);
-                    yPos++;
+                if (currentUnit != null) {
+                    foreach (var s in this.viewData.GetStatsFor(currentUnit)) {
+                        this.view.statConsole.Print(0, yPos, s, RLColor.White);
+                        yPos++;
+                    }
                 }
             }
 

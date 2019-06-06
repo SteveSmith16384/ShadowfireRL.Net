@@ -7,6 +7,7 @@ namespace RoguelikeFramework.systems {
 
         private MapData map_data;
         //private IEnumerable<AbstractEntity> playersUnits;
+        public bool ReCheckVisibility = true;
 
         public CheckMapVisibilitySystem(MapData _mapData) {
             this.map_data = _mapData;
@@ -15,6 +16,10 @@ namespace RoguelikeFramework.systems {
 
 
         public void process(IEnumerable<AbstractEntity> playersUnits) {
+            if (!this.ReCheckVisibility) {
+                return;
+            }
+            this.ReCheckVisibility = false;
             //if (this.map_data.map != null) {
             // Set all to hidden initially
             for (int y = 0; y < this.map_data.getHeight(); y++) {

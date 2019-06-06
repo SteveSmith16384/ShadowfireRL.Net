@@ -28,8 +28,13 @@ namespace ShadowfireRL {
 
             this.createMap(this.entityFactory, 50, 50);
 
-            this.currentUnit = this.entityFactory.createPlayersUnit("Syylk", 1, 5, 5);
-            this.entityFactory.createPlayersUnit("Manto", 2, 7, 7);
+            this.currentUnit = this.entityFactory.CreatePlayersUnit("Syylk", 1, 5, 5);
+            this.entityFactory.createGunItemForUnit(this.currentUnit);
+
+            //this.entityFactory.CreatePlayersUnit("Manto", 2, 7, 7);
+            //this.entityFactory.createGunItemForMap(8, 8);
+
+            this.entityFactory.createEnemyUnit("Zoff", 20, 20);
         }
 
 

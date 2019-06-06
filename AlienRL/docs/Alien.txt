@@ -1,0 +1,532 @@
+THE SPECTRUM GAMES DATABASE
+
+ALIEN
+
+PUBLISHER
+Argus Press
+
+AUTHOR
+Paul Clansey
+
+YEAR
+1984
+
+DESCRIPTION
+The game is based on the film Alien and includes all the
+characters from the film. It was a strategy game set over the 3
+levels of the comercial towing vehicle Nostromo and includes a
+maze of airducts through which you and the Alien can reach all
+the areas of the ship.  There is no set way to win or loose the
+game but the more sucessful you are the better your preformance
+rating at the end.  Each of the crew have thier own personality
+and traits and may not obey your comands all of the time. As the
+games progresses the crew will become more frightened and may
+panic. To make the game harder one of the crew (the identity
+changes each game) is an android who will disrupt your actions
+and can kill your crew.
+
+CONTROLS
+User Definable Up,Down and Select. Also Kempston, Protek and
+Interface 2 Joysticks.
+
+INSTRUCTIONS
+Once you start you are informed that the Alien has hatched from
+one of the crew.  On the main menu screen you can select any
+character and view the maps of the Nostromo and identify all the
+rooms. Once you select one of the crew you are shown their
+position on the ship and a 2nd menu is shown.  From this menu you
+can highlight the rooms the character can move to.  If there are
+any objects in the room you will be given an option to pick it
+up.  If there is a grille you can open this and enter the
+airducts.  When you complete an action you will hear a sound
+(these can be heard at the instruction screen at start up). The
+Alien will also make these noises so you can get clues to where
+it is. You are also given the option to attack the Alien or
+Android if they are in the same room. If the Alien enters the
+room then the map screen will change to a picture of the Alien.
+
+In Summary the commands are
+
+          Get Item
+          Leave Item
+          Remove Grill
+          Attack
+          Move To...
+
+You are also given special commands depending on the situation.
+These include:
+
+          Initiate Auto-Destruct
+          Enter HyperSleep
+          Open/Seal Airlock
+          Launch Narcissus
+          Catch Jones
+
+There are a number of objects in the game some of which are used
+as weapons, these objects are:
+
+          Lasers - Weapon
+          Incinerator - Weapon
+          Electric Prod - Weapon, minimal damage?
+          Net - to trap Alien/Android
+          Spanner - Weapon?
+          Harpoon Gun - Weapon, causes maximum damage to the ship
+                     and kills the user if used against the Alien
+          Fire Extinguisher - Weapon ? Puts out Fire?
+          Trackers - Beeps when someone is in next room
+          Cat Box - to trap Jones in
+
+There are a number of ways to complete the game
+
+1) If there are 3 crew members left you can leave in the shuttle 
+Narcissus but you need to catch Jones the Cat and set the
+autodestruct.
+
+2) Kill the Alien, very tricky.  Be careful as the Alien's blood
+can cause damage to the ship.
+
+3) Heard the Alien to the Airlock and blow it into space.
+
+4) If all else fails set autodestruct to stop the Alien reaching
+earth.
+
+CHEATS
+
+INLAY CARD TEXT
+Alien Inlay Text - Outside
+
+*Front*
+A L I E N
+
+[Image of Alien egg]
+
+In space no one can hear you scream
+
+MIND GAMES
+Spectrum 48k
+
+*Back*
+There is a picture of each of the crew members with their
+profile.
+
+
+:NAVIGATOR           :  MIND GAMES
+:shy,skillful and    :  A  L  I  E  N
+:intelligent -       :
+:Panics easily       :  'We live as we dream - alone'
+:                    :   Joseph Conrad
+:EXECUTIVE OFFICER   :
+:Direct,imaginative. : The Nostromo is coming home. You awake.As
+:Cautious, Loyal     :Commander you must grapple with a        
+  
+:                    :terrifying life force you cannot comprehend 
+
+:SCIENCE OFFICER     :The ship has become a trap - something evil
+:Secritive,Unlikable :stalks the corridors ...
+:Brilliant           :
+:Occasionally        :Using the unique Argus PERSONALITY CONTROL
+:illogical           :SYSTEM you must command the crew to execute
+:                    :your plans. Beware! They will interpret 
+:CAPTAIN             :your orders in their own individual way.
+:Solid, Dependable   :Decisions are real-time and the drama
+:Courageous -        :unfolds across a full graphics map of the
+:Excellent Leader.   :ship.
+:                    :
+:ENGINEERING OFFICER : Every time you dare to try this epic
+:Physically strong,  :battle of survival you will be faced with 
+:Low I.Q. Potentially:the reality of the reaction - and because
+:Rebellious.         :of the unique PCS facility it's different
+:                    :every time.
+:WARRANT OFFICER     :
+:Wilful, Ambitious.  :
+:Authoritative,      : INSIDE --
+:Resourceful.        : ------
+:                    :Free 16 page booklet which sets the scene
+:ENGINEERING OFFICER :of the story with actual pictures and
+:Cynical, Rebellious,:dialogue from the film!
+:Untrustworthy,      :
+:Unflappable.        :
+:                    :[Image of] Full loading instructions appear
+:                    :[cat paw ]   on the reverse of this insert
+:                    :
+:                    :                (c) 1984
+:                    :         ARGUS PRESS SOFTWARE LTD.
+:                    :    No.1 Golden Square,London W1R 3AB.
+:                    :          Telephone:01-437 0626
+
+
+Booklet
+
+*Front Cover*
+ Same as insert cover
+
+*Back Cover*
+
+A  L  I  E  N
+from 
+MIND GAMES
+
+The computer has opened up a whole new world of games.
+Go beyond the games of zapping and fast reflexes
+and you reach into that world. The computer takes on a
+life or its own. Adventure and strategy games start where
+arcade games finish. Here is the world of imagination and
+though. MIND GAMES are a range of programs designed
+to stimulate that imagination and take you into new and
+strange worlds.
+
+Sophisticated graphics, and great presentation are all part
+of the package.
+
+[argus press image]
+(c) 1984
+Argus Press Software,No.1 Golden Square,London W1R 3AB
+
+*Page 2*
+Text overlaid on image of the Nostromo. Photos of crew in top
+right corner.
+
+Sometime in the future...
+
+
+
+
+
+  Commercial towing vehicle 'The Nostromo'
+  Crew: seven
+  Cargo: refinery processing
+         20,000,000 tons of mineral ore
+  Course: returning to earth
+
+
+*Pages 3 to 9 tell the story of the film*
+
+*Page 10*
+
+A  L  I  E  N
+----THE GAME----
+
+Game-play
+
+The aim of the game is to destroy the Alien or drive it way from
+the nostromo. For instance, you can evacuate with 3 crew members 
+in the lifeboat, Narcissus, as long as you don't leave and living
+crew behind you and if you set the ship onto auto-destruct it 
+will kill the Alien. The action begins as the first crew member 
+has been killed by the embryonic Alien hatching. This random 
+start to the game is complicated by your not knowing which member
+is an android. You will be presented with a menu driven system
+of character control, once the Personality Control System has
+been set in motion.
+
+On completion of the game you will receive a rating for your 
+performance, this is compiled from the final state of the Alien, 
+the crew and the ship.
+
+Your crew will find throughout the three decks of the ship a 
+number of tools and weapons which you can tell a crew member to 
+use. They won't necessarily obey you, it depends on whether they 
+are capable of using them. Be extremely careful using the
+weapons, on being hit the Alien secretes an acid which eats 
+through the hull of the ship, and anything else in its way. The 
+perfect defence mechanism!
+-----------------------------------------------------------------
+Personality Control System (PCS):
+
+PCS is a unique programming technique. It is a form of multi-
+character control which allows you to instruct one character 
+whilst the others are attempting to complete their tasks.
+
+The world of the Starship Nostromo is a world apart. It has 
+become a trap, the opposite of its original design as a long 
+range interstellar vehicle. Before you can enter this world you 
+must first set the Personality Control System into action. Your 
+role as Commander is a complicated and complex one. Each member 
+of the crew has their own unique personality which you must learn
+to understand in order to predict their behaviour under stress. 
+You will be asked in your role as Commander to make life and 
+death decisions. You must minimise the risk of the characters not
+obeying your orders. This depends on your being able to
+understand the person concerned.
+
+You will be asked to help and advise one person at a time. The 
+type on instruction you can give maybe...
+
+GET ITEM
+LEAVE ITEM
+REMOVE GRILL
+ATTACK
+MOVE TO...
+
+
+*Page 11*
+
+[Photo of cast]
+
+Bret (Harry Dean Stanton)
+Ash (Ian Holm)
+Kane (John Hurt)
+Lambert (Veronica Cartwright)
+Dallas (Tom Skerritt)
+Ripley (Sigourney Weaver)
+Parker (Yaphet Kotto)
+
+If you give a generalised instruction this will be interpreted 
+by the person in the light of their personality and their 
+experience during the game. You orders aren't necessarily obeyed,
+its up to you to put yourself into the persons situation.
+
+Once set in motion the character will try to complete his/her 
+task. You may immediately begin to examine another crew-member's 
+behaviour . You must plan the movement of you crew well ahead. 
+Its real-time action interacting with all the other members of 
+the crew.
+
+The performance of a crew member will be effected by the turn of 
+events. For instance, confidence will increase by the possession 
+of a useful piece of equipment, or knowing that others of the 
+crew are on their way to help. The reverse can happen. In fact, 
+if you ask the person to try and achieve too much too soon, and 
+its out of character you will cause a trauma and a nervous 
+breakdown. You will have to shelter and allow shocked crew 
+recover. Bear in mind some of the crew are nervous, some of them 
+are terrified, and that if you put more than three crew members 
+in a room or more then one in an air conditioning duct at a time 
+you will give them claustrophobia and create havoc.
+
+Your problem is to define the characters along a number of 
+personality traits. Remember these, your plan to defeat the Alien
+
+will depend on your skill.
+
+*Page 12*
+
+Screen Displays:
+
+ Provided all your sensors are working, as Commander of the 
+Nostromo you are presented with three types of information:
+
+1) A Map of the ship where you can watch your crew members moving
+about. Each deck of the ship can be selected from the menu. You 
+can also find your way around the ducting in the vicinity of one 
+of the crew by removing the grilles and climbing in.
+Likewise, you can call up any named area in the ship. Encounters 
+with the Alien, the android, and with Jones are shown on the main
+map.
+
+2) The Command Monitor gives you the options at any one time. By 
+following these you can explore the ship with your crew and 
+attempt to destroy the Alien. The menu is examined using a 
+joystick, that is, pushing a joystick backwards and forwards will
+move the cursor up and down. Pushing the joystick sidewards will 
+select the 'quit' option on each page of information.
+Pressing the 'fire' button will select the option each time.
+
+ On the CBM64 the buttons F5, F7, F3 move the cursor and the 
+spacebar selects the option. CONTROL and Q together will put the 
+game into pause to allow you to gather your wits. Pressing 
+CONTROL and 'the back arrow' will resume the game. If you would 
+rather restart the game from the beginning just press the CBM 
+key.
+
+On the Spectrum 48k you can use, Kempston, Protek joysticks and 
+Interface Two. The Keyboard control is user definable.
+
+3)The Report Monitor will show you the status of the crew and an 
+area of the ship. Messages between crew members and from Mother, 
+the ship's computer, will also come though this port, it's real 
+time information window, and, as such, is vital.
+
+---------------------------------------
+I 1) Mapping of        I2)            I
+I    Nostromo          ICommand       I
+I                      IMonitor       I
+I                      I              I
+I                      I              I
+I                      I              I
+I                      I              I
+I                      I              I
+---------------------------------------
+I 3)Report Monitor                    I
+---------------------------------------
+
+[Image of Mother's Keyboard]
+
+*Page 13*
+
+The Command Monitor
+  
+ Your staring point is the list of the crew, you can find the 
+location of any one of them using the cursor control, as 
+mentioned in the previous section. You will find three separate 
+lists of different locations. There are some 35 rooms and 40 
+ducting areas in the Nostromo. 'Quit' will get you back to the 
+control menu each time. Using this section of the Command Monitor
+you can select his/her position on the ship's mapping system.
+The next level of command gives you the responsibility of 
+instructing that crew-member in the overall strategy you have 
+devised.
+
+ Once you have selected the crew member and have found his/her 
+position then more details can be found out about the available 
+sites to move too. Again, using the cursor control you can move 
+through the options and select you instructions.
+
+1)Damage Reports:
+ Before committing a member of your crew to a course of action 
+you can examine the area for damage. Likewise any useful weapons 
+or tools can be reviewed. If you need to get into the ducting the
+available grilles are displayed at this junction; now is the time
+to plan your next move.
+
+2)Weapons and Tools:
+ You can find out wether your crew have any possessions to hand 
+using the cursor selection on the item option. The most you can 
+carry is two; the first in the list is ready to use, the second 
+can be selected by using the cursor. If an item is found in a 
+room the option to pick up will appear automatically. You can 
+always drop an item, the second one in the character list is 
+always the one left behind. The tools and weapons are distributed
+throughout the ship. You have available:
+
+three lasers
+three incinerators
+three electric prods
+one net
+two large spanners
+one harpoon gun
+four fire extinguishers
+two trackers
+a cat box
+
+3)Special Options:
+ A number of special options are open to you. They will be 
+displayed if the circumstances allow their use. For example 
+'remove grill' will only appear if the grill is in place:
+
+open airlock
+launch Narcissus
+remove grill
+enter hypersleep
+seal airlock
+initiate auto-destruct
+catch Jones
+
+4)Time out of Hypersleep (TOOH)
+ The ships reserve of oxygen did not allow for unscheduled stops.
+You only have 7,500 units of oxygen available. Any crew not in 
+Hypersleep when oxygen runs out will, of course, die!
+
+*Page 14*
+
+Hints For Survival
+
+ In order to begin to understand the complexes of you role as 
+Commander of the Nostromo it is suggested you play the initial 
+set scenario as offered on the title page.
+
+ As the scene unfolds move the cursor control to you crew list 
+and begin to move them through the top deck of the ship. You must
+use the corridors to move to the other decks. Note the positions 
+of the grilles, if one has already been removed the Alien has 
+probably been there. The swooshing noise you will hear is a door 
+opening and closing somewhere. The crew move independently so 
+don't wait for any one crew to move after you've told it to, get 
+on to the next task quickly. Pick up any tools and weapons you 
+find on the way and you think might be useful. The starting game
+aim is to gather the three crew and the cat and get them into the
+shuttle, Narcissus, start the auto-destruct and escape from the 
+ship: without letting the Alien onto the shuttle!
+
+ Watch the reports of Mother, they will tell you the state of 
+mind of the crew, and thus the likelihood of their obeying your 
+orders. After you have begun moving, the Alien will have sensed 
+your presence, so be careful. Jones is a great sensor. You may 
+want to track it through the ducting, some brave crew member 
+might be willing, you will have to see what happens. Herding the 
+Alien towards an airlock might help if you can blow it into 
+space. The pulsing sound you can hear is the heart beat of the 
+crew member you have selected, it will get noticeably faster as 
+the situation worsens.
+
+ You may find Mother might not respond on occasions, this might 
+be because of damage to your sensors, likewise the cat might not 
+like a particular crew member. The android will do its worse when
+you least expect to, as well. It adds to the reality of the 
+situation. This guide, is just that, a guide. Each time you play 
+the game the crew and the Alien will behave differently, so take 
+your time exploring all the options, then when the going gets 
+rough you'll know what's at hand and what's not. Your early moves
+are vital. Once you are in the game all sorts of events might 
+happen, think about them and outwit the brute force of the Alien.
+
+The best of luck !
+
+*Page 15*
+
+A  L  I  E  N
+--THE  FILM--
+
+THE FILM
+ Twentieth Century-Fox started shooting the movie on July 15th 
+1978 at Shepperton Studios. The initial idea was conceived by DAN
+O'Bannon, a writer and special effects man, who had worked on 
+'Star Wars'. The story was put together with the aid of Ronald 
+Shusett. The Brandywine Productions bought the rights to 20th 
+Century-Fox.
+ The 3 directors of Brandywine acted as co-producers (Gordon 
+Carroll, David Giler and Walter Hill) and direction was by Ridley
+Scott. The musical score was by Jerry Goldsmith.
+
+Acknowledgements
+ The program was written and devised by Paul Clansey, aided and 
+abetted by Roy Gibson and Concept Software.
+ The produst has been put together by the Alien fans at Argus. 
+(Dallas Harris, Robyn Ripley, Farah Lambert, Martin Ash, Mike 
+Kane, Helen Bret, Carole Jones and Alien Holme) Design by HGM 
+from the planet Luton. Our thanks to 20th Century-Fox personnel 
+for their help and enthusiasm.
+
+
+SCORES RECEIVED
+It was unrated in Crash, issue 15, but recieved 8/10 in YS.
+
+PREQUELS/SEQUELS
+Was released as a budget game.
+
+URL'S
+
+GENERAL FACTS
+One of the first Movie tie-ins, and notable in the fact that it
+was not a platform game.  The personality of the crew was crude
+but did work well and there have not been many games since that
+have given characters personality.  Another feature was that this
+game was scary.  Don't play this game in the dark as you don't
+know when the Alien will attack when your tracker starts
+bleeping.
+
+
+NOTES
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
