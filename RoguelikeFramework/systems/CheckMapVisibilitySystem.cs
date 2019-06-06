@@ -3,18 +3,18 @@ using RoguelikeFramework.models;
 using System.Collections.Generic;
 
 namespace RoguelikeFramework.systems {
-    public class CheckVisibilitySystem {//: AbstractSystem {
+    public class CheckMapVisibilitySystem {//: AbstractSystem {
 
         private MapData map_data;
-        private IEnumerable<AbstractEntity> playersUnits;
+        //private IEnumerable<AbstractEntity> playersUnits;
 
-        public CheckVisibilitySystem(MapData _mapData, IEnumerable<AbstractEntity> _playersUnits) {
+        public CheckMapVisibilitySystem(MapData _mapData) {
             this.map_data = _mapData;
-            this.playersUnits = _playersUnits;
+            //this.playersUnits = _playersUnits;
         }
 
 
-        public void process() {
+        public void process(IEnumerable<AbstractEntity> playersUnits) {
             //if (this.map_data.map != null) {
             // Set all to hidden initially
             for (int y = 0; y < this.map_data.getHeight(); y++) {
@@ -30,7 +30,7 @@ namespace RoguelikeFramework.systems {
             }
 
             // loop through each unit and see if they can see it
-            foreach (var unit in this.playersUnits) {
+            foreach (var unit in playersUnits) {
                 var pos = (PositionComponent)unit.getComponent(nameof(PositionComponent));
                 for (int y = 0; y < this.map_data.getHeight(); y++) {
                     for (int x = 0; x < this.map_data.getWidth(); x++) {
@@ -38,7 +38,7 @@ namespace RoguelikeFramework.systems {
                             MapsquareData msdc = (MapsquareData)sq.getComponent(nameof(MapsquareData));
                             if (msdc != null) {
                                 if (msdc.visible == false) { // Otherwise we know we've already checked it
-                                    this.CheckVisibility(pos.x, pos.y, x, y);
+                                    this.CheckAndMarkVisibility(pos.x, pos.y, x, y);
                                 }
                                 break;
                             }
@@ -50,9 +50,9 @@ namespace RoguelikeFramework.systems {
         }
 
 
-        private void CheckVisibility(int x1, int y1, int x2, int y2) {
+        private void CheckAndMarkVisibility(int x1, int y1, int x2, int y2) {
             List<Point> line = Misc.line(x1, y1, x2, y2);
-            foreach (var p in line) { 
+            foreach (var p in line) {
                 foreach (AbstractEntity sq in this.map_data.map[p.x, p.y]) {
                     MapsquareData msdc = (MapsquareData)sq.getComponent(nameof(MapsquareData)); // todo - better way of selecting map component
                     if (msdc != null) {
@@ -67,6 +67,17 @@ namespace RoguelikeFramework.systems {
             }
         }
 
+
+        public bool CanSee(int x1, int y1, int x2, int y2) {
+            List<Point> line = Misc.line(x1, y1, x2, y2);
+            foreach (var p in line) {
+                MapsquareData msdc = (MapsquareData)this.map_data.GetSingleComponent(p.x, p.y, nameof(MapsquareData));
+                if (msdc.blocksView) {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 
 }

@@ -46,6 +46,7 @@ namespace ShadowfireRL {
             e.addComponent(new CanCarryComponent(10));
             e.addComponent(new PlayersUnitData(num));
             e.addComponent(new ShootOnSightComponent());
+            e.addComponent(new MobDataComponent(0));
 
             this.ecs.entities.Add(e);
 
@@ -62,32 +63,36 @@ namespace ShadowfireRL {
             e.addComponent(new GraphicComponent('E', RLColor.Red, RLColor.Black));
             e.addComponent(new CanCarryComponent(99));
             e.addComponent(new ShootOnSightComponent());
+            e.addComponent(new MobDataComponent(1));
             this.ecs.entities.Add(e);
             return e;
         }
 
 
         public AbstractEntity createGunItemForMap(int x, int y) {
-            AbstractEntity e = createGunItem();
-            e.addComponent(new PositionComponent(e, this.map_data, x, y, false));
-            this.ecs.entities.Add(e);
-            return e;
+            AbstractEntity gun = this.createGunItem();
+            gun.addComponent(new PositionComponent(gun, this.map_data, x, y, false));
+            this.ecs.entities.Add(gun);
+            return gun;
         }
 
 
         public AbstractEntity createGunItemForUnit(AbstractEntity unit) {
-            AbstractEntity e = createGunItem();
+            AbstractEntity gun = this.createGunItem();
+            CanCarryComponent c = (CanCarryComponent)unit.getComponent(nameof(CanCarryComponent));
+            c.items.Add(gun);
             //todo e.addComponent(new PositionComponent(e, this.map_data, x, y, false));
-            this.ecs.entities.Add(e);
-            return e;
+            this.ecs.entities.Add(gun);
+            return gun;
         }
 
 
         private AbstractEntity createGunItem() {
-            AbstractEntity e = new AbstractEntity("Gun");
-            e.addComponent(new GraphicComponent('L', RLColor.Yellow, RLColor.Black));
-            e.addComponent(new CarryableComponent(1f));
-            return e;
+            AbstractEntity gun = new AbstractEntity("Gun");
+            gun.addComponent(new GraphicComponent('L', RLColor.Yellow, RLColor.Black));
+            gun.addComponent(new CarryableComponent(1f));
+            gun.addComponent(new ItemCanShootComponent(99f, 10f));
+            return gun;
         }
 
 

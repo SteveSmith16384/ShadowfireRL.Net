@@ -21,7 +21,7 @@ namespace RoguelikeFramework {
         protected DefaultRLView view;
 
         private DrawingSystem drawingSystem;
-        private CheckVisibilitySystem checkVisibilitySystem;
+        private CheckMapVisibilitySystem checkVisibilitySystem;
 
         protected AbstractEntity currentUnit;
         public Dictionary<int, AbstractEntity> playersUnits = new Dictionary<int, AbstractEntity>();
@@ -39,10 +39,10 @@ namespace RoguelikeFramework {
             this.drawingSystem = new DrawingSystem(this.view, this);
             this.drawingSystem.process();
 
-            this.checkVisibilitySystem = new CheckVisibilitySystem(this.mapData, this.playersUnits.Values);
-            this.ecs.systems.Add(new ShootOnSightSystem());
+            this.checkVisibilitySystem = new CheckMapVisibilitySystem(this.mapData);
+            this.ecs.systems.Add(new ShootOnSightSystem(this.checkVisibilitySystem, this.ecs.entities));
 
-            this.checkVisibilitySystem.process();
+            this.checkVisibilitySystem.process(this.playersUnits.Values);
         }
 
 
@@ -114,7 +114,7 @@ namespace RoguelikeFramework {
                 this.SingleGameLoop();
             }
             if (unit_moved) {
-                this.checkVisibilitySystem.process();
+                this.checkVisibilitySystem.process(this.playersUnits.Values);
             }
         }
 
@@ -193,7 +193,7 @@ namespace RoguelikeFramework {
 
 
         public List<string> GetStatsFor(AbstractEntity e) {
-            return GetStatsFor_Sub(e);
+            return this.GetStatsFor_Sub(e);
         }
 
         protected abstract List<string> GetStatsFor_Sub(AbstractEntity e);

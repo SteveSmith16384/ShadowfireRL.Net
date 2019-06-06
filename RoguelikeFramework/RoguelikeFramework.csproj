@@ -49,10 +49,12 @@
     <Compile Include="astar\INode.cs" />
     <Compile Include="astar\SortedListExtensions.cs" />
     <Compile Include="components\ActionPointsData.cs" />
+    <Compile Include="components\MobDataComponent.cs" />
     <Compile Include="components\CanCarryComponent.cs" />
     <Compile Include="components\CarryableComponent.cs" />
     <Compile Include="components\GraphicComponent.cs" />
     <Compile Include="components\HealthComponent.cs" />
+    <Compile Include="components\ItemCanShootComponent.cs" />
     <Compile Include="components\MapsquareData.cs" />
     <Compile Include="components\MovementDataComponent.cs" />
     <Compile Include="components\PlayersUnitData.cs" />
@@ -64,7 +66,7 @@
     <Compile Include="models\MapData.cs" />
     <Compile Include="Mouse.cs" />
     <Compile Include="Point.cs" />
-    <Compile Include="systems\CheckVisibilitySystem.cs" />
+    <Compile Include="systems\CheckMapVisibilitySystem.cs" />
     <Compile Include="systems\DrawingSystem.cs" />
     <Compile Include="systems\MovementSystem.cs" />
     <Compile Include="systems\ShootOnSightSystem.cs" />
