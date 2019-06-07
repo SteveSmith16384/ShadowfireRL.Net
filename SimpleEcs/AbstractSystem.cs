@@ -16,4 +16,6 @@ public abstract class AbstractSystem {
 	public virtual void processEntity(AbstractEntity entity) {
 		// Override if required
 	}
+
+
 }

@@ -1,5 +1,6 @@
 ﻿using RoguelikeFramework.models;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace RoguelikeFramework.view {
 

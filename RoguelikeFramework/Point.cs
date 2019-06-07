@@ -1,4 +1,5 @@
 ﻿namespace RoguelikeFramework {
+    /*
     public class Point {
 
         public int x, y;
@@ -48,16 +49,16 @@
 
         public int Width {
             get {
-                return x;
+                return this.x;
             }
         }
 
         public int Height {
             get {
-                return y;
+                return this.y;
             }
         }
 
     }
-
+*/
 }

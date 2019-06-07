@@ -17,11 +17,11 @@ namespace RoguelikeFramework.systems {
         public DrawingSystem(DefaultRLView _view, IDataForView _viewData, bool _debug_show_all) {
             this.view = _view;
             this.viewData = _viewData;
-            debug_show_all = _debug_show_all;
+            this.debug_show_all = _debug_show_all;
         }
 
 
-        public void process() {
+        public void process(List<AbstractEffect> effects) {
             // Draw map
             MapData map_data = this.viewData.GetMapData();
             if (map_data.map != null) {
@@ -29,9 +29,9 @@ namespace RoguelikeFramework.systems {
                 for (int y = 0; y < map_data.getHeight(); y++) {
                     for (int x = 0; x < map_data.getWidth(); x++) {
                         var entities = map_data.map[x, y];
-                        var mapEnt = entities.Single(ent => ent.components.ContainsKey(nameof(MapsquareData)));
+                        var mapEnt = entities.Single(ent => ent.GetComponents().ContainsKey(nameof(MapsquareData)));
                         MapsquareData msdc = (MapsquareData)mapEnt.getComponent(nameof(MapsquareData));
-                        if (msdc.visible || debug_show_all) {
+                        if (msdc.visible || this.debug_show_all) {
                             // Only draw stuff if mapsquare visible
                             foreach (AbstractEntity sq in entities) {
                                 GraphicComponent gc = (GraphicComponent)sq.getComponent(nameof(GraphicComponent));
@@ -50,11 +50,15 @@ namespace RoguelikeFramework.systems {
                 }
             }
 
+            foreach (var effect in effects) {
+                effect.draw(this.view.mapConsole);
+            }
+
             // Draw line
             var line2 = this.viewData.GetLine();
             if (line2 != null) {
                 foreach (var point in line2) {
-                    this.view.mapConsole.SetBackColor(point.x, point.y, RLColor.Gray);
+                    this.view.mapConsole.SetBackColor(point.X, point.Y, RLColor.Gray);
                 }
             }
 
@@ -75,7 +79,7 @@ namespace RoguelikeFramework.systems {
             // Draw unit stats or menu selection
             yPos = 0;
             Dictionary<int, AbstractEntity> items = this.viewData.GetItemSelectionList();
-            if (items != null) {
+            if (items != null && items.Count > 0) {
                 foreach (var idx in items.Keys) {
                     this.view.statConsole.Print(0, yPos, idx + ":" + items[idx].name, RLColor.White);
                     yPos++;

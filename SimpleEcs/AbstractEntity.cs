@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Drawing;
 
 public class AbstractEntity {
 
@@ -6,7 +7,7 @@ public class AbstractEntity {
 
     public readonly int id;
     public readonly string name;
-    public Dictionary<string, AbstractComponent> components = new Dictionary<string, AbstractComponent>();
+    private Dictionary<string, AbstractComponent> components = new Dictionary<string, AbstractComponent>();
 
     public AbstractEntity(string _name) {
         this.id = next_id++;
@@ -14,11 +15,15 @@ public class AbstractEntity {
     }
 
 
-    public void addComponent(AbstractComponent component) {
+    public void AddComponent(AbstractComponent component) {
         this.components.Add(component.GetType().Name, component);
     }
 
 
+    public void RemoveComponent(string name) {
+        this.components.Remove(name);
+
+    }
     public AbstractComponent getComponent(string name) {
         if (this.components.ContainsKey(name)) {
             return this.components[name];
@@ -26,4 +31,11 @@ public class AbstractEntity {
             return null;
         }
     }
+
+
+    public Dictionary<string, AbstractComponent> GetComponents() {
+        return this.components;
+    }
+
+
 }

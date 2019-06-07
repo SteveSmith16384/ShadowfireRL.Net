@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace RogueLikeMapBuilder {
 
-    // Code taken from http://www.evilscience.co.uk/roguelike-dungeon-generator-using-c/
+    // Code taken from http://www.evilscience.co.uk/roguelike-dungeon-generator-using-c/ and then I fixed the bugs.
     public class csMapbuilder {
 
         public int[,] map;
@@ -32,48 +32,33 @@ namespace RogueLikeMapBuilder {
         private Rectangle rctCurrentRoom;
 
 
-        #region builder public properties
-
         //room properties
-        [Category("Room"), Description("Minimum Size"), DisplayName("Minimum Size")]
-        public Size Room_Min { get; set; }
-        [Category("Room"), Description("Max Size"), DisplayName("Maximum Size")]
-        public Size Room_Max { get; set; }
-        [Category("Room"), Description("Total number"), DisplayName("Rooms to build")]
+        public Size Room_Min_Size;
+        public Size Room_Max_Size { get; set; }
         public int MaxRooms { get; set; }
-        [Category("Room"), Description("Minimum distance between rooms"), DisplayName("Distance from other rooms")]
-        public int RoomDistance { get; set; }
-        [Category("Room"), Description("Minimum distance of room from existing corridors"), DisplayName("Corridor Distance")]
-        public int CorridorDistance { get; set; }
+        public int MinRoomDistance { get; set; }
+        public int MinCorridorDistance { get; set; }
 
         //corridor properties
-        [Category("Corridor"), Description("Minimum corridor length"), DisplayName("Minimum length")]
-        public int Corridor_Min { get; set; }
-        [Category("Corridor"), Description("Maximum corridor length"), DisplayName("Maximum length")]
-        public int Corridor_Max { get; set; }
-        [Category("Corridor"), Description("Maximum turns"), DisplayName("Maximum turns")]
+        public int MinCorridorLength { get; set; }
+        //[Category("Corridor"), Description("Maximum corridor length"), DisplayName("Maximum length")]
+        public int MaxCorridorLength { get; set; }
+        //[Category("Corridor"), Description("Maximum turns"), DisplayName("Maximum turns")]
         public int Corridor_MaxTurns { get; set; }
-        [Category("Corridor"), Description("The distance a corridor has to be away from a closed cell for it to be built"), DisplayName("Corridor Spacing")]
-        public int CorridorSpace { get; set; }
+        //[Category("Corridor"), Description("The distance a corridor has to be away from a closed cell for it to be built"), DisplayName("Corridor Spacing")]
+        public int CorridorSpace;
 
 
         [Category("Probability"), Description("Probability of building a corridor from a room or corridor. Greater than value = room"), DisplayName("Select room")]
         public int BuildProb { get; set; }
 
-        [Category("Map"), DisplayName("Map Size")]
         public Size Map_Size { get; set; }
-        [Category("Map"), DisplayName("Break Out"), Description("")]
-        public int BreakOut { get; set; }
-
-
-
-        #endregion
+        public int BreakOut;
 
         /// <summary>
         /// describes the outcome of the corridor building operation
         /// </summary>
         enum CorridorItemHit {
-
             invalid //invalid point generated
             ,
             self  //corridor hit self
@@ -99,6 +84,7 @@ namespace RogueLikeMapBuilder {
 
         private int filledcell = 1;
         private int emptycell = 0;
+        private int door = 2;
 
         Random rnd = new Random();
 
@@ -106,16 +92,15 @@ namespace RogueLikeMapBuilder {
             this.Map_Size = new Size(x, y);
             this.map = new int[this.Map_Size.Width, this.Map_Size.Height];
             this.Corridor_MaxTurns = 5;
-            this.Room_Min = new Size(3, 3);
-            this.Room_Max = new Size(15, 15);
-            this.Corridor_Min = 3;
-            this.Corridor_Max = 15;
-            this.MaxRooms = 15;
-            //this.Map_Size = new Size(150, 150);
+            this.Room_Min_Size = new Size(3, 3);
+            this.Room_Max_Size = new Size(15, 15);
+            this.MinCorridorLength = 5;
+            this.MaxCorridorLength = 15;
+            this.MaxRooms = 5;
 
-            this.RoomDistance = 5;
-            this.CorridorDistance = 2;
-            this.CorridorSpace = 2;
+            this.MinRoomDistance = 5;
+            this.MinCorridorDistance = 5;
+            this.CorridorSpace = 3;
 
             this.BuildProb = 50;
             this.BreakOut = 250;
@@ -146,8 +131,6 @@ namespace RogueLikeMapBuilder {
         /// <returns>Bool indicating if the map was built, i.e. the property BreakOut was not
         /// exceed</returns>
         public bool Build_OneStartRoom() {
-            int loopctr = 0;
-
             CorridorItemHit CorBuildOutcome;
             Point Location = new Point();
             Point Direction = new Point();
@@ -157,15 +140,14 @@ namespace RogueLikeMapBuilder {
             this.PlaceStartRoom();
 
             //attempt to build the required number of rooms
+            int loopctr = 0;
             while (this.rctBuiltRooms.Count() < this.MaxRooms) {
-
-                if (loopctr++ > this.BreakOut)//bail out if this value is exceeded
+                if (loopctr++ > this.BreakOut) { // bail out if this value is exceeded
                     return false;
+                }
 
                 if (this.Corridor_GetStart(out Location, out Direction)) {
-
-                    CorBuildOutcome = this.CorridorMake_Straight(ref Location, ref Direction, this.rnd.Next(1, this.Corridor_MaxTurns)
-                        , this.rnd.Next(0, 100) > 50 ? true : false);
+                    CorBuildOutcome = this.CorridorMake_Straight(ref Location, ref Direction, this.rnd.Next(1, this.Corridor_MaxTurns), this.rnd.Next(0, 100) > 50 ? true : false);
 
                     switch (CorBuildOutcome) {
                         case CorridorItemHit.existingroom:
@@ -214,8 +196,7 @@ namespace RogueLikeMapBuilder {
 
                 if (this.Corridor_GetStart(out Location, out Direction)) {
 
-                    CorBuildOutcome = this.CorridorMake_Straight(ref Location, ref Direction, this.rnd.Next(1, this.Corridor_MaxTurns)
-                        , this.rnd.Next(0, 100) > 50 ? true : false);
+                    CorBuildOutcome = this.CorridorMake_Straight(ref Location, ref Direction, this.rnd.Next(1, this.Corridor_MaxTurns), this.rnd.Next(0, 100) > 50 ? true : false);
 
                     switch (CorBuildOutcome) {
                         case CorridorItemHit.existingroom:
@@ -248,9 +229,8 @@ namespace RogueLikeMapBuilder {
         /// </summary>
         private void PlaceStartRoom() {
             this.rctCurrentRoom = new Rectangle() {
-                Width = this.rnd.Next(this.Room_Min.Width, this.Room_Max.Width)
-                ,
-                Height = this.rnd.Next(this.Room_Min.Height, this.Room_Max.Height)
+                Width = this.rnd.Next(this.Room_Min_Size.Width, this.Room_Max_Size.Width),
+                Height = this.rnd.Next(this.Room_Min_Size.Height, this.Room_Max_Size.Height)
             };
             this.rctCurrentRoom.X = this.Map_Size.Width / 2;
             this.rctCurrentRoom.Y = this.Map_Size.Height / 2;
@@ -278,9 +258,9 @@ namespace RogueLikeMapBuilder {
 
                     //room at the top of the map
                     this.rctCurrentRoom = new Rectangle() {
-                        Width = this.rnd.Next(this.Room_Min.Width, this.Room_Max.Width)
+                        Width = this.rnd.Next(this.Room_Min_Size.Width, this.Room_Max_Size.Width)
                                 ,
-                        Height = this.rnd.Next(this.Room_Min.Height, this.Room_Max.Height)
+                        Height = this.rnd.Next(this.Room_Min_Size.Height, this.Room_Max_Size.Height)
                     };
                     this.rctCurrentRoom.X = this.rnd.Next(0, this.Map_Size.Width - this.rctCurrentRoom.Width);
                     this.rctCurrentRoom.Y = 1;
@@ -288,8 +268,8 @@ namespace RogueLikeMapBuilder {
 
                     //at the bottom of the map
                     this.rctCurrentRoom = new Rectangle();
-                    this.rctCurrentRoom.Width = this.rnd.Next(this.Room_Min.Width, this.Room_Max.Width);
-                    this.rctCurrentRoom.Height = this.rnd.Next(this.Room_Min.Height, this.Room_Max.Height);
+                    this.rctCurrentRoom.Width = this.rnd.Next(this.Room_Min_Size.Width, this.Room_Max_Size.Width);
+                    this.rctCurrentRoom.Height = this.rnd.Next(this.Room_Min_Size.Height, this.Room_Max_Size.Height);
                     this.rctCurrentRoom.X = this.rnd.Next(0, this.Map_Size.Width - this.rctCurrentRoom.Width);
                     this.rctCurrentRoom.Y = this.Map_Size.Height - this.rctCurrentRoom.Height - 1;
                     this.Room_Build();
@@ -299,15 +279,15 @@ namespace RogueLikeMapBuilder {
                   {
                     //west side of room
                     this.rctCurrentRoom = new Rectangle();
-                    this.rctCurrentRoom.Width = this.rnd.Next(this.Room_Min.Width, this.Room_Max.Width);
-                    this.rctCurrentRoom.Height = this.rnd.Next(this.Room_Min.Height, this.Room_Max.Height);
+                    this.rctCurrentRoom.Width = this.rnd.Next(this.Room_Min_Size.Width, this.Room_Max_Size.Width);
+                    this.rctCurrentRoom.Height = this.rnd.Next(this.Room_Min_Size.Height, this.Room_Max_Size.Height);
                     this.rctCurrentRoom.Y = this.rnd.Next(0, this.Map_Size.Height - this.rctCurrentRoom.Height);
                     this.rctCurrentRoom.X = 1;
                     this.Room_Build();
 
                     this.rctCurrentRoom = new Rectangle();
-                    this.rctCurrentRoom.Width = this.rnd.Next(this.Room_Min.Width, this.Room_Max.Width);
-                    this.rctCurrentRoom.Height = this.rnd.Next(this.Room_Min.Height, this.Room_Max.Height);
+                    this.rctCurrentRoom.Width = this.rnd.Next(this.Room_Min_Size.Width, this.Room_Max_Size.Width);
+                    this.rctCurrentRoom.Height = this.rnd.Next(this.Room_Min_Size.Height, this.Room_Max_Size.Height);
                     this.rctCurrentRoom.Y = this.rnd.Next(0, this.Map_Size.Height - this.rctCurrentRoom.Height);
                     this.rctCurrentRoom.X = this.Map_Size.Width - this.rctCurrentRoom.Width - 2;
                     this.Room_Build();
@@ -339,9 +319,9 @@ namespace RogueLikeMapBuilder {
         /// </summary>
         private bool Room_AttemptBuildOnCorridor(Point pDirection) {
             this.rctCurrentRoom = new Rectangle() {
-                Width = this.rnd.Next(this.Room_Min.Width, this.Room_Max.Width)
+                Width = this.rnd.Next(this.Room_Min_Size.Width, this.Room_Max_Size.Width)
                     ,
-                Height = this.rnd.Next(this.Room_Min.Height, this.Room_Max.Height)
+                Height = this.rnd.Next(this.Room_Min_Size.Height, this.Room_Max_Size.Height)
             };
 
             //startbuilding room from this point
@@ -442,7 +422,12 @@ namespace RogueLikeMapBuilder {
                 this.Point_Set(p.X, p.Y, this.emptycell);
                 this.lBuilltCorridors.Add(p);
             }
-
+            {
+                Point p = this.lPotentialCorridor[0];
+                this.Point_Set(p.X, p.Y, this.door);
+                p = this.lPotentialCorridor.Last();
+                this.Point_Set(p.X, p.Y, this.door);
+            }
             this.lPotentialCorridor.Clear();
         }
 
@@ -486,7 +471,7 @@ namespace RogueLikeMapBuilder {
             while (pTurns > 0) {
                 pTurns--;
 
-                corridorlength = this.rnd.Next(this.Corridor_Min, this.Corridor_Max);
+                corridorlength = this.rnd.Next(this.MinCorridorLength, this.MaxCorridorLength);
                 //build corridor
                 while (corridorlength > 0) {
                     corridorlength--;
@@ -615,7 +600,7 @@ namespace RogueLikeMapBuilder {
         /// <returns>Bool indicating success</returns>
         private bool Room_Verify() {
             //make it one bigger to ensure that testing gives it a border
-            this.rctCurrentRoom.Inflate(this.RoomDistance, this.RoomDistance);
+            this.rctCurrentRoom.Inflate(this.MinRoomDistance, this.MinRoomDistance);
 
             //check it occupies legal, empty coordinates
             for (int x = this.rctCurrentRoom.Left; x <= this.rctCurrentRoom.Right; x++)
@@ -628,16 +613,16 @@ namespace RogueLikeMapBuilder {
                 if (r.IntersectsWith(this.rctCurrentRoom))
                     return false;
 
-            this.rctCurrentRoom.Inflate(-this.RoomDistance, -this.RoomDistance);
+            this.rctCurrentRoom.Inflate(-this.MinRoomDistance, -this.MinRoomDistance);
 
             //check the room is the specified distance away from corridors
-            this.rctCurrentRoom.Inflate(this.CorridorDistance, this.CorridorDistance);
+            this.rctCurrentRoom.Inflate(this.MinCorridorDistance, this.MinCorridorDistance);
 
             foreach (Point p in this.lBuilltCorridors)
                 if (this.rctCurrentRoom.Contains(p))
                     return false;
 
-            this.rctCurrentRoom.Inflate(-this.CorridorDistance, -this.CorridorDistance);
+            this.rctCurrentRoom.Inflate(-this.MinCorridorDistance, -this.MinCorridorDistance);
 
             return true;
         }

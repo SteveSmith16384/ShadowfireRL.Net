@@ -10,4 +10,3 @@ E:\mycode\ShadowfireRL.Net\SimpleEcs\bin\Debug\SimpleEcs.pdb
 E:\mycode\ShadowfireRL.Net\SimpleEcs\obj\Debug\SimpleEcs.csproj.CoreCompileInputs.cache
 E:\mycode\ShadowfireRL.Net\SimpleEcs\obj\Debug\SimpleEcs.exe
 E:\mycode\ShadowfireRL.Net\SimpleEcs\obj\Debug\SimpleEcs.pdb
-E:\mycode\ShadowfireRL.Net\SimpleEcs\obj\Debug\SimpleEcs.csprojAssemblyReference.cache

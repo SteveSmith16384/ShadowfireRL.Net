@@ -27,21 +27,39 @@ namespace ShadowfireRL {
         protected override void CreateData() {
             this.entityFactory = new ShadowfireEntityFactory(this, this.ecs, this.mapData);
 
-            this.createMap(this.entityFactory, 50, 50);
+            int mapWidth = 50;
+            int mapHeight = 50;
 
-            this.currentUnit = this.entityFactory.CreatePlayersUnit("Syylk", 1, 23, 23);
-            this.entityFactory.createGunItemForUnit(this.currentUnit);
+            this.createMap(this.entityFactory, mapWidth, mapHeight);
 
-            this.entityFactory.CreatePlayersUnit("Manto", 2, 25, 25);
-            this.entityFactory.createGunItemForMap(8, 8);
+            int unitStartX = mapWidth / 2;
+            int unitStartY = mapHeight / 2;
 
-            this.entityFactory.createEnemyUnit("Zoff", 20, 20);
+
+            this.currentUnit = this.entityFactory.CreatePlayersUnit("Syylk", 1, unitStartX, unitStartY);
+            var gun = this.entityFactory.createGunItem();
+            this.entityFactory.AddEntityToUnit(gun, this.currentUnit);
+
+            this.entityFactory.CreatePlayersUnit("Manto", 2, unitStartX + 1, unitStartY + 1);
+
+            var gun2 = this.entityFactory.createGunItem();
+            this.entityFactory.AddEntityToMap(gun2, unitStartX, unitStartY + 1);
+
+            var grenade = this.entityFactory.createGrenadeItem();
+            this.entityFactory.AddEntityToMap(grenade, unitStartX + 3, unitStartY + 1);
+
+            this.entityFactory.createEnemyUnit("Zoff", 20, 20); // todo
         }
 
 
         public void createMap(ShadowfireEntityFactory factory, int w, int h) {
-            csMapbuilder builder = new csMapbuilder(w, h);
-            builder.Build_OneStartRoom();
+            csMapbuilder builder = null;
+            //while (true) {
+            builder = new csMapbuilder(w, h);
+            if (builder.Build_OneStartRoom()) {
+                //break;
+            }
+            //}
 
             this.mapData.map = new List<AbstractEntity>[w, h];
             for (int y = 0; y < this.mapData.getHeight(); y++) {
@@ -49,7 +67,7 @@ namespace ShadowfireRL {
                     this.mapData.map[x, y] = new List<AbstractEntity>();
                     if (builder.map[x, y] == 1) {
                         factory.createWallMapSquare(x, y);
-                    } else if (Misc.random.Next(100) > 80) {
+                    } else if (builder.map[x, y] == 2) {
                         factory.createDoorMapSquare(x, y);
                     } else {
                         factory.createFloorMapSquare(x, y);

@@ -23,7 +23,7 @@ namespace RoguelikeFramework.models {
 
         public AbstractComponent GetSingleComponent(int x, int y, string component) {
             var entities = this.map[x, y];
-            var mapEnt = entities.Single(ent => ent.components.ContainsKey(nameof(component)));
+            var mapEnt = entities.Single(ent => ent.GetComponents().ContainsKey(nameof(component)));
             return mapEnt.getComponent(nameof(component));
         }
 

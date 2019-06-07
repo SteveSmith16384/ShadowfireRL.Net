@@ -46,6 +46,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractEffect.cs" />
     <Compile Include="AbstractRoguelike.cs" />
     <Compile Include="astar\AStar.cs" />
     <Compile Include="astar\Grid2D.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="astar\INode.cs" />
     <Compile Include="astar\SortedListExtensions.cs" />
     <Compile Include="components\ActionPointsData.cs" />
+    <Compile Include="components\ExplodesWhenTimerExpiresComponent.cs" />
     <Compile Include="components\MobDataComponent.cs" />
     <Compile Include="components\CanCarryComponent.cs" />
     <Compile Include="components\CarryableComponent.cs" />
@@ -65,8 +67,11 @@
     <Compile Include="components\PositionComponent.cs" />
     <Compile Include="components\MiscStatsComponent.cs" />
     <Compile Include="components\ShootOnSightComponent.cs" />
+    <Compile Include="components\TimerCanBeSetComponent.cs" />
     <Compile Include="components\UseableComponent.cs" />
+    <Compile Include="ECSHelper.cs" />
     <Compile Include="generators\DungeonGenerator.cs" />
+    <Compile Include="GeometryFunctions.cs" />
     <Compile Include="Misc.cs" />
     <Compile Include="models\GameLog.cs" />
     <Compile Include="models\MapData.cs" />
@@ -75,9 +80,13 @@
     <Compile Include="systems\CheckMapVisibilitySystem.cs" />
     <Compile Include="systems\DamageSystem.cs" />
     <Compile Include="systems\DrawingSystem.cs" />
+    <Compile Include="systems\EffectsSystem.cs" />
+    <Compile Include="systems\ExplosionSystem.cs" />
     <Compile Include="systems\MovementSystem.cs" />
-    <Compile Include="systems\PickupItemSystem.cs" />
+    <Compile Include="systems\PickupDropSystem.cs" />
     <Compile Include="systems\ShootOnSightSystem.cs" />
+    <Compile Include="systems\ThrowingSystem.cs" />
+    <Compile Include="systems\TimerCountdownSystem.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="view\IDataForView.cs" />
     <Compile Include="view\DefaultRLView.cs" />

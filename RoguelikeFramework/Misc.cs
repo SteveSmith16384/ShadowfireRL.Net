@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace RoguelikeFramework {
 
@@ -10,7 +11,7 @@ namespace RoguelikeFramework {
 
 
         // Modified from https://stackoverflow.com/questions/11678693/all-cases-covered-bresenhams-line-algorithm
-        public static List<Point> line(int x, int y, int x2, int y2) { // todo - rename
+        public static List<Point> GetLine(int x, int y, int x2, int y2) { // todo - rename
             int w = x2 - x;
             int h = y2 - y;
             int dx1 = 0, dy1 = 0, dx2 = 0, dy2 = 0;
