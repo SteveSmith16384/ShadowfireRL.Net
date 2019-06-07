@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractEffect.cs" />
+    <Compile Include="AbstractEntityFactory.cs" />
     <Compile Include="AbstractRoguelike.cs" />
     <Compile Include="astar\AStar.cs" />
     <Compile Include="astar\Grid2D.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="astar\INode.cs" />
     <Compile Include="astar\SortedListExtensions.cs" />
     <Compile Include="components\ActionPointsData.cs" />
+    <Compile Include="components\DoorComponent.cs" />
     <Compile Include="components\ExplodesWhenTimerExpiresComponent.cs" />
     <Compile Include="components\MobDataComponent.cs" />
     <Compile Include="components\CanCarryComponent.cs" />

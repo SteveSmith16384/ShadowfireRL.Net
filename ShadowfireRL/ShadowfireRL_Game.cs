@@ -30,7 +30,7 @@ namespace ShadowfireRL {
             int mapWidth = 50;
             int mapHeight = 50;
 
-            this.createMap(this.entityFactory, mapWidth, mapHeight);
+            this.createMap(mapWidth, mapHeight);
 
             int unitStartX = mapWidth / 2;
             int unitStartY = mapHeight / 2;
@@ -52,7 +52,7 @@ namespace ShadowfireRL {
         }
 
 
-        public void createMap(ShadowfireEntityFactory factory, int w, int h) {
+        public void createMap(int w, int h) {
             csMapbuilder builder = null;
             //while (true) {
             builder = new csMapbuilder(w, h);
@@ -66,11 +66,11 @@ namespace ShadowfireRL {
                 for (int x = 0; x < this.mapData.getWidth(); x++) {
                     this.mapData.map[x, y] = new List<AbstractEntity>();
                     if (builder.map[x, y] == 1) {
-                        factory.createWallMapSquare(x, y);
+                        this.entityFactory.createWallMapSquare(x, y);
                     } else if (builder.map[x, y] == 2) {
-                        factory.createDoorMapSquare(x, y);
+                        this.entityFactory.createDoorMapSquare(x, y);
                     } else {
-                        factory.createFloorMapSquare(x, y);
+                        this.entityFactory.createFloorMapSquare(x, y);
                     }
                 }
             }
@@ -80,6 +80,7 @@ namespace ShadowfireRL {
         protected override List<string> GetStatsFor_Sub(AbstractEntity e) {
             var str = new List<string>();
             str.Add($"Stats for {e.name}");
+            // todo
             return str;
         }
 

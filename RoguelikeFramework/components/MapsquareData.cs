@@ -1,6 +1,4 @@
-﻿using RLNET;
-
-namespace RoguelikeFramework.components {
+﻿namespace RoguelikeFramework.components {
 
     public class MapsquareData : AbstractComponent {
 

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace ShadowfireRL.systems {
 
-namespace ShadowfireRL.systems {
-
-    public class UnitAISystem : AbstractSystem {
+    public class UnitAISystem : AbstractSystem { // todo - delete this?
     }
 
 }
