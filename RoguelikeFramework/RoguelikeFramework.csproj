@@ -66,6 +66,7 @@
     <Compile Include="components\MiscStatsComponent.cs" />
     <Compile Include="components\ShootOnSightComponent.cs" />
     <Compile Include="components\UseableComponent.cs" />
+    <Compile Include="generators\DungeonGenerator.cs" />
     <Compile Include="Misc.cs" />
     <Compile Include="models\GameLog.cs" />
     <Compile Include="models\MapData.cs" />
@@ -89,6 +90,7 @@
       <HintPath>..\packages\RLNET.1.0.6\lib\RLNET.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SimpleEcs\SimpleEcs.csproj">

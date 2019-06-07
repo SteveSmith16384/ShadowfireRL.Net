@@ -10,8 +10,6 @@ namespace RoguelikeFramework.systems {
     public class PickupItemSystem {
 
         public PickupItemSystem() {
-
-
         }
 
 

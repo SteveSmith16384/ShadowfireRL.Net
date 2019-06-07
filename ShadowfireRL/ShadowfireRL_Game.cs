@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using RoguelikeFramework;
 using RoguelikeFramework.view;
+using RogueLikeMapBuilder;
 using ShadowfireRL.systems;
 
 namespace ShadowfireRL {
@@ -28,10 +29,10 @@ namespace ShadowfireRL {
 
             this.createMap(this.entityFactory, 50, 50);
 
-            this.currentUnit = this.entityFactory.CreatePlayersUnit("Syylk", 1, 5, 5);
+            this.currentUnit = this.entityFactory.CreatePlayersUnit("Syylk", 1, 23, 23);
             this.entityFactory.createGunItemForUnit(this.currentUnit);
 
-            this.entityFactory.CreatePlayersUnit("Manto", 2, 7, 7);
+            this.entityFactory.CreatePlayersUnit("Manto", 2, 25, 25);
             this.entityFactory.createGunItemForMap(8, 8);
 
             this.entityFactory.createEnemyUnit("Zoff", 20, 20);
@@ -39,14 +40,19 @@ namespace ShadowfireRL {
 
 
         public void createMap(ShadowfireEntityFactory factory, int w, int h) {
+            csMapbuilder builder = new csMapbuilder(w, h);
+            builder.Build_OneStartRoom();
+
             this.mapData.map = new List<AbstractEntity>[w, h];
             for (int y = 0; y < this.mapData.getHeight(); y++) {
                 for (int x = 0; x < this.mapData.getWidth(); x++) {
                     this.mapData.map[x, y] = new List<AbstractEntity>();
-                    if (Misc.random.Next(100) > 10) {
-                        factory.createFloorMapSquare(x, y);
-                    } else {
+                    if (builder.map[x, y] == 1) {
                         factory.createWallMapSquare(x, y);
+                    } else if (Misc.random.Next(100) > 80) {
+                        factory.createDoorMapSquare(x, y);
+                    } else {
+                        factory.createFloorMapSquare(x, y);
                     }
                 }
             }

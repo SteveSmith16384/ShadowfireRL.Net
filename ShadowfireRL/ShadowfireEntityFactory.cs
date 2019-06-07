@@ -20,8 +20,8 @@ namespace ShadowfireRL {
         public AbstractEntity createFloorMapSquare(int x, int y) {
             AbstractEntity e = new AbstractEntity("Floor");
             e.addComponent(new PositionComponent(e, this.map_data, x, y, false));
-            e.addComponent(new GraphicComponent('.', RLColor.White, RLColor.Black));
-            e.addComponent(new MapsquareData(false));
+            e.addComponent(new GraphicComponent('.', RLColor.White, RLColor.Black, ' '));
+            e.addComponent(new MapsquareData(false, false));
             this.ecs.entities.Add(e);
             return e;
         }
@@ -30,8 +30,18 @@ namespace ShadowfireRL {
         public AbstractEntity createWallMapSquare(int x, int y) {
             AbstractEntity e = new AbstractEntity("Wall");
             e.addComponent(new PositionComponent(e, this.map_data, x, y, true));
-            e.addComponent(new GraphicComponent('#', RLColor.Green, RLColor.Green));
-            e.addComponent(new MapsquareData(true));
+            e.addComponent(new GraphicComponent('#', RLColor.Green, RLColor.Green, '#'));
+            e.addComponent(new MapsquareData(true, false));
+            this.ecs.entities.Add(e);
+            return e;
+        }
+
+
+        public AbstractEntity createDoorMapSquare(int x, int y) {
+            AbstractEntity e = new AbstractEntity("Wall");
+            e.addComponent(new PositionComponent(e, this.map_data, x, y, true));
+            e.addComponent(new GraphicComponent('D', RLColor.Black, RLColor.Green, 'D'));
+            e.addComponent(new MapsquareData(true, false));
             this.ecs.entities.Add(e);
             return e;
         }
@@ -41,7 +51,7 @@ namespace ShadowfireRL {
             AbstractEntity e = new AbstractEntity(name);
             e.addComponent(new PositionComponent(e, this.map_data, x, y, true));
             e.addComponent(new MovementDataComponent());
-            e.addComponent(new GraphicComponent('1', RLColor.Green, RLColor.Black));
+            e.addComponent(new GraphicComponent('1', RLColor.Green, RLColor.Black, ' '));
             e.addComponent(new CanCarryComponent(10));
             e.addComponent(new PlayersUnitData(num));
             e.addComponent(new ShootOnSightComponent());
@@ -59,7 +69,7 @@ namespace ShadowfireRL {
             AbstractEntity e = new AbstractEntity(name);
             e.addComponent(new PositionComponent(e, this.map_data, x, y, true));
             e.addComponent(new MovementDataComponent());
-            e.addComponent(new GraphicComponent('E', RLColor.Red, RLColor.Black));
+            e.addComponent(new GraphicComponent('E', RLColor.Red, RLColor.Black, ' '));
             e.addComponent(new CanCarryComponent(99));
             e.addComponent(new ShootOnSightComponent());
             e.addComponent(new MobDataComponent(1));
@@ -87,7 +97,7 @@ namespace ShadowfireRL {
 
         private AbstractEntity createGunItem() {
             AbstractEntity gun = new AbstractEntity("Gun");
-            gun.addComponent(new GraphicComponent('L', RLColor.Yellow, RLColor.Black));
+            gun.addComponent(new GraphicComponent('L', RLColor.Yellow, RLColor.Black, ' '));
             gun.addComponent(new CarryableComponent(1f));
             gun.addComponent(new ItemCanShootComponent(99f, 10f));
             return gun;
@@ -97,7 +107,7 @@ namespace ShadowfireRL {
         public AbstractEntity createMedikitItem(int x, int y) {
             AbstractEntity e = new AbstractEntity("Medikit");
             e.addComponent(new PositionComponent(e, this.map_data, x, y, false));
-            e.addComponent(new GraphicComponent('m', RLColor.Yellow, RLColor.Black));
+            e.addComponent(new GraphicComponent('m', RLColor.Yellow, RLColor.Black, ' '));
             e.addComponent(new CarryableComponent(.3f));
             e.addComponent(new UseableComponent());
             this.ecs.entities.Add(e);

@@ -11,12 +11,13 @@ namespace RoguelikeFramework.systems {
 
         private DefaultRLView view;
         private IDataForView viewData;
+        private bool debug_show_all;
+        private RLCell invisible = new RLCell(RLColor.Black, RLColor.Black, ' ');
 
-        private RLCell invisible = new RLCell(RLColor.Black, RLColor.Gray, 'I');
-
-        public DrawingSystem(DefaultRLView _view, IDataForView _viewData) {
+        public DrawingSystem(DefaultRLView _view, IDataForView _viewData, bool _debug_show_all) {
             this.view = _view;
             this.viewData = _viewData;
+            debug_show_all = _debug_show_all;
         }
 
 
@@ -30,16 +31,18 @@ namespace RoguelikeFramework.systems {
                         var entities = map_data.map[x, y];
                         var mapEnt = entities.Single(ent => ent.components.ContainsKey(nameof(MapsquareData)));
                         MapsquareData msdc = (MapsquareData)mapEnt.getComponent(nameof(MapsquareData));
-                        if (msdc.visible) {
+                        if (msdc.visible || debug_show_all) {
                             // Only draw stuff if mapsquare visible
                             foreach (AbstractEntity sq in entities) {
                                 GraphicComponent gc = (GraphicComponent)sq.getComponent(nameof(GraphicComponent));
-                                RLCell tc = gc.getChar();
+                                RLCell tc = gc.getVisibleChar();
                                 this.view.mapConsole.Set(x, y, tc);
                             }
                         } else if (msdc.seen) {
-                            this.view.mapConsole.Set(x, y, msdc.seen_ch);
-                            //break;
+                            foreach (AbstractEntity sq in entities) {
+                                GraphicComponent gc = (GraphicComponent)sq.getComponent(nameof(GraphicComponent));
+                                this.view.mapConsole.Set(x, y, gc.getSeenChar());
+                            }
                         } else {
                             this.view.mapConsole.Set(x, y, this.invisible);
                         }

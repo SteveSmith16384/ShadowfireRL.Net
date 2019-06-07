@@ -40,7 +40,7 @@ namespace RoguelikeFramework {
             this.CreateData();
 
             this.view = new DefaultRLView(this);
-            this.drawingSystem = new DrawingSystem(this.view, this);
+            this.drawingSystem = new DrawingSystem(this.view, this, false); // todo - setting
             this.drawingSystem.process();
 
             this.checkVisibilitySystem = new CheckMapVisibilitySystem(this.mapData);
@@ -223,7 +223,9 @@ namespace RoguelikeFramework {
             return this.GetStatsFor_Sub(e);
         }
 
+
         protected abstract List<string> GetStatsFor_Sub(AbstractEntity e);
+
 
         public Dictionary<int, AbstractEntity> GetItemSelectionList() {
             return this.menuItemList;
