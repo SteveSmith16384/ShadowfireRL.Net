@@ -86,7 +86,7 @@ namespace RoguelikeFramework.view {
 
             RLKeyPress keyPress = this.rootConsole.Keyboard.GetKeyPress();
             if (keyPress != null) {
-                this.mapConsole.Print(10, 10, "Key: " + keyPress.ToString(), RLColor.White);
+                //this.mapConsole.Print(10, 10, "Key: " + keyPress.ToString(), RLColor.White);
                 this.game.HandleKeyInput(keyPress);
             }
 

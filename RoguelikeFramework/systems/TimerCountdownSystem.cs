@@ -10,8 +10,8 @@ namespace RoguelikeFramework.systems {
         }
 
 
-        public virtual void processEntity(AbstractEntity entity) {
-            TimerCanBeSetComponent tcbsc = (TimerCanBeSetComponent)entity.getComponent(nameof(TimerCanBeSetComponent));
+        public override void ProcessEntity(AbstractEntity entity) {
+            TimerCanBeSetComponent tcbsc = (TimerCanBeSetComponent)entity.GetComponent(nameof(TimerCanBeSetComponent));
             if (tcbsc != null) {
                 if (tcbsc.activated) {
                     tcbsc.timeLeft--;
@@ -24,7 +24,7 @@ namespace RoguelikeFramework.systems {
 
 
         private void TimeExpired(AbstractEntity entity) {
-            ExplodesWhenTimerExpiresComponent explodes = (ExplodesWhenTimerExpiresComponent)entity.getComponent(nameof(ExplodesWhenTimerExpiresComponent));
+            ExplodesWhenTimerExpiresComponent explodes = (ExplodesWhenTimerExpiresComponent)entity.GetComponent(nameof(ExplodesWhenTimerExpiresComponent));
             if (explodes != null) {
 
             }

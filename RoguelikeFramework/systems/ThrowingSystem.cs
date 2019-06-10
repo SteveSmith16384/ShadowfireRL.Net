@@ -11,9 +11,10 @@ namespace RoguelikeFramework.systems {
         }
 
         public void ThrowItem(AbstractEntity thrower, int destX, int destY) {
-            CanCarryComponent ccc = (CanCarryComponent)thrower.getComponent(nameof(CanCarryComponent));
+            // todo - check APs
+            CanCarryComponent ccc = (CanCarryComponent)thrower.GetComponent(nameof(CanCarryComponent));
             if (ccc.CurrentItem != null) {
-                PositionComponent pos = (PositionComponent)ccc.CurrentItem.getComponent(nameof(PositionComponent));
+                PositionComponent pos = (PositionComponent)ccc.CurrentItem.GetComponent(nameof(PositionComponent));
                 this.mapData.map[pos.x, pos.y].Add(ccc.CurrentItem);
 
                 ccc.CurrentItem = null;

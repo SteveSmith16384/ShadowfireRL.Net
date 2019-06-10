@@ -24,7 +24,7 @@ namespace RoguelikeFramework.systems {
             for (int y = 0; y < this.map_data.getHeight(); y++) {
                 for (int x = 0; x < this.map_data.getWidth(); x++) {
                     foreach (AbstractEntity sq in this.map_data.map[x, y]) {
-                        MapsquareData msdc = (MapsquareData)sq.getComponent(nameof(MapsquareData));
+                        MapsquareData msdc = (MapsquareData)sq.GetComponent(nameof(MapsquareData));
                         if (msdc != null) {
                             msdc.visible = false;
                             break;
@@ -35,11 +35,11 @@ namespace RoguelikeFramework.systems {
 
             // loop through each unit and see if they can see it
             foreach (var unit in playersUnits) {
-                var pos = (PositionComponent)unit.getComponent(nameof(PositionComponent));
+                var pos = (PositionComponent)unit.GetComponent(nameof(PositionComponent));
                 for (int y = 0; y < this.map_data.getHeight(); y++) {
                     for (int x = 0; x < this.map_data.getWidth(); x++) {
                         foreach (AbstractEntity sq in this.map_data.map[x, y]) {
-                            MapsquareData msdc = (MapsquareData)sq.getComponent(nameof(MapsquareData));
+                            MapsquareData msdc = (MapsquareData)sq.GetComponent(nameof(MapsquareData));
                             if (msdc != null) {
                                 if (msdc.visible == false) { // Otherwise we know we've already checked it
                                     this.CheckAndMarkVisibility(pos.x, pos.y, x, y);
@@ -57,7 +57,7 @@ namespace RoguelikeFramework.systems {
             List<Point> line = Misc.GetLine(x1, y1, x2, y2);
             foreach (var p in line) {
                 foreach (AbstractEntity sq in this.map_data.map[p.X, p.Y]) {
-                    MapsquareData msdc = (MapsquareData)sq.getComponent(nameof(MapsquareData)); // todo - better way of selecting map component
+                    MapsquareData msdc = (MapsquareData)sq.GetComponent(nameof(MapsquareData)); // todo - better way of selecting map component
                     if (msdc != null) {
                         msdc.visible = true; // Even walls get seen
                         msdc.seen = true;

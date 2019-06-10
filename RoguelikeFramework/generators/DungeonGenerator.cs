@@ -14,7 +14,7 @@ namespace RogueLikeMapBuilder {
         /// <summary>
         /// Built rooms stored here
         /// </summary>
-        private List<Rectangle> rctBuiltRooms;
+        public List<Rectangle> rctBuiltRooms;
 
         /// <summary>
         /// Built corridors stored here

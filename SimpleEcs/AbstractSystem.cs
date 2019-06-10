@@ -8,12 +8,12 @@ public abstract class AbstractSystem {
 	
 	public virtual void process(List<AbstractEntity> entities) {
 		foreach (AbstractEntity entity in entities) {
-			this.processEntity(entity);
+			this.ProcessEntity(entity);
 		}
 	}
 	
 	
-	public virtual void processEntity(AbstractEntity entity) {
+	public virtual void ProcessEntity(AbstractEntity entity) {
 		// Override if required
 	}
 

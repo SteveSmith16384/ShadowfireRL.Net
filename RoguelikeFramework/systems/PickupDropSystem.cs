@@ -10,8 +10,9 @@ namespace RoguelikeFramework.systems {
 
 
         public void PickupItem(AbstractEntity unit, AbstractEntity item, List<AbstractEntity> mapSquare) {
-            CanCarryComponent ccc = (CanCarryComponent)unit.getComponent(nameof(CanCarryComponent));
-            CarryableComponent cc = (CarryableComponent)item.getComponent(nameof(CarryableComponent));
+            // todo - check APs
+            CanCarryComponent ccc = (CanCarryComponent)unit.GetComponent(nameof(CanCarryComponent));
+            CarryableComponent cc = (CarryableComponent)item.GetComponent(nameof(CarryableComponent));
             // todo - check weight etc...
             ccc.AddItem(item);
             cc.carrier = unit;
@@ -21,10 +22,11 @@ namespace RoguelikeFramework.systems {
 
 
         public void DropItem(AbstractEntity unit, AbstractEntity item, List<AbstractEntity> mapSquare) {
-            CanCarryComponent ccc = (CanCarryComponent)unit.getComponent(nameof(CanCarryComponent));
-            PositionComponent unitpos = (PositionComponent)item.getComponent(nameof(PositionComponent));
-            PositionComponent itempos = (PositionComponent)item.getComponent(nameof(PositionComponent));
-            CarryableComponent cc = (CarryableComponent)item.getComponent(nameof(CarryableComponent));
+            // todo - check APs
+            CanCarryComponent ccc = (CanCarryComponent)unit.GetComponent(nameof(CanCarryComponent));
+            PositionComponent unitpos = (PositionComponent)item.GetComponent(nameof(PositionComponent));
+            PositionComponent itempos = (PositionComponent)item.GetComponent(nameof(PositionComponent));
+            CarryableComponent cc = (CarryableComponent)item.GetComponent(nameof(CarryableComponent));
             if (ccc.GetItems().Contains(item)) {
                 ccc.RemoveItem(item);
                 cc.carrier = null;

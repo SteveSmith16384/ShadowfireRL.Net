@@ -14,7 +14,7 @@ namespace RoguelikeFramework.systems {
 
 
         public void Explosion(AbstractEntity entity) {
-            ExplodesWhenTimerExpiresComponent ewtec = (ExplodesWhenTimerExpiresComponent)entity.getComponent(nameof(ExplodesWhenTimerExpiresComponent));
+            ExplodesWhenTimerExpiresComponent ewtec = (ExplodesWhenTimerExpiresComponent)entity.GetComponent(nameof(ExplodesWhenTimerExpiresComponent));
             PositionComponent pos = ECSHelper.GetPosition(entity);
 
             //todo

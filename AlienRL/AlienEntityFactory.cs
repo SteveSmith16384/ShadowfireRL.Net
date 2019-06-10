@@ -1,4 +1,5 @@
-﻿using RLNET;
+﻿using AlienRL.components;
+using RLNET;
 using RoguelikeFramework;
 using RoguelikeFramework.components;
 using RoguelikeFramework.models;
@@ -16,6 +17,7 @@ namespace AlienRL {
             e.AddComponent(new PositionComponent(e, this.map_data, x, y, true));
             e.AddComponent(new MovementDataComponent());
             e.AddComponent(new GraphicComponent('A', RLColor.Green, RLColor.Black, ' '));
+            e.AddComponent(new AlienComponent());
             e.AddComponent(new MobDataComponent(1));
             this.ecs.entities.Add(e);
             return e;

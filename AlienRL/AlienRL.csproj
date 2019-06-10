@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="AlienRL_Game.cs" />
     <Compile Include="AlienEntityFactory.cs" />
+    <Compile Include="components\AlienComponent.cs" />
     <Compile Include="systems\AlienAISystem.cs" />
   </ItemGroup>
   <ItemGroup>

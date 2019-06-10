@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace RoguelikeFramework.models {
@@ -21,10 +22,17 @@ namespace RoguelikeFramework.models {
         }
 
 
-        public AbstractComponent GetSingleComponent(int x, int y, string component) {
+        public AbstractComponent GetSingleComponent(int x, int y, string componentName) {
             var entities = this.map[x, y];
-            var mapEnt = entities.Single(ent => ent.GetComponents().ContainsKey(nameof(component)));
-            return mapEnt.getComponent(nameof(component));
+            foreach (var e in entities) {
+                //var mapEnt = entities.Single(ent => ent.GetComponents().ContainsKey(nameof(component)));
+                //return mapEnt.getComponent(nameof(component));
+                var component = e.GetComponent(componentName);
+                if (component != null) {
+                    return component;
+                }
+            }
+            throw new Exception($"Component {componentName} not found");
         }
 
     }

@@ -15,6 +15,11 @@ namespace RoguelikeFramework.systems {
             }
         }
 
+
+        public bool HasEffects() {
+            return this.effects.Count > 0;
+        }
+
     }
 
 }

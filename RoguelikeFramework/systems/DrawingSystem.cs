@@ -30,17 +30,17 @@ namespace RoguelikeFramework.systems {
                     for (int x = 0; x < map_data.getWidth(); x++) {
                         var entities = map_data.map[x, y];
                         var mapEnt = entities.Single(ent => ent.GetComponents().ContainsKey(nameof(MapsquareData)));
-                        MapsquareData msdc = (MapsquareData)mapEnt.getComponent(nameof(MapsquareData));
+                        MapsquareData msdc = (MapsquareData)mapEnt.GetComponent(nameof(MapsquareData));
                         if (msdc.visible || this.debug_show_all) {
                             // Only draw stuff if mapsquare visible
                             foreach (AbstractEntity sq in entities) {
-                                GraphicComponent gc = (GraphicComponent)sq.getComponent(nameof(GraphicComponent));
+                                GraphicComponent gc = (GraphicComponent)sq.GetComponent(nameof(GraphicComponent));
                                 RLCell tc = gc.getVisibleChar();
                                 this.view.mapConsole.Set(x, y, tc);
                             }
                         } else if (msdc.seen) {
                             foreach (AbstractEntity sq in entities) {
-                                GraphicComponent gc = (GraphicComponent)sq.getComponent(nameof(GraphicComponent));
+                                GraphicComponent gc = (GraphicComponent)sq.GetComponent(nameof(GraphicComponent));
                                 this.view.mapConsole.Set(x, y, gc.getSeenChar());
                             }
                         } else {
@@ -72,7 +72,8 @@ namespace RoguelikeFramework.systems {
                 if (e == this.viewData.GetCurrentUnit()) {
                     c = RLColor.Yellow; // Highlight selected unit
                 }
-                this.view.crewListConsole.Print(0, yPos, yPos + 1 + ": " + e.name, c);
+                MobDataComponent mdc = (MobDataComponent)e.GetComponent(nameof(MobDataComponent));
+                this.view.crewListConsole.Print(0, yPos, $"{(yPos + 1)}: {e.name} ({mdc.actionPoints} APs)", c);
                 yPos++;
             }
 
@@ -81,7 +82,7 @@ namespace RoguelikeFramework.systems {
             Dictionary<int, AbstractEntity> items = this.viewData.GetItemSelectionList();
             if (items != null && items.Count > 0) {
                 foreach (var idx in items.Keys) {
-                    this.view.statConsole.Print(0, yPos, idx + ":" + items[idx].name, RLColor.White);
+                    this.view.statConsole.Print(0, yPos, $"{idx} : {items[idx].name}", RLColor.White);
                     yPos++;
                 }
             } else {

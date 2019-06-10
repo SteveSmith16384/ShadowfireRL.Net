@@ -1,6 +1,6 @@
 ﻿namespace ShadowfireRL.systems {
 
-    public class UnitAISystem : AbstractSystem { // todo - delete this?
+    public class UnitAISystem : AbstractSystem {
     }
 
 }

@@ -3,6 +3,7 @@ using RoguelikeFramework.components;
 using RoguelikeFramework.models;
 using RoguelikeFramework.systems;
 using RoguelikeFramework.view;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
@@ -25,7 +26,7 @@ namespace RoguelikeFramework {
 
         // Systems
         private DrawingSystem drawingSystem;
-        private CheckMapVisibilitySystem checkVisibilitySystem;
+        protected CheckMapVisibilitySystem checkVisibilitySystem;
         private PickupDropSystem pickupItemSystem;
         private EffectsSystem effectsSystem;
         private ThrowingSystem throwingSystem;
@@ -66,8 +67,11 @@ namespace RoguelikeFramework {
 
 
         public void HandleKeyInput(RLKeyPress keyPress) {
-            bool action_performed = false;
-            //bool unit_moved = false; // Do we need to recalc visible squares?
+            if (this.effectsSystem.HasEffects()) {
+                return;
+            }
+
+            bool action_performed = false; // todo - remove this?
 
             switch (keyPress.Key) {
 
@@ -83,7 +87,7 @@ namespace RoguelikeFramework {
                     int idx = keyPress.Key - RLKey.Number0;
                     if (this.currentInputMode == InputMode.SelectItemFromFloor) {
                         if (this.currentInputSubMode == InputSubMode.PickingUpItem) {
-                            PositionComponent pos = (PositionComponent)this.currentUnit.getComponent(nameof(PositionComponent));
+                            PositionComponent pos = (PositionComponent)this.currentUnit.GetComponent(nameof(PositionComponent));
                             this.pickupItemSystem.PickupItem(this.currentUnit, this.menuItemList[idx], this.mapData.map[pos.x, pos.y]);
                             this.gameLog.Add("item picked up");
                             this.currentInputMode = InputMode.Normal;
@@ -92,7 +96,7 @@ namespace RoguelikeFramework {
                         }
                     } else if (this.currentInputMode == InputMode.SelectItemFromInv) {
                         if (this.currentInputSubMode == InputSubMode.DroppingItem) {
-                            PositionComponent pos = (PositionComponent)this.currentUnit.getComponent(nameof(PositionComponent));
+                            PositionComponent pos = (PositionComponent)this.currentUnit.GetComponent(nameof(PositionComponent));
                             this.pickupItemSystem.DropItem(this.currentUnit, this.menuItemList[idx], this.mapData.map[pos.x, pos.y]);
                             this.gameLog.Add("item dropped up");
                             this.currentInputMode = InputMode.Normal;
@@ -100,7 +104,7 @@ namespace RoguelikeFramework {
                             action_performed = true;
                         }
                     } else if (this.currentInputMode == InputMode.ActivatingCurrentItem) {
-                        TimerCanBeSetComponent tcbsc = (TimerCanBeSetComponent)this.currentUnit.getComponent(nameof(TimerCanBeSetComponent));
+                        TimerCanBeSetComponent tcbsc = (TimerCanBeSetComponent)this.currentUnit.GetComponent(nameof(TimerCanBeSetComponent));
                         if (tcbsc.activated == false) {
                             tcbsc.activated = true;
                             tcbsc.timeLeft = idx;
@@ -115,39 +119,39 @@ namespace RoguelikeFramework {
                     break;
 
                 case RLKey.Up: {
-                        MovementDataComponent m = (MovementDataComponent)this.currentUnit.getComponent(nameof(MovementDataComponent));
+                        MovementDataComponent m = (MovementDataComponent)this.currentUnit.GetComponent(nameof(MovementDataComponent));
                         m.dest = null;
                         m.offY = -1;
                         action_performed = true;
-                        //unit_moved = true;
                         break;
                     }
                 case RLKey.Down: {
-                        MovementDataComponent m = (MovementDataComponent)this.currentUnit.getComponent(nameof(MovementDataComponent));
+                        MovementDataComponent m = (MovementDataComponent)this.currentUnit.GetComponent(nameof(MovementDataComponent));
                         m.dest = null;
                         m.offY = 1;
                         action_performed = true;
-                        //unit_moved = true;
                         break;
                     }
                 case RLKey.Left: {
-                        MovementDataComponent m = (MovementDataComponent)this.currentUnit.getComponent(nameof(MovementDataComponent));
+                        MovementDataComponent m = (MovementDataComponent)this.currentUnit.GetComponent(nameof(MovementDataComponent));
                         m.dest = null;
                         m.offX = -1;
                         action_performed = true;
-                        //unit_moved = true;
                         break;
                     }
                 case RLKey.Right: {
-                        MovementDataComponent m = (MovementDataComponent)this.currentUnit.getComponent(nameof(MovementDataComponent));
+                        MovementDataComponent m = (MovementDataComponent)this.currentUnit.GetComponent(nameof(MovementDataComponent));
                         m.dest = null;
                         m.offX = 1;
                         action_performed = true;
-                        //unit_moved = true;
                         break;
                     }
 
                 case RLKey.Space: {
+                        MobDataComponent mdc = (MobDataComponent)this.currentUnit.GetComponent(nameof(MobDataComponent));
+                        if (mdc.actionPoints > 0) {
+                            mdc.actionPoints -= 100;
+                        }
                         action_performed = true;
                         break;
                     }
@@ -174,7 +178,7 @@ namespace RoguelikeFramework {
                     }
 
                 case RLKey.S: // Stop moving
-                    var md = (MovementDataComponent)this.currentUnit.getComponent(nameof(MobDataComponent));
+                    var md = (MovementDataComponent)this.currentUnit.GetComponent(nameof(MobDataComponent));
                     md.dest = null;
                     this.gameLog.Add("Movement stopped");
                     break;
@@ -194,9 +198,9 @@ namespace RoguelikeFramework {
                     }
             }
 
-            if (action_performed) {
-                this.SingleGameLoop();
-            }
+            //if (action_performed) {
+            this.SingleGameLoop();
+            //}
             this.checkVisibilitySystem.process(this.playersUnits.Values);
         }
 
@@ -210,17 +214,55 @@ namespace RoguelikeFramework {
 
 
         private void SingleGameLoop() {
-            this.ecs.process();
+            this.ecs.process(); // To move the player's units
+            //while (true) {
+            // Check at least one player's entity has > 100 APs
+            foreach (var unit in this.playersUnits.Values) {
+                MobDataComponent mdc = (MobDataComponent)unit.GetComponent(nameof(MobDataComponent));
+                if (mdc.actionPoints > 0) {
+                    // todo - select unit if current unit has no APs left
+                    return; // They still have spare APs, so don't do anything and wait for the player
+                }
+            }
+            while (true) {
+                foreach (var e in this.ecs.entities) {
+                    if (this.playersUnits.ContainsValue(e) == false) { // Don't check player's units
+                        MobDataComponent mdc = (MobDataComponent)e.GetComponent(nameof(MobDataComponent));
+                        if (mdc != null) {
+                            if (mdc.actionPoints > 0) {// They still have spare APs
+                                Console.WriteLine($"{e.name} still has APs");
+                                this.ecs.process();
+                                // todo - sleep for a sec so the player can see what's going on
+                                continue;
+                            }
+                        }
+                    }
+                }
+                break;
+            }
+
+            // Give everyone some APs
+            foreach (var e in this.ecs.entities) {
+                MobDataComponent mdc = (MobDataComponent)e.GetComponent(nameof(MobDataComponent));
+                if (mdc != null) {
+                    mdc.actionPoints += 100;
+                }
+            }
+            //}
         }
 
 
         public void HandleMouseEvent(RLMouse mouse) {
+            if (this.effectsSystem.HasEffects()) {
+                return;
+            }
+
             if (mouse.LeftPressed) {
                 bool action_performed = false;
                 if (this.currentInputMode == InputMode.SelectMapPoint) {
                     if (this.currentInputSubMode == InputSubMode.SelectingDestination) {
-                        var pos = (PositionComponent)this.currentUnit.getComponent(nameof(PositionComponent));
-                        var md = (MovementDataComponent)this.currentUnit.getComponent(nameof(MovementDataComponent));
+                        var pos = (PositionComponent)this.currentUnit.GetComponent(nameof(PositionComponent));
+                        var md = (MovementDataComponent)this.currentUnit.GetComponent(nameof(MovementDataComponent));
                         md.dest = Misc.GetLine(pos.x, pos.y, mouse.X, mouse.Y);
                     } else if (this.currentInputSubMode == InputSubMode.ThrowingItem) {
                         this.throwingSystem.ThrowItem(this.currentUnit, mouse.X, mouse.Y);
@@ -236,7 +278,7 @@ namespace RoguelikeFramework {
             } else {
                 this.hoverText = this.GetSquareDesc(mouse.X, mouse.Y);
                 if (this.currentInputMode == InputMode.SelectMapPoint) {
-                    var pos = (PositionComponent)this.currentUnit.getComponent(nameof(PositionComponent));
+                    var pos = (PositionComponent)this.currentUnit.GetComponent(nameof(PositionComponent));
                     this.line = Misc.GetLine(pos.x, pos.y, mouse.X, mouse.Y);
                 } else {
                     this.line = null;
@@ -311,10 +353,10 @@ namespace RoguelikeFramework {
         private void ListItemsOnFloor() {
             this.menuItemList.Clear();
             int idx = 1;
-            PositionComponent pos = (PositionComponent)this.currentUnit.getComponent(nameof(PositionComponent));
+            PositionComponent pos = (PositionComponent)this.currentUnit.GetComponent(nameof(PositionComponent));
             List<AbstractEntity> items = this.mapData.map[pos.x, pos.y];
             foreach (var e in items) {
-                CarryableComponent cc = (CarryableComponent)e.getComponent(nameof(CarryableComponent));
+                CarryableComponent cc = (CarryableComponent)e.GetComponent(nameof(CarryableComponent));
                 if (cc != null) {
                     this.menuItemList.Add(idx, e);
                     idx++;
@@ -326,9 +368,9 @@ namespace RoguelikeFramework {
         private void ListItemsInInv() {
             this.menuItemList.Clear();
             int idx = 1;
-            CanCarryComponent ccc = (CanCarryComponent)this.currentUnit.getComponent(nameof(CanCarryComponent));
+            CanCarryComponent ccc = (CanCarryComponent)this.currentUnit.GetComponent(nameof(CanCarryComponent));
             foreach (var e in ccc.GetItems()) {
-                CarryableComponent cc = (CarryableComponent)e.getComponent(nameof(CarryableComponent));
+                CarryableComponent cc = (CarryableComponent)e.GetComponent(nameof(CarryableComponent));
                 if (cc != null) {
                     this.menuItemList.Add(idx, e);
                     idx++;

@@ -3,6 +3,7 @@ using RoguelikeFramework;
 using RoguelikeFramework.view;
 using RogueLikeMapBuilder;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace AlienRL {
 
@@ -17,7 +18,7 @@ namespace AlienRL {
 
 
         private AlienRL_Game() : base(DefaultRLView._messageHeight) {
-            this.ecs.systems.Add(new AlienAISystem());
+            this.ecs.systems.Add(new AlienAISystem(this.checkVisibilitySystem, this.ecs.entities));
 
             this.gameLog.Add("USS Nostromo");
 
@@ -33,10 +34,13 @@ namespace AlienRL {
             int mapWidth = 50;
             int mapHeight = 50;
 
-            this.createMap(mapWidth, mapHeight);
+            csMapbuilder builder = new csMapbuilder(mapWidth, mapHeight);
 
-            int unitStartX = mapWidth / 2;
-            int unitStartY = mapHeight / 2;
+            this.createMap(builder, mapWidth, mapHeight);
+
+            Rectangle startRoom = builder.rctBuiltRooms[0];
+            int unitStartX = startRoom.X;
+            int unitStartY = startRoom.Y;// mapHeight / 2;
 
 
             this.currentUnit = this.entityFactory.CreatePlayersUnit("Dallas", 1, unitStartX, unitStartY);
@@ -48,14 +52,14 @@ namespace AlienRL {
             var gun2 = this.entityFactory.createGunItem();
             this.entityFactory.AddEntityToMap(gun2, unitStartX, unitStartY + 1);
 
-            this.entityFactory.createAlien(20, 20); // todo
+            this.entityFactory.createAlien(builder.rctBuiltRooms[1].X, builder.rctBuiltRooms[1].Y);
         }
 
 
-        public void createMap(int w, int h) {
-            csMapbuilder builder = null;
+        public void createMap(csMapbuilder builder, int w, int h) {
+            //csMapbuilder builder = null;
             //while (true) {
-            builder = new csMapbuilder(w, h);
+            //builder = new csMapbuilder(w, h);
             if (builder.Build_OneStartRoom()) {
                 //break;
             }

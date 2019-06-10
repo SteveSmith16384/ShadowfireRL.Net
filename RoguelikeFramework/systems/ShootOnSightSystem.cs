@@ -15,17 +15,19 @@ namespace RoguelikeFramework.systems {
         }
 
 
-        public virtual void ProcessEntity(AbstractEntity entity) {
-            ShootOnSightComponent sosc = (ShootOnSightComponent)entity.getComponent(nameof(ShootOnSightComponent));
+        public override void ProcessEntity(AbstractEntity entity) {
+            ShootOnSightComponent sosc = (ShootOnSightComponent)entity.GetComponent(nameof(ShootOnSightComponent));
             if (sosc != null) {
-                MobDataComponent us = (MobDataComponent)entity.getComponent(nameof(MobDataComponent));
-                PositionComponent pos = (PositionComponent)entity.getComponent(nameof(PositionComponent));
-                CanCarryComponent ccc = (CanCarryComponent)entity.getComponent(nameof(CanCarryComponent));
+                MobDataComponent us = (MobDataComponent)entity.GetComponent(nameof(MobDataComponent));
+                PositionComponent pos = (PositionComponent)entity.GetComponent(nameof(PositionComponent));
+                CanCarryComponent ccc = (CanCarryComponent)entity.GetComponent(nameof(CanCarryComponent));
                 if (ccc != null && ccc.CurrentItem != null) {
-                    ItemCanShootComponent icsc = (ItemCanShootComponent)ccc.CurrentItem.getComponent(nameof(ItemCanShootComponent));
+                    ItemCanShootComponent icsc = (ItemCanShootComponent)ccc.CurrentItem.GetComponent(nameof(ItemCanShootComponent));
                     if (icsc != null) {
                         AbstractEntity target = this.GetTarget(pos.x, pos.y, us.side);
-                        Console.WriteLine($"Target {target.name} shot");
+                        if (target != null) {
+                            Console.WriteLine($"Target {target.name} shot");
+                        }
                     }
                 }
             }
@@ -34,9 +36,9 @@ namespace RoguelikeFramework.systems {
 
         private AbstractEntity GetTarget(int ourX, int ourY, int ourSide) {
             foreach (var e  in this.entities) {
-                MobDataComponent att = (MobDataComponent)e.getComponent(nameof(MobDataComponent));
+                MobDataComponent att = (MobDataComponent)e.GetComponent(nameof(MobDataComponent));
                 if (att != null && att.side != ourSide) {
-                    PositionComponent pos = (PositionComponent)e.getComponent(nameof(PositionComponent));
+                    PositionComponent pos = (PositionComponent)e.GetComponent(nameof(PositionComponent));
                     if (pos != null) {
                         if (this.cmvs.CanSee(ourX, ourY, pos.x, pos.y)) {
                             return e;

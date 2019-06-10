@@ -73,7 +73,7 @@ namespace RoguelikeFramework {
 
 
         public AbstractEntity AddEntityToUnit(AbstractEntity e, AbstractEntity unit) {
-            CanCarryComponent c = (CanCarryComponent)unit.getComponent(nameof(CanCarryComponent));
+            CanCarryComponent c = (CanCarryComponent)unit.GetComponent(nameof(CanCarryComponent));
             c.AddItem(e);
             return e;
         }
