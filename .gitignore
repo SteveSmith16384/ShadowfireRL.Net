@@ -130,3 +130,4 @@ Thumbs.db
 .vs
 packages
 **/obj
+**/bin
