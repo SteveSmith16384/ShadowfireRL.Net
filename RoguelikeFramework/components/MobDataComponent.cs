@@ -7,10 +7,13 @@
     public class MobDataComponent : AbstractComponent {
 
         public int side; // Player = side 0!
-        public int actionPoints = 100; // todo
+        public int actionPoints;
+        public int apsPerTurn;
 
-        public MobDataComponent(int _side) {
+        public MobDataComponent(int _side, int aps) {
             this.side = _side;
+            this.apsPerTurn = aps;
+            this.actionPoints = aps;
         }
 
     }

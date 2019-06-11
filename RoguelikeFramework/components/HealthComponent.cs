@@ -1,6 +1,9 @@
 ﻿namespace RoguelikeFramework.components {
 
-    public class HealthComponent {
+    /**
+     * For anything that can be damaged/wounded/destroyed
+     */
+    public class HealthComponent : AbstractComponent {
 
         public float health, maxHealth;
 

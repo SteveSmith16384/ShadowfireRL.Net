@@ -4,7 +4,7 @@ public abstract class AbstractComponent {
 	}
 
 	
-	public string getName() {
+	public string GetName() {
 		return this.GetType().ToString();
 	}
 }

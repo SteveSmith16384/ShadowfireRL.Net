@@ -6,7 +6,7 @@ using ShadowfireRL.systems;
 
 namespace ShadowfireRL {
 
-    public class ShadowfireRL_Game : AbstractRoguelike, IDataForView {
+    public class ShadowfireRL_Game : AbstractRoguelike, IDataForView, IDebugSettings {
 
         private ShadowfireEntityFactory entityFactory;
 
@@ -36,19 +36,19 @@ namespace ShadowfireRL {
             int unitStartY = mapHeight / 2;
 
 
-            this.currentUnit = this.entityFactory.CreatePlayersUnit("Syylk", 1, unitStartX, unitStartY);
-            var gun = this.entityFactory.createGunItem();
+            this.currentUnit = this.entityFactory.CreatePlayersUnit("Syylk", 1, unitStartX, unitStartY, 100);
+            var gun = this.entityFactory.CreateGunItem();
             this.entityFactory.AddEntityToUnit(gun, this.currentUnit);
 
-            this.entityFactory.CreatePlayersUnit("Manto", 2, unitStartX + 1, unitStartY + 1);
+            this.entityFactory.CreatePlayersUnit("Manto", 2, unitStartX + 1, unitStartY + 1, 100);
 
-            var gun2 = this.entityFactory.createGunItem();
+            var gun2 = this.entityFactory.CreateGunItem();
             this.entityFactory.AddEntityToMap(gun2, unitStartX, unitStartY + 1);
 
-            var grenade = this.entityFactory.createGrenadeItem();
+            var grenade = this.entityFactory.CreateGrenadeItem();
             this.entityFactory.AddEntityToMap(grenade, unitStartX + 3, unitStartY + 1);
 
-            this.entityFactory.createEnemyUnit("Zoff", 20, 20); // todo
+            this.entityFactory.createEnemyUnit("Zoff", 20, 20, 90); // todo
         }
 
 
@@ -82,6 +82,11 @@ namespace ShadowfireRL {
             str.Add($"Stats for {e.name}");
             // todo
             return str;
+        }
+
+
+        public override bool drawEverything() {
+            return ShadowfireSettings.DRAW_ALL;
         }
 
     }

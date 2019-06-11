@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RoguelikeFramework.components;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -33,6 +34,33 @@ namespace RoguelikeFramework.models {
                 }
             }
             throw new Exception($"Component {componentName} not found");
+        }
+
+
+        // Returns the component with the highest z-order
+        public AbstractEntity GetComponentToDraw(int x, int y) {
+            var entities = this.map[x, y];
+            if (entities.Count == 1) {
+                return entities[0];
+            }
+
+            Dictionary<GraphicComponent, AbstractEntity> gcs = new Dictionary<GraphicComponent, AbstractEntity>();
+            foreach (var e in entities) {
+                GraphicComponent gc = (GraphicComponent)e.GetComponent(nameof(GraphicComponent));
+                if (gc != null) {
+                    gcs.Add(gc, e);
+                }
+            }
+            return gcs.OrderByDescending(e2 => e2.Key.zOrder).First().Value;
+            //return gcs.First().Value;
+
+            /*entities.OrderBy(e => (GraphicComponent)(e.GetComponent(nameof(GraphicComponent))).zOrder);
+
+            foreach (var e in entities) {
+                var mapEnts = entities.Where(ent => ent.GetComponents().ContainsKey(nameof(GraphicComponent)));
+                return mapEnts.OrderBy(x.)
+                //return mapEnt.getComponent(nameof(component));
+            }*/
         }
 
     }

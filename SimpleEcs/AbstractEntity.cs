@@ -7,6 +7,7 @@ public class AbstractEntity {
     public readonly int id;
     public readonly string name;
     private Dictionary<string, AbstractComponent> components = new Dictionary<string, AbstractComponent>();
+    public bool markForRemoval = false;
 
     public AbstractEntity(string _name) {
         this.id = next_id++;

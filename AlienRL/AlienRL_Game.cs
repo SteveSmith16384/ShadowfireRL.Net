@@ -8,7 +8,7 @@ using System.Drawing;
 namespace AlienRL {
 
 
-    public class AlienRL_Game : AbstractRoguelike, IDataForView {
+    public class AlienRL_Game : AbstractRoguelike, IDataForView, IDebugSettings {
 
         private AlienEntityFactory entityFactory;
 
@@ -43,13 +43,13 @@ namespace AlienRL {
             int unitStartY = startRoom.Y;// mapHeight / 2;
 
 
-            this.currentUnit = this.entityFactory.CreatePlayersUnit("Dallas", 1, unitStartX, unitStartY);
-            var gun = this.entityFactory.createGunItem();
+            this.currentUnit = this.entityFactory.CreatePlayersUnit("Dallas", 1, unitStartX, unitStartY, 100);
+            var gun = this.entityFactory.CreateGunItem();
             this.entityFactory.AddEntityToUnit(gun, this.currentUnit);
 
-            this.entityFactory.CreatePlayersUnit("Ash", 2, unitStartX + 1, unitStartY + 1);
+            this.entityFactory.CreatePlayersUnit("Ash", 2, unitStartX + 1, unitStartY + 1, 100);
 
-            var gun2 = this.entityFactory.createGunItem();
+            var gun2 = this.entityFactory.CreateGunItem();
             this.entityFactory.AddEntityToMap(gun2, unitStartX, unitStartY + 1);
 
             this.entityFactory.createAlien(builder.rctBuiltRooms[1].X, builder.rctBuiltRooms[1].Y);
@@ -86,6 +86,11 @@ namespace AlienRL {
             str.Add($"Stats for {e.name}");
             // todo
             return str;
+        }
+
+
+        public override bool drawEverything() {
+            return AlienSettings.DRAW_ALL;
         }
 
     }

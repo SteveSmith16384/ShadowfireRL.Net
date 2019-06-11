@@ -1,6 +1,6 @@
 ﻿using RLNET;
 using System;
-
+/*
 namespace ShadowfireRL { // todo - delete this
     public interface IGameView
     {
@@ -21,3 +21,4 @@ namespace ShadowfireRL { // todo - delete this
         void close();
     }
 }
+*/

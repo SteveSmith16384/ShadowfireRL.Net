@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RoguelikeFramework.systems {
+namespace RoguelikeFramework {
+    public interface IDebugSettings {
 
-    public class ActionPointsSystem {
-
-        public void Process() {
-
-        }
+        bool drawEverything();
     }
 }

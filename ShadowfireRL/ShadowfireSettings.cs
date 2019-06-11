@@ -4,12 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RoguelikeFramework.systems {
-
-    public class ActionPointsSystem {
-
-        public void Process() {
-
-        }
+namespace ShadowfireRL {
+    public class ShadowfireSettings {
+        public const bool DRAW_ALL = true;
     }
 }

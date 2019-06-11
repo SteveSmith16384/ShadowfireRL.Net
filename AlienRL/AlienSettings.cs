@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RoguelikeFramework.systems {
+namespace AlienRL {
+    public class AlienSettings {
 
-    public class ActionPointsSystem {
+        public const bool DRAW_ALL = true;
 
-        public void Process() {
-
-        }
     }
+
 }

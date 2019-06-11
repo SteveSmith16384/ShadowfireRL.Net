@@ -1,4 +1,5 @@
 ﻿using AlienRL.components;
+using RoguelikeFramework;
 using RoguelikeFramework.components;
 using RoguelikeFramework.systems;
 using System;
@@ -34,7 +35,9 @@ namespace AlienRL.systems {
                     AbstractEntity target = this.GetTarget(pos.x, pos.y, us.side);
                     if (target != null) {
                         Console.WriteLine($"Alien can see {target.name}");
-                        // todo - move towards/attack
+                        PositionComponent targetPos = (PositionComponent)target.GetComponent(nameof(PositionComponent));
+                        MovementDataComponent mdc = (MovementDataComponent)entity.GetComponent(nameof(MovementDataComponent));
+                        mdc.dest = Misc.GetLine(pos.x, pos.y, targetPos.x, targetPos.y);
                     } else {
                         us.actionPoints -= 100; // Waiting....
                     }

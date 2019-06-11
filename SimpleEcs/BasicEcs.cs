@@ -12,6 +12,13 @@ public class BasicEcs {
 	
 	
 	public void process() {
+        // Remove any entities
+        foreach(AbstractEntity entity in this.entities) {
+            if (entity.markForRemoval) {
+                this.entities.Remove(entity);
+            }
+        }
+
 		foreach(AbstractSystem system in this.systems) { // todo -loop backwards
 			system.process(this.entities);
 		}

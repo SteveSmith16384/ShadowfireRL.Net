@@ -57,6 +57,7 @@
     <Compile Include="effects\ExplosionEffect.cs" />
     <Compile Include="ShadowfireEntityFactory.cs" />
     <Compile Include="ShadowfireRL_Game.cs" />
+    <Compile Include="ShadowfireSettings.cs" />
     <Compile Include="systems\UnitAISystem.cs" />
     <Compile Include="view\IGameView.cs" />
     <Compile Include="RLTest.cs" />

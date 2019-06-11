@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace RoguelikeFramework.systems {
 
-    public class ActionPointsSystem {
-
-        public void Process() {
-
-        }
+    public class ShootingSystem {
+        // todo
     }
+
 }

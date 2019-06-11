@@ -24,9 +24,11 @@ namespace RoguelikeFramework.systems {
                 if (ccc != null && ccc.CurrentItem != null) {
                     ItemCanShootComponent icsc = (ItemCanShootComponent)ccc.CurrentItem.GetComponent(nameof(ItemCanShootComponent));
                     if (icsc != null) {
+                        // todo - check APs
                         AbstractEntity target = this.GetTarget(pos.x, pos.y, us.side);
                         if (target != null) {
-                            Console.WriteLine($"Target {target.name} shot");
+                            Console.WriteLine($"Target {target.name} shot by {entity.name}");
+                            // todo - calc acc, damage etc...
                         }
                     }
                 }

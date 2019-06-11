@@ -33,16 +33,21 @@ namespace RoguelikeFramework.systems {
                         MapsquareData msdc = (MapsquareData)mapEnt.GetComponent(nameof(MapsquareData));
                         if (msdc.visible || this.debug_show_all) {
                             // Only draw stuff if mapsquare visible
-                            foreach (AbstractEntity sq in entities) {
-                                GraphicComponent gc = (GraphicComponent)sq.GetComponent(nameof(GraphicComponent));
-                                RLCell tc = gc.getVisibleChar();
-                                this.view.mapConsole.Set(x, y, tc);
+                            //foreach (AbstractEntity sq in entities) {
+                            AbstractEntity sq = map_data.GetComponentToDraw(x, y);
+                            GraphicComponent gc = (GraphicComponent)sq.GetComponent(nameof(GraphicComponent));
+                            RLCell tc = gc.getVisibleChar();
+                            this.view.mapConsole.Set(x, y, tc);
+                            if (sq == this.viewData.GetCurrentUnit()) {
+                                this.view.mapConsole.SetBackColor(x, y, RLColor.Yellow);
                             }
+                            //}
                         } else if (msdc.seen) {
-                            foreach (AbstractEntity sq in entities) {
-                                GraphicComponent gc = (GraphicComponent)sq.GetComponent(nameof(GraphicComponent));
+                            //foreach (AbstractEntity sq in entities) {
+                            AbstractEntity sq = map_data.GetComponentToDraw(x, y);
+                            GraphicComponent gc = (GraphicComponent)sq.GetComponent(nameof(GraphicComponent));
                                 this.view.mapConsole.Set(x, y, gc.getSeenChar());
-                            }
+                            //}
                         } else {
                             this.view.mapConsole.Set(x, y, this.invisible);
                         }
@@ -66,23 +71,26 @@ namespace RoguelikeFramework.systems {
             this.view.mapConsole.Print(1, DefaultRLView._mapHeight - 1, this.viewData.GetHoverText(), RLColor.White);
 
             // Draw crew
-            int yPos = 0;
+            int yPos = 1;
+            this.view.crewListConsole.Print(0, yPos, "CREW LIST", RLColor.White);
+            int idx = 1;
             foreach (AbstractEntity e in this.viewData.GetUnits().Values) {
                 RLColor c = RLColor.White;
                 if (e == this.viewData.GetCurrentUnit()) {
                     c = RLColor.Yellow; // Highlight selected unit
                 }
                 MobDataComponent mdc = (MobDataComponent)e.GetComponent(nameof(MobDataComponent));
-                this.view.crewListConsole.Print(0, yPos, $"{(yPos + 1)}: {e.name} ({mdc.actionPoints} APs)", c);
+                this.view.crewListConsole.Print(0, yPos, $"{idx}: {e.name} ({mdc.actionPoints} APs)", c);
                 yPos++;
+                idx++;
             }
 
             // Draw unit stats or menu selection
             yPos = 0;
             Dictionary<int, AbstractEntity> items = this.viewData.GetItemSelectionList();
             if (items != null && items.Count > 0) {
-                foreach (var idx in items.Keys) {
-                    this.view.statConsole.Print(0, yPos, $"{idx} : {items[idx].name}", RLColor.White);
+                foreach (var idx2 in items.Keys) {
+                    this.view.statConsole.Print(0, yPos, $"{idx2} : {items[idx2].name}", RLColor.White);
                     yPos++;
                 }
             } else {

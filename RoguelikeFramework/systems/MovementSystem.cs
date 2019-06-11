@@ -9,10 +9,12 @@ namespace RoguelikeFramework.systems {
 
         private MapData map_data;
         private CheckMapVisibilitySystem checkMapVisibilitySystem;
+        private CloseCombatSystem closeCombatSystem;
 
-        public MovementSystem(MapData _map_data, CheckMapVisibilitySystem _checkMapVisibilitySystem) {
+        public MovementSystem(MapData _map_data, CheckMapVisibilitySystem _checkMapVisibilitySystem, CloseCombatSystem _closeCombatSystem) {
             this.map_data = _map_data;
             this.checkMapVisibilitySystem = _checkMapVisibilitySystem;
+            this.closeCombatSystem = _closeCombatSystem;
         }
 
 
@@ -58,10 +60,14 @@ namespace RoguelikeFramework.systems {
 
 
         private bool Move(AbstractEntity entity, PositionComponent p, Point dest) {
-            MobDataComponent mdc = (MobDataComponent)entity.GetComponent(nameof(MobDataComponent));
             if (this.isAccessible(this.map_data.map[dest.X, dest.Y])) {
-                if (mdc.actionPoints > 0) {
-                    mdc.actionPoints -= 50; // todo - check diagonal
+                MobDataComponent mdc = (MobDataComponent)entity.GetComponent(nameof(MobDataComponent));
+                if (mdc == null || mdc.actionPoints > 0) {
+                    int cost = 50;
+                    if (p.x != dest.X && p.y != dest.Y) { // Diagonal
+                        cost = 70;
+                    }
+                    mdc.actionPoints -= cost;
                     this.map_data.map[p.x, p.y].Remove(entity);
 
                     p.x = dest.X;
@@ -71,9 +77,9 @@ namespace RoguelikeFramework.systems {
 
                     this.checkMapVisibilitySystem.ReCheckVisibility = true;
                     return true;
-                } else {
-                    // todo - close combat
                 }
+            } else {
+                this.closeCombatSystem.Combat(entity, this.map_data.map[dest.X, dest.Y]);
             }
             return false;
         }

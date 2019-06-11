@@ -10,7 +10,7 @@ using System.Text;
 
 namespace RoguelikeFramework {
 
-    public abstract class AbstractRoguelike : IDataForView {
+    public abstract class AbstractRoguelike : IDataForView, IDebugSettings {
 
         public enum InputMode { Normal, SelectItemFromInv, SelectItemFromFloor, SelectMapPoint, ActivatingCurrentItem };
         public enum InputSubMode { None, ThrowingItem, DroppingItem, PickingUpItem, SelectingDestination };
@@ -31,6 +31,8 @@ namespace RoguelikeFramework {
         private EffectsSystem effectsSystem;
         private ThrowingSystem throwingSystem;
         private ExplosionSystem explosionSystem;
+        private DamageSystem damageSystem;
+        private CloseCombatSystem closeCombatSystem;
 
         protected AbstractEntity currentUnit;
         public Dictionary<int, AbstractEntity> playersUnits = new Dictionary<int, AbstractEntity>();
@@ -45,14 +47,16 @@ namespace RoguelikeFramework {
             this.CreateData();
 
             this.view = new DefaultRLView(this);
-            this.drawingSystem = new DrawingSystem(this.view, this, true); // todo - setting
+            this.drawingSystem = new DrawingSystem(this.view, this, this.drawEverything());
 
             this.checkVisibilitySystem = new CheckMapVisibilitySystem(this.mapData);
             this.ecs.systems.Add(new ShootOnSightSystem(this.checkVisibilitySystem, this.ecs.entities));
 
             this.checkVisibilitySystem.process(this.playersUnits.Values);
-            this.ecs.systems.Add(new MovementSystem(this.mapData, this.checkVisibilitySystem));
-            this.explosionSystem = new ExplosionSystem(this.checkVisibilitySystem, this.mapData);
+            this.damageSystem = new DamageSystem();
+            this.closeCombatSystem = new CloseCombatSystem(this.damageSystem);
+            this.ecs.systems.Add(new MovementSystem(this.mapData, this.checkVisibilitySystem, this.closeCombatSystem));
+            this.explosionSystem = new ExplosionSystem(this.checkVisibilitySystem, this.damageSystem, this.mapData, this.ecs.entities);
             this.ecs.systems.Add(new TimerCountdownSystem(this.explosionSystem));
             this.pickupItemSystem = new PickupDropSystem();
             this.effectsSystem = new EffectsSystem();
@@ -220,7 +224,7 @@ namespace RoguelikeFramework {
             foreach (var unit in this.playersUnits.Values) {
                 MobDataComponent mdc = (MobDataComponent)unit.GetComponent(nameof(MobDataComponent));
                 if (mdc.actionPoints > 0) {
-                    // todo - select unit if current unit has no APs left
+                    // todo - select unit if current unit has no APs left?
                     return; // They still have spare APs, so don't do anything and wait for the player
                 }
             }
@@ -245,7 +249,7 @@ namespace RoguelikeFramework {
             foreach (var e in this.ecs.entities) {
                 MobDataComponent mdc = (MobDataComponent)e.GetComponent(nameof(MobDataComponent));
                 if (mdc != null) {
-                    mdc.actionPoints += 100;
+                    mdc.actionPoints += mdc.apsPerTurn;
                 }
             }
             //}
@@ -378,5 +382,8 @@ namespace RoguelikeFramework {
             }
         }
 
+        public virtual bool drawEverything() {
+            return false;
+        }
     }
 }
