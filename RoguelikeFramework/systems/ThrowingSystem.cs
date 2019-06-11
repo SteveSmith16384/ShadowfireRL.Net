@@ -5,9 +5,11 @@ namespace RoguelikeFramework.systems {
     public class ThrowingSystem {
 
         private MapData mapData;
+        private GameLog gameLog;
 
-        public ThrowingSystem(MapData _mapData) {
+        public ThrowingSystem(MapData _mapData, GameLog log) { // todo - append to log
             this.mapData = _mapData;
+            this.gameLog = log;
         }
 
 
@@ -20,8 +22,10 @@ namespace RoguelikeFramework.systems {
                     PositionComponent pos = (PositionComponent)ccc.CurrentItem.GetComponent(nameof(PositionComponent));
                     this.mapData.map[pos.x, pos.y].Add(ccc.CurrentItem);
 
-                    ccc.CurrentItem = null;
+                    this.gameLog.Add($"{ccc.CurrentItem.name} thrown.");
+
                     ccc.RemoveItem(ccc.CurrentItem);
+
                 }
             }
         }

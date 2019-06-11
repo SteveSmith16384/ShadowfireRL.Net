@@ -48,11 +48,11 @@ namespace RoguelikeFramework {
         }
 
 
-        public AbstractEntity CreatePlayersUnit(String name, int num, int x, int y, int aps) {
+        public AbstractEntity CreatePlayersUnit(char ch, String name, int num, int x, int y, int aps) {
             AbstractEntity e = new AbstractEntity(name);
             e.AddComponent(new PositionComponent(e, this.map_data, x, y, true, true));
             e.AddComponent(new MovementDataComponent());
-            e.AddComponent(new GraphicComponent('1', RLColor.Green, RLColor.Black, ' ', 10));
+            e.AddComponent(new GraphicComponent(ch, RLColor.Green, RLColor.Black, ' ', 10));
             e.AddComponent(new CanCarryComponent(10));
             e.AddComponent(new PlayersUnitData(num));
             //e.AddComponent(new ShootOnSightComponent());

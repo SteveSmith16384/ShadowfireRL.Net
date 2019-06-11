@@ -21,7 +21,7 @@ namespace RoguelikeFramework.systems {
         }
 
 
-        public void process(List<AbstractEffect> effects) {
+        public void Process(List<AbstractEffect> effects) {
             // Draw map
             MapData map_data = this.viewData.GetMapData();
             if (map_data.map != null) {
@@ -33,7 +33,6 @@ namespace RoguelikeFramework.systems {
                         MapsquareData msdc = (MapsquareData)mapEnt.GetComponent(nameof(MapsquareData));
                         if (msdc.visible || this.debug_show_all) {
                             // Only draw stuff if mapsquare visible
-                            //foreach (AbstractEntity sq in entities) {
                             AbstractEntity sq = map_data.GetComponentToDraw(x, y);
                             GraphicComponent gc = (GraphicComponent)sq.GetComponent(nameof(GraphicComponent));
                             RLCell tc = gc.getVisibleChar();
@@ -41,13 +40,10 @@ namespace RoguelikeFramework.systems {
                             if (sq == this.viewData.GetCurrentUnit()) {
                                 this.view.mapConsole.SetBackColor(x, y, RLColor.Yellow);
                             }
-                            //}
                         } else if (msdc.seen) {
-                            //foreach (AbstractEntity sq in entities) {
                             AbstractEntity sq = map_data.GetComponentToDraw(x, y);
                             GraphicComponent gc = (GraphicComponent)sq.GetComponent(nameof(GraphicComponent));
-                                this.view.mapConsole.Set(x, y, gc.getSeenChar());
-                            //}
+                            this.view.mapConsole.Set(x, y, gc.getSeenChar());
                         } else {
                             this.view.mapConsole.Set(x, y, this.invisible);
                         }
@@ -55,6 +51,7 @@ namespace RoguelikeFramework.systems {
                 }
             }
 
+            // Draw effects
             foreach (var effect in effects) {
                 effect.draw(this.view.mapConsole);
             }

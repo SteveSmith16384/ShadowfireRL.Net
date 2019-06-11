@@ -1,18 +1,11 @@
 ﻿using AlienRL.components;
-using RoguelikeFramework;
 using RoguelikeFramework.components;
-using RoguelikeFramework.systems;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AlienRL.systems {
 
     class JonesTheCatSystem : AbstractSystem {
 
-        public JonesTheCatSystem() {
+        public JonesTheCatSystem(BasicEcs ecs) : base(ecs, true) {
         }
 
 

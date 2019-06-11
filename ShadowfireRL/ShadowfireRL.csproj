@@ -56,8 +56,7 @@
     <Compile Include="ShadowfireEntityFactory.cs" />
     <Compile Include="ShadowfireRL_Game.cs" />
     <Compile Include="ShadowfireSettings.cs" />
-    <Compile Include="systems\UnitAISystem.cs" />
-    <Compile Include="view\IGameView.cs" />
+    <Compile Include="systems\EnemyAISystem.cs" />
     <Compile Include="RLTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -24,6 +24,8 @@ public class AbstractEntity {
         this.components.Remove(name);
 
     }
+
+
     public AbstractComponent GetComponent(string name) {
         if (this.components.ContainsKey(name)) {
             return this.components[name];

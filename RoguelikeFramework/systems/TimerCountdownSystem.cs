@@ -5,7 +5,7 @@ namespace RoguelikeFramework.systems {
 
         private ExplosionSystem explosionSystem;
 
-        public TimerCountdownSystem(ExplosionSystem _expl) {
+        public TimerCountdownSystem(BasicEcs ecs, ExplosionSystem _expl) : base(ecs, true) {
             this.explosionSystem = _expl;
         }
 

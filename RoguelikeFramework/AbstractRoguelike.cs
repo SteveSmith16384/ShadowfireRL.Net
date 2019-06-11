@@ -4,10 +4,11 @@ using RoguelikeFramework.models;
 using RoguelikeFramework.systems;
 using RoguelikeFramework.view;
 using SimpleEcs;
-using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace RoguelikeFramework {
 
@@ -51,20 +52,21 @@ namespace RoguelikeFramework {
             this.drawingSystem = new DrawingSystem(this.view, this, this.drawEverything());
 
             this.checkVisibilitySystem = new CheckMapVisibilitySystem(this.mapData);
-            this.ecs.systems.Add(new ShootOnSightSystem(this.checkVisibilitySystem, this.ecs.entities));
+            new ShootOnSightSystem(this.ecs, this.checkVisibilitySystem, this.ecs.entities);
 
             this.checkVisibilitySystem.process(this.playersUnits);
             this.damageSystem = new DamageSystem(this.gameLog);
             this.closeCombatSystem = new CloseCombatSystem(this.damageSystem);
-            this.ecs.systems.Add(new MovementSystem(this.mapData, this.checkVisibilitySystem, this.closeCombatSystem));
-            this.explosionSystem = new ExplosionSystem(this.checkVisibilitySystem, this.damageSystem, this.mapData, this.ecs.entities);
-            this.ecs.systems.Add(new TimerCountdownSystem(this.explosionSystem));
+            new MovementSystem(this.ecs, this.mapData, this.checkVisibilitySystem, this.closeCombatSystem);
+            this.explosionSystem = new ExplosionSystem(this.ecs, this.checkVisibilitySystem, this.damageSystem, this.mapData, this.ecs.entities);
+            new TimerCountdownSystem(this.ecs, this.explosionSystem);
             this.pickupItemSystem = new PickupDropSystem();
-            this.effectsSystem = new EffectsSystem();
-            this.throwingSystem = new ThrowingSystem(this.mapData);
+            this.effectsSystem = new EffectsSystem(this.ecs);
+            this.throwingSystem = new ThrowingSystem(this.mapData, this.gameLog);
+            new ShootingSystem(this.ecs, this.gameLog);
 
             // Draw screen
-            this.drawingSystem.process(this.effectsSystem.effects);
+            this.drawingSystem.Process(this.effectsSystem.effects);
         }
 
 
@@ -207,7 +209,7 @@ namespace RoguelikeFramework {
 
         protected void SelectUnit(int num) {
             if (num <= this.playersUnits.Count) {
-                this.currentUnit = this.playersUnits[num-1];
+                this.currentUnit = this.playersUnits[num - 1];
                 this.gameLog.Add(this.currentUnit.name + " selected");
             }
         }
@@ -215,13 +217,15 @@ namespace RoguelikeFramework {
 
         private void SingleGameLoop() {
             this.ecs.process(); // To move the player's units
-            //while (true) {
+
             // Check at least one player's entity has > 100 APs
             foreach (var unit in this.playersUnits) {
                 MobDataComponent mdc = (MobDataComponent)unit.GetComponent(nameof(MobDataComponent));
                 if (mdc.actionPoints > 0) {
-                    // todo - select unit if current unit has no APs left?
-                    return; // They still have spare APs, so don't do anything and wait for the player
+                    MovementDataComponent moveData = (MovementDataComponent)unit.GetComponent(nameof(MovementDataComponent));
+                    if (moveData.dest == null || moveData.dest.Count == 0) {
+                        return; // They still have spare APs and no dest, so don't do anything and wait for the player
+                    }
                 }
             }
             while (true) {
@@ -232,7 +236,7 @@ namespace RoguelikeFramework {
                             if (mdc.actionPoints > 0) {// They still have spare APs
                                 //Console.WriteLine($"{e.name} still has APs");
                                 this.ecs.process();
-                                // todo - sleep for a sec so the player can see what's going on
+                                Thread.Sleep(1000);//  sleep for a sec so the player can see what's going on
                                 continue;
                             }
                         }
@@ -248,7 +252,6 @@ namespace RoguelikeFramework {
                     mdc.actionPoints += mdc.apsPerTurn;
                 }
             }
-            //}
         }
 
 
@@ -264,8 +267,11 @@ namespace RoguelikeFramework {
                         var pos = (PositionComponent)this.currentUnit.GetComponent(nameof(PositionComponent));
                         var md = (MovementDataComponent)this.currentUnit.GetComponent(nameof(MovementDataComponent));
                         md.dest = Misc.GetLine(pos.x, pos.y, mouse.X, mouse.Y);
+                        this.gameLog.Add("Destination selected");
+                        this.currentInputMode = InputMode.Normal;
                     } else if (this.currentInputSubMode == InputSubMode.ThrowingItem) {
                         this.throwingSystem.ThrowItem(this.currentUnit, mouse.X, mouse.Y);
+                        this.currentInputMode = InputMode.Normal;
                         action_performed = true;
                     }
                 }
@@ -331,8 +337,8 @@ namespace RoguelikeFramework {
 
 
         public void Repaint() {
-            this.effectsSystem.process();
-            this.drawingSystem.process(this.effectsSystem.effects);
+            this.effectsSystem.Process();
+            this.drawingSystem.Process(this.effectsSystem.effects);
         }
 
 
@@ -387,9 +393,9 @@ namespace RoguelikeFramework {
             // todo if
         }
 
-        public void EneityRemoved(AbstractEntity entity) {
+        public void EntityRemoved(AbstractEntity entity) {
             if (entity == this.currentUnit) {
-                // todo this.playersUnits.re.rem.Remove(entity);
+                this.playersUnits.Remove(entity);
                 if (this.playersUnits.Count > 0) {
                     this.currentUnit = this.playersUnits[0];
                 } else {

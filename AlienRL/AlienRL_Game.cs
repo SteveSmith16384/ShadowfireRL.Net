@@ -18,7 +18,8 @@ namespace AlienRL {
 
 
         private AlienRL_Game() : base(DefaultRLView._messageHeight) {
-            this.ecs.systems.Add(new AlienAISystem(this.checkVisibilitySystem, this.ecs.entities));
+            new AlienAISystem(this.ecs, this.checkVisibilitySystem, this.ecs.entities);
+            new JonesTheCatSystem(this.ecs);
 
             this.gameLog.Add("USS Nostromo");
 
@@ -42,11 +43,11 @@ namespace AlienRL {
             int unitStartX = startRoom.X;
             int unitStartY = startRoom.Y;
 
-            this.currentUnit = this.entityFactory.CreatePlayersUnit("Dallas", 1, unitStartX, unitStartY, 100);
+            this.currentUnit = this.entityFactory.CreatePlayersUnit('D', "Dallas", 1, unitStartX, unitStartY, 100);
             var gun = this.entityFactory.CreateGunItem();
             this.entityFactory.AddEntityToUnit(gun, this.currentUnit);
 
-            this.entityFactory.CreatePlayersUnit("Ash", 2, unitStartX + 1, unitStartY + 1, 100);
+            this.entityFactory.CreatePlayersUnit('A', "Ash", 2, unitStartX + 1, unitStartY + 1, 100);
 
             var gun2 = this.entityFactory.CreateGunItem();
             this.entityFactory.AddEntityToMap(gun2, unitStartX, unitStartY + 1);

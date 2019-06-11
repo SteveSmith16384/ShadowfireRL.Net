@@ -1,6 +1,5 @@
 ﻿using RoguelikeFramework.components;
 using RoguelikeFramework.models;
-using System;
 
 namespace RoguelikeFramework.systems {
 
@@ -9,6 +8,7 @@ namespace RoguelikeFramework.systems {
         private GameLog log;
 
         public DamageSystem(GameLog _log) {
+            this.log = _log;
         }
 
 

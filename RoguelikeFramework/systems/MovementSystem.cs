@@ -11,7 +11,7 @@ namespace RoguelikeFramework.systems {
         private CheckMapVisibilitySystem checkMapVisibilitySystem;
         private CloseCombatSystem closeCombatSystem;
 
-        public MovementSystem(MapData _map_data, CheckMapVisibilitySystem _checkMapVisibilitySystem, CloseCombatSystem _closeCombatSystem) {
+        public MovementSystem(BasicEcs ecs, MapData _map_data, CheckMapVisibilitySystem _checkMapVisibilitySystem, CloseCombatSystem _closeCombatSystem) : base(ecs, true) {
             this.map_data = _map_data;
             this.checkMapVisibilitySystem = _checkMapVisibilitySystem;
             this.closeCombatSystem = _closeCombatSystem;
@@ -24,7 +24,9 @@ namespace RoguelikeFramework.systems {
             if (md != null && pos != null) {
                 if (md.dest != null && md.dest.Count > 0) { // Do they have a path set up?
                     Point dest = md.dest[0];
-                    if (this.Move(entity, pos, dest)) {
+                    if (pos.x == dest.X && pos.y == dest.Y) {
+                        md.dest.RemoveAt(0); // We're on the actual square
+                    } else if (this.Move(entity, pos, dest)) {
                         /*if (this.isAccessible(this.map_data.map[dest.X, dest.Y])) {
                             this.map_data.map[pos.x, pos.y].Remove(entity);
 

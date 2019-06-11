@@ -17,7 +17,7 @@ namespace ShadowfireRL {
 
 
         private ShadowfireRL_Game() : base(DefaultRLView._messageHeight) {
-            this.ecs.systems.Add(new UnitAISystem());
+            new EnemyAISystem(this.ecs);
             this.gameLog.Add("Welcome");
             this.SelectUnit(1);
 
@@ -39,11 +39,11 @@ namespace ShadowfireRL {
             int unitStartY = mapHeight / 2;
 
 
-            this.currentUnit = this.entityFactory.CreatePlayersUnit("Syylk", 1, unitStartX, unitStartY, 100);
+            this.currentUnit = this.entityFactory.CreatePlayersUnit('S', "Syylk", 1, unitStartX, unitStartY, 100);
             var gun = this.entityFactory.CreateGunItem();
             this.entityFactory.AddEntityToUnit(gun, this.currentUnit);
 
-            this.entityFactory.CreatePlayersUnit("Manto", 2, unitStartX + 1, unitStartY + 1, 100);
+            this.entityFactory.CreatePlayersUnit('M', "Manto", 2, unitStartX + 1, unitStartY + 1, 100);
 
             var gun2 = this.entityFactory.CreateGunItem();
             this.entityFactory.AddEntityToMap(gun2, unitStartX, unitStartY + 1);
@@ -53,7 +53,7 @@ namespace ShadowfireRL {
 
             for (int i = 1; i < builder.rctBuiltRooms.Count; i++) {
                 Rectangle r = builder.rctBuiltRooms[i];
-                this.entityFactory.createEnemyUnit("Zoff", r.X, r.Y, 90);
+                this.entityFactory.createEnemyUnit($"Enemy {i}", r.X, r.Y, 90);
             }
         }
 

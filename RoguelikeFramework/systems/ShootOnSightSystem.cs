@@ -1,5 +1,4 @@
 ﻿using RoguelikeFramework.components;
-using System;
 using System.Collections.Generic;
 
 namespace RoguelikeFramework.systems {
@@ -8,11 +7,11 @@ namespace RoguelikeFramework.systems {
 
         private List<AbstractEntity> entities;
         private readonly CheckMapVisibilitySystem cmvs;
-        private ShootingSystem shootingSystem;
+        //private ShootingSystem shootingSystem;
 
-        public ShootOnSightSystem(CheckMapVisibilitySystem _cmvs, ShootingSystem _shootingSystem, List<AbstractEntity> _entities) {
+        public ShootOnSightSystem(BasicEcs ecs, CheckMapVisibilitySystem _cmvs, List<AbstractEntity> _entities) : base(ecs, true) {
             this.cmvs = _cmvs;
-            this.shootingSystem = _shootingSystem;
+            //this.shootingSystem = _shootingSystem;
             this.entities = _entities;
         }
 
@@ -29,7 +28,7 @@ namespace RoguelikeFramework.systems {
                         // todo - check APs
                         AbstractEntity target = this.GetTarget(pos.x, pos.y, us.side);
                         if (target != null) {
-                            this.shootingSystem.EntityShotByEntity(entity, target);
+                            //todo - get dynamically - this.shootingSystem.EntityShotByEntity(entity, target);
                         }
                     }
                 }
@@ -38,7 +37,7 @@ namespace RoguelikeFramework.systems {
 
 
         private AbstractEntity GetTarget(int ourX, int ourY, int ourSide) {
-            foreach (var e  in this.entities) {
+            foreach (var e in this.entities) {
                 MobDataComponent att = (MobDataComponent)e.GetComponent(nameof(MobDataComponent));
                 if (att != null && att.side != ourSide) {
                     PositionComponent pos = (PositionComponent)e.GetComponent(nameof(PositionComponent));

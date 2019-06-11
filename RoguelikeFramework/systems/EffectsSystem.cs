@@ -2,11 +2,16 @@
 
 namespace RoguelikeFramework.systems {
 
-    public class EffectsSystem {
+    public class EffectsSystem : AbstractSystem {
 
         public List<AbstractEffect> effects = new List<AbstractEffect>();
 
-        public void process() {
+        public EffectsSystem(BasicEcs ecs) : base(ecs, false) {
+
+        }
+
+
+        public void Process() {
             foreach (var effect in this.effects) {
                 effect.process();
                 if (effect.hasEnded()) {

@@ -3,6 +3,7 @@ using RoguelikeFramework.models;
 using System.Collections.Generic;
 
 namespace RoguelikeFramework.systems {
+
     public class ExplosionSystem : AbstractSystem {
 
         private CheckMapVisibilitySystem checkVis;
@@ -10,7 +11,7 @@ namespace RoguelikeFramework.systems {
         private List<AbstractEntity> entities;
         private DamageSystem damageSystem;
 
-        public ExplosionSystem(CheckMapVisibilitySystem _checkVis, DamageSystem _damageSystem, MapData _mapData, List<AbstractEntity> _entities) {
+        public ExplosionSystem(BasicEcs ecs, CheckMapVisibilitySystem _checkVis, DamageSystem _damageSystem, MapData _mapData, List<AbstractEntity> _entities): base(ecs, false) {
             this.mapData = _mapData;
             this.checkVis = _checkVis;
             this.damageSystem = _damageSystem;
@@ -31,9 +32,7 @@ namespace RoguelikeFramework.systems {
                         }
                     }
                 }
-
             }
-            //todo
         }
 
     }

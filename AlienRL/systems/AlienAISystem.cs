@@ -20,7 +20,7 @@ namespace AlienRL.systems {
         private List<AbstractEntity> entities;
         private readonly CheckMapVisibilitySystem cmvs;
 
-        public AlienAISystem(CheckMapVisibilitySystem _cmvs, List<AbstractEntity> _entities) {
+        public AlienAISystem(BasicEcs ecs, CheckMapVisibilitySystem _cmvs, List<AbstractEntity> _entities) : base(ecs, true) {
             this.cmvs = _cmvs;
             this.entities = _entities;
         }
