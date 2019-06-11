@@ -31,10 +31,10 @@ namespace AlienRL {
         protected override void CreateData() {
             this.entityFactory = new AlienEntityFactory(this, this.ecs, this.mapData);
 
-            int mapWidth = 50;
-            int mapHeight = 50;
+            int mapWidth = 75;
+            int mapHeight = 65;
 
-            csMapbuilder builder = new csMapbuilder(mapWidth, mapHeight);
+            csMapbuilder builder = new csMapbuilder(mapWidth, mapHeight, 10, new Size(7, 7), new Size(11, 11), 2, 5);
 
             this.createMap(builder, mapWidth, mapHeight);
 

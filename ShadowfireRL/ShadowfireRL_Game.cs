@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using RoguelikeFramework;
 using RoguelikeFramework.view;
 using RogueLikeMapBuilder;
@@ -55,7 +56,7 @@ namespace ShadowfireRL {
         public void createMap(int w, int h) {
             csMapbuilder builder = null;
             //while (true) {
-            builder = new csMapbuilder(w, h);
+            builder = new csMapbuilder(w, h, 16, new Size(5, 5), new Size(15, 15), 3, 5);
             if (builder.Build_OneStartRoom()) {
                 //break;
             }

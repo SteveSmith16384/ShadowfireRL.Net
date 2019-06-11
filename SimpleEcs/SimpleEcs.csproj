@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{6F64D258-68C8-4BF4-B740-EACA38B06B1D}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>SimpleEcs</RootNamespace>
     <AssemblyName>SimpleEcs</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>

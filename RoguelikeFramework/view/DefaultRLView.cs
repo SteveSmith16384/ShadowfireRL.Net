@@ -6,7 +6,7 @@ namespace RoguelikeFramework.view {
     {
         // The screen height and width are in number of tiles
         private const int _screenWidth = 100;
-        private const int _screenHeight = 70;
+        private const int _screenHeight = 80;
         public RLRootConsole rootConsole;
 
         // The map console takes up most of the screen and is where the map will be drawn

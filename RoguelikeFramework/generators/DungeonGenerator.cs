@@ -41,7 +41,6 @@ namespace RogueLikeMapBuilder {
 
         //corridor properties
         public int MinCorridorLength { get; set; }
-        //[Category("Corridor"), Description("Maximum corridor length"), DisplayName("Maximum length")]
         public int MaxCorridorLength { get; set; }
         //[Category("Corridor"), Description("Maximum turns"), DisplayName("Maximum turns")]
         public int Corridor_MaxTurns { get; set; }
@@ -88,22 +87,22 @@ namespace RogueLikeMapBuilder {
 
         Random rnd = new Random();
 
-        public csMapbuilder(int x, int y) {
+        public csMapbuilder(int x, int y, int rooms, Size minRoomSize, Size maxRoomSize, int minCorrLength, int maxCorrLength) {
             this.Map_Size = new Size(x, y);
             this.map = new int[this.Map_Size.Width, this.Map_Size.Height];
-            this.Corridor_MaxTurns = 5;
-            this.Room_Min_Size = new Size(3, 3);
-            this.Room_Max_Size = new Size(15, 15);
-            this.MinCorridorLength = 5;
-            this.MaxCorridorLength = 15;
-            this.MaxRooms = 5;
+            this.Corridor_MaxTurns = 3;
+            this.Room_Min_Size = minRoomSize;// new Size(3, 3);
+            this.Room_Max_Size = maxRoomSize;// new Size(15, 15);
+            this.MinCorridorLength = minCorrLength;// 5;
+            this.MaxCorridorLength = maxCorrLength;// 15;
+            this.MaxRooms = rooms;
 
-            this.MinRoomDistance = 5;
-            this.MinCorridorDistance = 5;
-            this.CorridorSpace = 3;
+            this.MinRoomDistance = 1;// 2;
+            this.MinCorridorDistance = 1;// 2;// 5;
+            this.CorridorSpace = 1;// 2;// 3;
 
             this.BuildProb = 50;
-            this.BreakOut = 250;
+            this.BreakOut = 500;
         }
 
         /// <summary>
@@ -115,8 +114,8 @@ namespace RogueLikeMapBuilder {
             this.lBuilltCorridors = new List<Point>();
 
             this.map = new int[this.Map_Size.Width, this.Map_Size.Height];
-            for (int x = 0; x < this.Map_Size.Width; x++)
-                for (int y = 0; y < this.Map_Size.Width; y++)
+            for (int y = 0; y < this.Map_Size.Height; y++)
+                for (int x = 0; x < this.Map_Size.Width; x++)
                     this.map[x, y] = this.filledcell;
         }
 
@@ -258,8 +257,7 @@ namespace RogueLikeMapBuilder {
 
                     //room at the top of the map
                     this.rctCurrentRoom = new Rectangle() {
-                        Width = this.rnd.Next(this.Room_Min_Size.Width, this.Room_Max_Size.Width)
-                                ,
+                        Width = this.rnd.Next(this.Room_Min_Size.Width, this.Room_Max_Size.Width),
                         Height = this.rnd.Next(this.Room_Min_Size.Height, this.Room_Max_Size.Height)
                     };
                     this.rctCurrentRoom.X = this.rnd.Next(0, this.Map_Size.Width - this.rctCurrentRoom.Width);
@@ -319,8 +317,7 @@ namespace RogueLikeMapBuilder {
         /// </summary>
         private bool Room_AttemptBuildOnCorridor(Point pDirection) {
             this.rctCurrentRoom = new Rectangle() {
-                Width = this.rnd.Next(this.Room_Min_Size.Width, this.Room_Max_Size.Width)
-                    ,
+                Width = this.rnd.Next(this.Room_Min_Size.Width, this.Room_Max_Size.Width),
                 Height = this.rnd.Next(this.Room_Min_Size.Height, this.Room_Max_Size.Height)
             };
 
@@ -676,65 +673,8 @@ namespace RogueLikeMapBuilder {
         #endregion
 
         public delegate void moveDelegate();
-        public event moveDelegate playerMoved;
+        //public event moveDelegate playerMoved;
 
     }
 
-    /*
-    public class Rectangle {
-
-        public int X, Y, Width, Height;
-
-        public int Left {
-            get {
-                return this.X;
-            }
-        }
-
-        public int Right {
-            get {
-                return this.X + this.Width ;
-            }
-        }
-
-
-        public int Top {
-            get {
-                return this.Y;
-            }
-        }
-
-        public int Bottom {
-            get {
-                return this.Y + this.Height;
-            }
-        }
-
-
-        public void Inflate(int ox, int oy) {
-            this.X -= ox;
-            this.Width += ox * 2;
-
-            this.Y -= oy;
-            this.Height += oy * 2;
-        }
-
-
-        public bool IntersectsWith(Rectangle b) {
-            return this.Left < b.Right && b.Left < this.Right
-                    && this.Top > b.Bottom && b.Top > this.Bottom; // Switch these if the origin is top-left, not bottom-left!
-        }
-
-
-        public bool Contains(int x, int y) {
-            return this.Left < this.Right && this.Top > this.Bottom  // check for empty first
-                    && x >= this.Left && x < this.Right && y <= this.Top && y > this.Bottom;
-        }
-
-
-        public bool Contains(Point p) {
-            return this.Contains(p.x, p.y);
-        }
-
-    }*/
 }
