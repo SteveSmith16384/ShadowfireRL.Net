@@ -40,8 +40,7 @@ namespace AlienRL {
 
             Rectangle startRoom = builder.rctBuiltRooms[0];
             int unitStartX = startRoom.X;
-            int unitStartY = startRoom.Y;// mapHeight / 2;
-
+            int unitStartY = startRoom.Y;
 
             this.currentUnit = this.entityFactory.CreatePlayersUnit("Dallas", 1, unitStartX, unitStartY, 100);
             var gun = this.entityFactory.CreateGunItem();
@@ -52,7 +51,9 @@ namespace AlienRL {
             var gun2 = this.entityFactory.CreateGunItem();
             this.entityFactory.AddEntityToMap(gun2, unitStartX, unitStartY + 1);
 
-            this.entityFactory.createAlien(builder.rctBuiltRooms[1].X, builder.rctBuiltRooms[1].Y);
+            this.entityFactory.CreateAlien(builder.rctBuiltRooms[1].X, builder.rctBuiltRooms[1].Y);
+
+            this.entityFactory.CreateJones(builder.rctBuiltRooms[2].X, builder.rctBuiltRooms[2].Y);
         }
 
 
@@ -90,7 +91,7 @@ namespace AlienRL {
 
 
         public override bool drawEverything() {
-            return AlienSettings.DRAW_ALL;
+            return AlienSettings.DEBUG_DRAW_ALL;
         }
 
     }

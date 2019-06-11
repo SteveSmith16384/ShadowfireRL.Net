@@ -6,6 +6,7 @@ namespace RoguelikeFramework.models {
 
         private List<string> entries = new List<string>();
         private int max;
+
         public GameLog(int m) {
             this.max = m;
         }

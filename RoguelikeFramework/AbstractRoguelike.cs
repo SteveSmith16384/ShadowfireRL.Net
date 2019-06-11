@@ -3,6 +3,7 @@ using RoguelikeFramework.components;
 using RoguelikeFramework.models;
 using RoguelikeFramework.systems;
 using RoguelikeFramework.view;
+using SimpleEcs;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -10,9 +11,9 @@ using System.Text;
 
 namespace RoguelikeFramework {
 
-    public abstract class AbstractRoguelike : IDataForView, IDebugSettings {
+    public abstract class AbstractRoguelike : IEcsEventListener, IDataForView, IDebugSettings {
 
-        public enum InputMode { Normal, SelectItemFromInv, SelectItemFromFloor, SelectMapPoint, ActivatingCurrentItem };
+        public enum InputMode { Normal, SelectItemFromInv, SelectItemFromFloor, SelectMapPoint, ActivatingCurrentItem, SelectShotTarget };
         public enum InputSubMode { None, ThrowingItem, DroppingItem, PickingUpItem, SelectingDestination };
 
         protected BasicEcs ecs;
@@ -40,7 +41,7 @@ namespace RoguelikeFramework {
         protected Dictionary<int, AbstractEntity> menuItemList = new Dictionary<int, AbstractEntity>(); // For when selecting item to pick up etc...
 
         public AbstractRoguelike(int maxLogEntries) {
-            this.ecs = new BasicEcs();
+            this.ecs = new BasicEcs(this);
             this.mapData = new MapData();
             this.gameLog = new GameLog(maxLogEntries);
 
@@ -53,7 +54,7 @@ namespace RoguelikeFramework {
             this.ecs.systems.Add(new ShootOnSightSystem(this.checkVisibilitySystem, this.ecs.entities));
 
             this.checkVisibilitySystem.process(this.playersUnits.Values);
-            this.damageSystem = new DamageSystem();
+            this.damageSystem = new DamageSystem(this.gameLog);
             this.closeCombatSystem = new CloseCombatSystem(this.damageSystem);
             this.ecs.systems.Add(new MovementSystem(this.mapData, this.checkVisibilitySystem, this.closeCombatSystem));
             this.explosionSystem = new ExplosionSystem(this.checkVisibilitySystem, this.damageSystem, this.mapData, this.ecs.entities);
@@ -75,8 +76,6 @@ namespace RoguelikeFramework {
                 return;
             }
 
-            bool action_performed = false; // todo - remove this?
-
             switch (keyPress.Key) {
 
                 case RLKey.Number1:
@@ -96,7 +95,6 @@ namespace RoguelikeFramework {
                             this.gameLog.Add("item picked up");
                             this.currentInputMode = InputMode.Normal;
                             this.menuItemList.Clear();
-                            action_performed = true;
                         }
                     } else if (this.currentInputMode == InputMode.SelectItemFromInv) {
                         if (this.currentInputSubMode == InputSubMode.DroppingItem) {
@@ -105,7 +103,6 @@ namespace RoguelikeFramework {
                             this.gameLog.Add("item dropped up");
                             this.currentInputMode = InputMode.Normal;
                             this.menuItemList.Clear();
-                            action_performed = true;
                         }
                     } else if (this.currentInputMode == InputMode.ActivatingCurrentItem) {
                         TimerCanBeSetComponent tcbsc = (TimerCanBeSetComponent)this.currentUnit.GetComponent(nameof(TimerCanBeSetComponent));
@@ -113,7 +110,6 @@ namespace RoguelikeFramework {
                             tcbsc.activated = true;
                             tcbsc.timeLeft = idx;
                             this.gameLog.Add("Timer set for " + idx);
-                            action_performed = true;
                         } else {
                             this.gameLog.Add("Timer already set!");
                         }
@@ -126,28 +122,24 @@ namespace RoguelikeFramework {
                         MovementDataComponent m = (MovementDataComponent)this.currentUnit.GetComponent(nameof(MovementDataComponent));
                         m.dest = null;
                         m.offY = -1;
-                        action_performed = true;
                         break;
                     }
                 case RLKey.Down: {
                         MovementDataComponent m = (MovementDataComponent)this.currentUnit.GetComponent(nameof(MovementDataComponent));
                         m.dest = null;
                         m.offY = 1;
-                        action_performed = true;
                         break;
                     }
                 case RLKey.Left: {
                         MovementDataComponent m = (MovementDataComponent)this.currentUnit.GetComponent(nameof(MovementDataComponent));
                         m.dest = null;
                         m.offX = -1;
-                        action_performed = true;
                         break;
                     }
                 case RLKey.Right: {
                         MovementDataComponent m = (MovementDataComponent)this.currentUnit.GetComponent(nameof(MovementDataComponent));
                         m.dest = null;
                         m.offX = 1;
-                        action_performed = true;
                         break;
                     }
 
@@ -156,7 +148,6 @@ namespace RoguelikeFramework {
                         if (mdc.actionPoints > 0) {
                             mdc.actionPoints -= 100;
                         }
-                        action_performed = true;
                         break;
                     }
 
@@ -191,6 +182,11 @@ namespace RoguelikeFramework {
                         this.currentInputMode = InputMode.SelectMapPoint;
                         this.currentInputSubMode = InputSubMode.ThrowingItem;
                         this.gameLog.Add("Select where to throw");
+                        break;
+                    }
+
+                case RLKey.U: { // Use (e.g. shoot)
+                        UseCurrentItem();
                         break;
                     }
 
@@ -277,7 +273,6 @@ namespace RoguelikeFramework {
                 if (action_performed) {
                     this.SingleGameLoop();
                 }
-                //this.checkVisibilitySystem.process(this.playersUnits.Values);
 
             } else {
                 this.hoverText = this.GetSquareDesc(mouse.X, mouse.Y);
@@ -385,5 +380,23 @@ namespace RoguelikeFramework {
         public virtual bool drawEverything() {
             return false;
         }
+
+
+        private void UseCurrentItem() {
+            ItemCanShootComponent icsc = (ItemCanShootComponent)this.currentUnit.GetComponent(nameof(ItemCanShootComponent));
+            // todo if
+        }
+
+        public void EneityRemoved(AbstractEntity entity) {
+            if (entity == this.currentUnit) {
+                // todo this.playersUnits.re.rem.Remove(entity);
+                if (this.playersUnits.Count > 0) {
+                    this.currentUnit = this.playersUnits[0];
+                } else {
+                    // todo - game over!
+                }
+            }
+        }
     }
+
 }

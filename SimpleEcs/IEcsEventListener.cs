@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShadowfireRL {
-    public class ShadowfireSettings {
+namespace SimpleEcs {
+    public interface IEcsEventListener {
 
-        public const bool DEBUG_DRAW_ALL = false;
-
+        void EneityRemoved(AbstractEntity entity);
     }
-
 }

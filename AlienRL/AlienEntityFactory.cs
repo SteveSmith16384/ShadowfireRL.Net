@@ -12,7 +12,7 @@ namespace AlienRL {
         }
 
 
-        public AbstractEntity createAlien(int x, int y) {
+        public AbstractEntity CreateAlien(int x, int y) {
             AbstractEntity e = new AbstractEntity("Alien");
             e.AddComponent(new PositionComponent(e, this.map_data, x, y, true, true));
             e.AddComponent(new MovementDataComponent());
@@ -20,6 +20,18 @@ namespace AlienRL {
             e.AddComponent(new AlienComponent());
             e.AddComponent(new MobDataComponent(1, 150));
             e.AddComponent(new AttackAttackableComponent(30, 30));
+            this.ecs.entities.Add(e);
+            return e;
+        }
+
+
+        public AbstractEntity CreateJones(int x, int y) {
+            AbstractEntity e = new AbstractEntity("Alien");
+            e.AddComponent(new PositionComponent(e, this.map_data, x, y, true, true));
+            e.AddComponent(new MovementDataComponent());
+            e.AddComponent(new GraphicComponent('C', RLColor.Gray, RLColor.Black, ' ', 10));
+            e.AddComponent(new JonesTheCatComponent());
+            e.AddComponent(new MobDataComponent(1, 175));
             this.ecs.entities.Add(e);
             return e;
         }

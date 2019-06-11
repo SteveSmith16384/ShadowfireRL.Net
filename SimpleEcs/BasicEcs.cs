@@ -1,14 +1,16 @@
+using SimpleEcs;
 using System.Collections.Generic;
 
 public class BasicEcs {
 
 	public List<AbstractSystem> systems = new List<AbstractSystem>();
 	public List<AbstractEntity> entities = new List<AbstractEntity>(); // todo - use dictionary with entity id
-	
-	
-	public BasicEcs() {
+    private IEcsEventListener eventListener;
 
-	}
+    public BasicEcs(IEcsEventListener _eventListener) {
+        eventListener = _eventListener;
+
+    }
 	
 	
 	public void process() {
@@ -16,6 +18,7 @@ public class BasicEcs {
         foreach(AbstractEntity entity in this.entities) {
             if (entity.markForRemoval) {
                 this.entities.Remove(entity);
+                eventListener.EneityRemoved(entity);
             }
         }
 

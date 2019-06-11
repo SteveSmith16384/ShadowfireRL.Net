@@ -1,4 +1,5 @@
 ﻿namespace RoguelikeFramework.components {
+
     public class ItemCanShootComponent : AbstractComponent {
 
         public float range, power;

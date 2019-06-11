@@ -67,20 +67,20 @@ namespace RoguelikeFramework.view {
             // Set background color and text for each console 
             // so that we can verify they are in the correct positions
             this.mapConsole.SetBackColor(0, 0, _mapWidth, _mapHeight, RLColor.Black);
-            this.mapConsole.Print(1, 1, "Map", RLColor.White);
+            //this.mapConsole.Print(1, 1, "Map", RLColor.White);
 
             /*this._mapConsole.Set(2, 2, RLColor.Red, RLColor.Green, 'L');
             RLCell cell = new RLCell(RLColor.Yellow, RLColor.Brown, 'X');
             this._mapConsole.Set(3, 3, cell);*/
 
             this.messageConsole.SetBackColor(0, 0, _messageWidth, _messageHeight, RLColor.Gray);
-            this.messageConsole.Print(1, 1, "Messages", RLColor.White);
+            //this.messageConsole.Print(1, 1, "Messages", RLColor.White);
 
             this.statConsole.SetBackColor(0, 0, _statWidth, _statHeight, RLColor.Brown);
-            this.statConsole.Print(1, 1, "Stats", RLColor.White);
+            //this.statConsole.Print(1, 1, "Stats", RLColor.White);
 
             this.crewListConsole.SetBackColor(0, 0, crewListWidth, crewListHeight, RLColor.Cyan);
-            this.crewListConsole.Print(1, 1, "Crew", RLColor.White);
+            //this.crewListConsole.Print(1, 1, "Crew", RLColor.White);
 
             this.game.Repaint();
 

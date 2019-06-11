@@ -74,6 +74,8 @@
     <Compile Include="components\TimerCanBeSetComponent.cs" />
     <Compile Include="components\UseableComponent.cs" />
     <Compile Include="ECSHelper.cs" />
+    <Compile Include="effects\BulletEffect.cs" />
+    <Compile Include="effects\ExplosionEffect.cs" />
     <Compile Include="generators\DungeonGenerator.cs" />
     <Compile Include="GeometryFunctions.cs" />
     <Compile Include="IDebugSettings.cs" />

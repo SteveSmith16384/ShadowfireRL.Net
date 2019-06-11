@@ -55,7 +55,7 @@ namespace RoguelikeFramework {
             e.AddComponent(new GraphicComponent('1', RLColor.Green, RLColor.Black, ' ', 10));
             e.AddComponent(new CanCarryComponent(10));
             e.AddComponent(new PlayersUnitData(num));
-            e.AddComponent(new ShootOnSightComponent());
+            //e.AddComponent(new ShootOnSightComponent());
             e.AddComponent(new MobDataComponent(0, aps));
             e.AddComponent(new AttackAttackableComponent(10, 5));
 
@@ -86,6 +86,8 @@ namespace RoguelikeFramework {
             gun.AddComponent(new GraphicComponent('L', RLColor.Yellow, RLColor.Black, ' ', 5));
             gun.AddComponent(new CarryableComponent(1f));
             gun.AddComponent(new ItemCanShootComponent(99f, 10f));
+            //gun.AddComponent(new UseableComponent());
+            
             this.ecs.entities.Add(gun);
             return gun;
         }

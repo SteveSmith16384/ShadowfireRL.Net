@@ -28,10 +28,12 @@ namespace ShadowfireRL {
         protected override void CreateData() {
             this.entityFactory = new ShadowfireEntityFactory(this, this.ecs, this.mapData);
 
-            int mapWidth = 50;
-            int mapHeight = 50;
+            int mapWidth = 75;
+            int mapHeight = 65;
 
-            this.createMap(mapWidth, mapHeight);
+            csMapbuilder builder = new csMapbuilder(mapWidth, mapHeight, 16, new Size(5, 5), new Size(15, 15), 3, 5);
+
+            this.createMap(builder, mapWidth, mapHeight);
 
             int unitStartX = mapWidth / 2;
             int unitStartY = mapHeight / 2;
@@ -49,14 +51,15 @@ namespace ShadowfireRL {
             var grenade = this.entityFactory.CreateGrenadeItem();
             this.entityFactory.AddEntityToMap(grenade, unitStartX + 3, unitStartY + 1);
 
-            this.entityFactory.createEnemyUnit("Zoff", 20, 20, 90); // todo
+            for (int i = 1; i < builder.rctBuiltRooms.Count; i++) {
+                Rectangle r = builder.rctBuiltRooms[i];
+                this.entityFactory.createEnemyUnit("Zoff", r.X, r.Y, 90);
+            }
         }
 
 
-        public void createMap(int w, int h) {
-            csMapbuilder builder = null;
+        public void createMap(csMapbuilder builder, int w, int h) {
             //while (true) {
-            builder = new csMapbuilder(w, h, 16, new Size(5, 5), new Size(15, 15), 3, 5);
             if (builder.Build_OneStartRoom()) {
                 //break;
             }
@@ -87,7 +90,7 @@ namespace ShadowfireRL {
 
 
         public override bool drawEverything() {
-            return ShadowfireSettings.DRAW_ALL;
+            return ShadowfireSettings.DEBUG_DRAW_ALL;
         }
 
     }

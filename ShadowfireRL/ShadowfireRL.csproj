@@ -53,8 +53,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="effects\BulletEffect.cs" />
-    <Compile Include="effects\ExplosionEffect.cs" />
     <Compile Include="ShadowfireEntityFactory.cs" />
     <Compile Include="ShadowfireRL_Game.cs" />
     <Compile Include="ShadowfireSettings.cs" />

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace AlienRL {
     public class AlienSettings {
 
-        public const bool DRAW_ALL = true;
+        public const bool DEBUG_DRAW_ALL = false;
 
     }
 
