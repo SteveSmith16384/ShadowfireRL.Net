@@ -4,6 +4,7 @@ using RoguelikeFramework.components;
 using RoguelikeFramework.systems;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace AlienRL.systems {
 
@@ -33,12 +34,20 @@ namespace AlienRL.systems {
                 if (us.actionPoints > 0) {
                     PositionComponent pos = (PositionComponent)entity.GetComponent(nameof(PositionComponent));
                     AbstractEntity target = this.GetTarget(pos.x, pos.y, us.side);
+                    MovementDataComponent mdc = (MovementDataComponent)entity.GetComponent(nameof(MovementDataComponent));
                     if (target != null) {
                         Console.WriteLine($"Alien can see {target.name}");
                         PositionComponent targetPos = (PositionComponent)target.GetComponent(nameof(PositionComponent));
-                        MovementDataComponent mdc = (MovementDataComponent)entity.GetComponent(nameof(MovementDataComponent));
-                        mdc.dest = Misc.GetLine(pos.x, pos.y, targetPos.x, targetPos.y);
+                        mdc.route = Misc.GetLine(pos.x, pos.y, targetPos.x, targetPos.y);
+                        sosc.moveWhenNoEnemy = true;
                     } else {
+                        if (sosc.moveWhenNoEnemy) {
+                            sosc.moveWhenNoEnemy = false;
+
+                            MovementSystem ms = (MovementSystem)this.ecs.GetSystem(nameof(MovementSystem));
+                            Point p = ms.GetRandomAccessibleSquare();
+                            mdc.route = ms.GetAStarRoute(pos.x, pos.y, p.X, p.Y);
+                        }
                         us.actionPoints -= 100; // Waiting....
                     }
                 }

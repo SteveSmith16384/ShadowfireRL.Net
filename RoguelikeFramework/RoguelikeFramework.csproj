@@ -50,10 +50,9 @@
     <Compile Include="AbstractEntityFactory.cs" />
     <Compile Include="AbstractRoguelike.cs" />
     <Compile Include="astar\AStar.cs" />
-    <Compile Include="astar\Grid2D.cs" />
-    <Compile Include="astar\GridNode.cs" />
-    <Compile Include="astar\INode.cs" />
-    <Compile Include="astar\SortedListExtensions.cs" />
+    <Compile Include="astar\IAStarMapInterface.cs" />
+    <Compile Include="astar\Node.cs" />
+    <Compile Include="astar\PriorityList.cs" />
     <Compile Include="components\ActionPointsData.cs" />
     <Compile Include="components\AttackAttackableComponent.cs" />
     <Compile Include="components\DoorComponent.cs" />

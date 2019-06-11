@@ -6,7 +6,7 @@ namespace RoguelikeFramework.components {
     public class MovementDataComponent : AbstractComponent {
 
         public int offX, offY;
-        public List<Point> dest; // Movement path
+        public List<Point> route; // Movement path
 
     }
 }

@@ -122,25 +122,25 @@ namespace RoguelikeFramework {
 
                 case RLKey.Up: {
                         MovementDataComponent m = (MovementDataComponent)this.currentUnit.GetComponent(nameof(MovementDataComponent));
-                        m.dest = null;
+                        m.route = null;
                         m.offY = -1;
                         break;
                     }
                 case RLKey.Down: {
                         MovementDataComponent m = (MovementDataComponent)this.currentUnit.GetComponent(nameof(MovementDataComponent));
-                        m.dest = null;
+                        m.route = null;
                         m.offY = 1;
                         break;
                     }
                 case RLKey.Left: {
                         MovementDataComponent m = (MovementDataComponent)this.currentUnit.GetComponent(nameof(MovementDataComponent));
-                        m.dest = null;
+                        m.route = null;
                         m.offX = -1;
                         break;
                     }
                 case RLKey.Right: {
                         MovementDataComponent m = (MovementDataComponent)this.currentUnit.GetComponent(nameof(MovementDataComponent));
-                        m.dest = null;
+                        m.route = null;
                         m.offX = 1;
                         break;
                     }
@@ -176,7 +176,7 @@ namespace RoguelikeFramework {
 
                 case RLKey.S: // Stop moving
                     var md = (MovementDataComponent)this.currentUnit.GetComponent(nameof(MobDataComponent));
-                    md.dest = null;
+                    md.route = null;
                     this.gameLog.Add("Movement stopped");
                     break;
 
@@ -223,7 +223,7 @@ namespace RoguelikeFramework {
                 MobDataComponent mdc = (MobDataComponent)unit.GetComponent(nameof(MobDataComponent));
                 if (mdc.actionPoints > 0) {
                     MovementDataComponent moveData = (MovementDataComponent)unit.GetComponent(nameof(MovementDataComponent));
-                    if (moveData.dest == null || moveData.dest.Count == 0) {
+                    if (moveData.route == null || moveData.route.Count == 0) {
                         return; // They still have spare APs and no dest, so don't do anything and wait for the player
                     }
                 }
@@ -266,7 +266,7 @@ namespace RoguelikeFramework {
                     if (this.currentInputSubMode == InputSubMode.SelectingDestination) {
                         var pos = (PositionComponent)this.currentUnit.GetComponent(nameof(PositionComponent));
                         var md = (MovementDataComponent)this.currentUnit.GetComponent(nameof(MovementDataComponent));
-                        md.dest = Misc.GetLine(pos.x, pos.y, mouse.X, mouse.Y);
+                        md.route = Misc.GetLine(pos.x, pos.y, mouse.X, mouse.Y);
                         this.gameLog.Add("Destination selected");
                         this.currentInputMode = InputMode.Normal;
                     } else if (this.currentInputSubMode == InputSubMode.ThrowingItem) {
