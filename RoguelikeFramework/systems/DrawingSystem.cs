@@ -74,7 +74,7 @@ namespace RoguelikeFramework.systems {
             int yPos = 1;
             this.view.crewListConsole.Print(0, yPos, "CREW LIST", RLColor.White);
             int idx = 1;
-            foreach (AbstractEntity e in this.viewData.GetUnits().Values) {
+            foreach (AbstractEntity e in this.viewData.GetUnits()) {
                 RLColor c = RLColor.White;
                 if (e == this.viewData.GetCurrentUnit()) {
                     c = RLColor.Yellow; // Highlight selected unit

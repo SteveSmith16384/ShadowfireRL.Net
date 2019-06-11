@@ -14,7 +14,7 @@ namespace RoguelikeFramework.view {
 
         List<Point> GetLine();
 
-        Dictionary<int, AbstractEntity> GetUnits();
+        List<AbstractEntity> GetUnits();
 
         Dictionary<int, AbstractEntity> GetItemSelectionList();
 

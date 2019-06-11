@@ -36,7 +36,7 @@ namespace RoguelikeFramework {
         private CloseCombatSystem closeCombatSystem;
 
         protected AbstractEntity currentUnit;
-        public Dictionary<int, AbstractEntity> playersUnits = new Dictionary<int, AbstractEntity>();
+        public List<AbstractEntity> playersUnits = new List<AbstractEntity>();
 
         protected Dictionary<int, AbstractEntity> menuItemList = new Dictionary<int, AbstractEntity>(); // For when selecting item to pick up etc...
 
@@ -53,7 +53,7 @@ namespace RoguelikeFramework {
             this.checkVisibilitySystem = new CheckMapVisibilitySystem(this.mapData);
             this.ecs.systems.Add(new ShootOnSightSystem(this.checkVisibilitySystem, this.ecs.entities));
 
-            this.checkVisibilitySystem.process(this.playersUnits.Values);
+            this.checkVisibilitySystem.process(this.playersUnits);
             this.damageSystem = new DamageSystem(this.gameLog);
             this.closeCombatSystem = new CloseCombatSystem(this.damageSystem);
             this.ecs.systems.Add(new MovementSystem(this.mapData, this.checkVisibilitySystem, this.closeCombatSystem));
@@ -186,7 +186,7 @@ namespace RoguelikeFramework {
                     }
 
                 case RLKey.U: { // Use (e.g. shoot)
-                        UseCurrentItem();
+                        this.UseCurrentItem();
                         break;
                     }
 
@@ -201,13 +201,13 @@ namespace RoguelikeFramework {
             //if (action_performed) {
             this.SingleGameLoop();
             //}
-            this.checkVisibilitySystem.process(this.playersUnits.Values);
+            this.checkVisibilitySystem.process(this.playersUnits);
         }
 
 
         protected void SelectUnit(int num) {
-            if (this.playersUnits.ContainsKey(num)) {
-                this.currentUnit = this.playersUnits[num];
+            if (num <= this.playersUnits.Count) {
+                this.currentUnit = this.playersUnits[num-1];
                 this.gameLog.Add(this.currentUnit.name + " selected");
             }
         }
@@ -217,7 +217,7 @@ namespace RoguelikeFramework {
             this.ecs.process(); // To move the player's units
             //while (true) {
             // Check at least one player's entity has > 100 APs
-            foreach (var unit in this.playersUnits.Values) {
+            foreach (var unit in this.playersUnits) {
                 MobDataComponent mdc = (MobDataComponent)unit.GetComponent(nameof(MobDataComponent));
                 if (mdc.actionPoints > 0) {
                     // todo - select unit if current unit has no APs left?
@@ -226,11 +226,11 @@ namespace RoguelikeFramework {
             }
             while (true) {
                 foreach (var e in this.ecs.entities) {
-                    if (this.playersUnits.ContainsValue(e) == false) { // Don't check player's units
+                    if (this.playersUnits.Contains(e) == false) { // Don't check player's units
                         MobDataComponent mdc = (MobDataComponent)e.GetComponent(nameof(MobDataComponent));
                         if (mdc != null) {
                             if (mdc.actionPoints > 0) {// They still have spare APs
-                                Console.WriteLine($"{e.name} still has APs");
+                                //Console.WriteLine($"{e.name} still has APs");
                                 this.ecs.process();
                                 // todo - sleep for a sec so the player can see what's going on
                                 continue;
@@ -320,7 +320,7 @@ namespace RoguelikeFramework {
             return this.line;
         }
 
-        public Dictionary<int, AbstractEntity> GetUnits() {
+        public List<AbstractEntity> GetUnits() {
             return this.playersUnits;
         }
 

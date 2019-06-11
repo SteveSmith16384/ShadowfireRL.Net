@@ -8,7 +8,7 @@ public class BasicEcs {
     private IEcsEventListener eventListener;
 
     public BasicEcs(IEcsEventListener _eventListener) {
-        eventListener = _eventListener;
+        this.eventListener = _eventListener;
 
     }
 	
@@ -18,7 +18,7 @@ public class BasicEcs {
         foreach(AbstractEntity entity in this.entities) {
             if (entity.markForRemoval) {
                 this.entities.Remove(entity);
-                eventListener.EneityRemoved(entity);
+                this.eventListener.EneityRemoved(entity);
             }
         }
 

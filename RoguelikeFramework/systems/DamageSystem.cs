@@ -16,9 +16,9 @@ namespace RoguelikeFramework.systems {
             HealthComponent hc = (HealthComponent)entity.GetComponent(nameof(HealthComponent));
             if (hc != null) {
                 hc.health -= damage;
-                log.Add($"{entity.name} has been wounded {damage}: {reason}");
+                this.log.Add($"{entity.name} has been wounded {damage}: {reason}");
                 if (hc.health <= 0) {
-                    log.Add($"{entity.name} has been killed");
+                    this.log.Add($"{entity.name} has been killed");
                     entity.markForRemoval = true;
                 }
             }

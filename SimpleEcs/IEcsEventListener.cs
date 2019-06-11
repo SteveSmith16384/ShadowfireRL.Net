@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SimpleEcs {
+
     public interface IEcsEventListener {
 
         void EneityRemoved(AbstractEntity entity);

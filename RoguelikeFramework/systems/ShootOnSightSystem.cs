@@ -8,9 +8,11 @@ namespace RoguelikeFramework.systems {
 
         private List<AbstractEntity> entities;
         private readonly CheckMapVisibilitySystem cmvs;
+        private ShootingSystem shootingSystem;
 
-        public ShootOnSightSystem(CheckMapVisibilitySystem _cmvs, List<AbstractEntity> _entities) {
+        public ShootOnSightSystem(CheckMapVisibilitySystem _cmvs, ShootingSystem _shootingSystem, List<AbstractEntity> _entities) {
             this.cmvs = _cmvs;
+            this.shootingSystem = _shootingSystem;
             this.entities = _entities;
         }
 
@@ -27,8 +29,7 @@ namespace RoguelikeFramework.systems {
                         // todo - check APs
                         AbstractEntity target = this.GetTarget(pos.x, pos.y, us.side);
                         if (target != null) {
-                            Console.WriteLine($"Target {target.name} shot by {entity.name}");
-                            // todo - calc acc, damage etc...
+                            this.shootingSystem.EntityShotByEntity(entity, target);
                         }
                     }
                 }

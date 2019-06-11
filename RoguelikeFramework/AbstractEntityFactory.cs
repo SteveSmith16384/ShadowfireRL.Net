@@ -61,7 +61,7 @@ namespace RoguelikeFramework {
 
             this.ecs.entities.Add(e);
 
-            this.game.playersUnits.Add(num, e);
+            this.game.playersUnits.Add(e);
 
             return e;
         }

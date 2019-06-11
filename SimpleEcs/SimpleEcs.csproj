@@ -51,6 +51,7 @@
     <Compile Include="AbstractEntity.cs" />
     <Compile Include="AbstractSystem.cs" />
     <Compile Include="BasicEcs.cs" />
+    <Compile Include="IEcsEventListener.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
