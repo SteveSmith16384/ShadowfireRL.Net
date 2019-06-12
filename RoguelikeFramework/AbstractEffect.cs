@@ -23,7 +23,7 @@ namespace RoguelikeFramework {
                 this.subprocess();
                 this.frameTimeLeft = this.frameInterval;
             }
-            lastTick = thisTick;
+            this.lastTick = thisTick;
         }
 
         protected abstract void subprocess();

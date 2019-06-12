@@ -64,7 +64,7 @@ namespace AlienRL.systems {
         private AbstractEntity GetTarget(int ourX, int ourY, int ourSide) {
             foreach (var e in this.entities) {
                 MobDataComponent att = (MobDataComponent)e.GetComponent(nameof(MobDataComponent));
-                if (att != null && att.side != ourSide) {
+                if (att != null && att.side != ourSide && att.side >= 0) {
                     PositionComponent pos = (PositionComponent)e.GetComponent(nameof(PositionComponent));
                     if (pos != null) {
                         if (this.cmvs.CanSee(ourX, ourY, pos.x, pos.y)) {

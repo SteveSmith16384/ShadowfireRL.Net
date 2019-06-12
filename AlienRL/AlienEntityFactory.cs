@@ -32,7 +32,7 @@ namespace AlienRL {
             e.AddComponent(new GraphicComponent('J', RLColor.Brown, RLColor.Black, ' ', 10));
             e.AddComponent(new JonesTheCatComponent());
             e.AddComponent(new CarryableComponent(2));            
-            e.AddComponent(new MobDataComponent(1, 175));
+            e.AddComponent(new MobDataComponent(-1, 150));  // side -1 so the alien doesnt attack
             this.ecs.entities.Add(e);
             return e;
         }

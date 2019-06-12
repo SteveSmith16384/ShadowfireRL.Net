@@ -66,24 +66,28 @@ namespace RoguelikeFramework.systems {
             this.view.mapConsole.Print(1, DefaultRLView._mapHeight - 1, this.viewData.GetHoverText(), RLColor.White);
 
             // Draw crew
+            this.view.crewListConsole.Clear();
             int yPos = 0;
             this.view.crewListConsole.Print(0, yPos, "CREW LIST", RLColor.White);
             yPos++;
             int idx = 1;
             foreach (AbstractEntity e in this.viewData.GetUnits()) {
                 RLColor c = RLColor.White;
+                MobDataComponent mdc = (MobDataComponent)e.GetComponent(nameof(MobDataComponent));
                 if (e == this.viewData.GetCurrentUnit()) {
                     c = RLColor.Yellow; // Highlight selected unit
+                } else if (mdc.actionPoints <= 0) {
+                    c = RLColor.Gray;
                 }
-                MobDataComponent mdc = (MobDataComponent)e.GetComponent(nameof(MobDataComponent));
                 MovementDataComponent move = (MovementDataComponent)e.GetComponent(nameof(MovementDataComponent));
-                string routeIndicator = move.route == null || move.route.Count == 0 ? "(R)" : "";
+                string routeIndicator = move.route == null || move.route.Count == 0 ? "" : "(R)";
                 this.view.crewListConsole.Print(0, yPos, $"{idx}: {e.name} {routeIndicator} ({mdc.actionPoints} APs)", c);
                 yPos++;
                 idx++;
             }
 
             // Draw unit stats or menu selection
+            this.view.statConsole.Clear();
             yPos = 0;
             Dictionary<int, AbstractEntity> items = this.viewData.GetItemSelectionList();
             if (items != null && items.Count > 0) {
@@ -102,12 +106,12 @@ namespace RoguelikeFramework.systems {
             }
 
             // Draw log
+            this.view.logConsole.Clear();
             var log = this.viewData.GetLog();
             int pos = 1;
             foreach (var line in log) {
-                this.view.messageConsole.Print(1, pos++, line, RLColor.White);
+                this.view.logConsole.Print(1, pos++, line, RLColor.White);
             }
-
         }
 
     }

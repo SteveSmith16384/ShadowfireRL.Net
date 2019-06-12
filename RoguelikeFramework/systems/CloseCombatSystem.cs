@@ -11,14 +11,18 @@ namespace RoguelikeFramework.systems {
         }
 
 
-        public void Combat(AbstractEntity e1, List<AbstractEntity> list) {
+        /**
+         * Returns true if combat took place, as opposed to a unit simply walking into a wall.
+         */
+        public bool Combat(AbstractEntity e1, List<AbstractEntity> list) {
             foreach (AbstractEntity e2 in list) {
                 AttackAttackableComponent aac = (AttackAttackableComponent)e2.GetComponent(nameof(AttackAttackableComponent));
                 if (aac != null) {
                     this.DoCombat(e1, e2);
-                    return;
+                    return true;
                 }
             }
+            return false;
         }
 
 

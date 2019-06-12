@@ -8,11 +8,9 @@ namespace RoguelikeFramework.systems {
 
         private List<AbstractEntity> entities;
         private readonly CheckMapVisibilitySystem cmvs;
-        //private ShootingSystem shootingSystem;
 
         public ShootOnSightSystem(BasicEcs ecs, CheckMapVisibilitySystem _cmvs, List<AbstractEntity> _entities) : base(ecs, true) {
             this.cmvs = _cmvs;
-            //this.shootingSystem = _shootingSystem;
             this.entities = _entities;
         }
 
@@ -22,6 +20,7 @@ namespace RoguelikeFramework.systems {
             if (sosc == null) {
                 return;
             }
+
             PositionComponent shooterPos = (PositionComponent)entity.GetComponent(nameof(PositionComponent));
             MobDataComponent us = (MobDataComponent)entity.GetComponent(nameof(MobDataComponent));
             AbstractEntity target = this.GetTarget(shooterPos.x, shooterPos.y, us.side);

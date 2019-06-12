@@ -2,6 +2,7 @@
 using AlienRL.systems;
 using RLNET;
 using RoguelikeFramework;
+using RoguelikeFramework.components;
 using RoguelikeFramework.systems;
 using RoguelikeFramework.view;
 using RogueLikeMapBuilder;
@@ -43,25 +44,36 @@ namespace AlienRL {
 
             this.CreateMap(builder, mapWidth, mapHeight);
 
-            Rectangle startRoom = builder.rctBuiltRooms[0];
-            int unitStartX = startRoom.X;
-            int unitStartY = startRoom.Y;
-
             // Create crew
-            this.currentUnit = this.entityFactory.CreatePlayersUnit('D', "Dallas", 1, unitStartX, unitStartY, 100);
-            var gun = this.entityFactory.CreateGunItem();
-            this.entityFactory.AddEntityToUnit(gun, this.currentUnit);
+            Point p = this.GetRandomSq();
+            this.currentUnit = this.entityFactory.CreatePlayersUnit('B', "Bret", 1, p.X, p.Y, 100);
+            p = this.GetRandomSq();
+            this.entityFactory.CreatePlayersUnit('A', "Ash", 1, p.X, p.Y, 100);
+            p = this.GetRandomSq();
+            this.entityFactory.CreatePlayersUnit('K', "Kane", 1, p.X, p.Y, 100);
+            p = this.GetRandomSq();
+            this.entityFactory.CreatePlayersUnit('L', "Lambert", 1, p.X, p.Y, 100);
+            p = this.GetRandomSq();
+            this.entityFactory.CreatePlayersUnit('D', "Dallas", 1, p.X, p.Y, 100);
+            p = this.GetRandomSq();
+            this.entityFactory.CreatePlayersUnit('R', "Ripley", 1, p.X, p.Y, 100);
+            p = this.GetRandomSq();
+            this.entityFactory.CreatePlayersUnit('P', "Parker", 1, p.X, p.Y, 100);
+            //var gun = this.entityFactory.CreateGunItem();
+            //this.entityFactory.AddEntityToUnit(gun, this.currentUnit);
 
-            this.entityFactory.CreatePlayersUnit('A', "Ash", 2, unitStartX + 1, unitStartY + 1, 100);
-
+            // Add weapons and equipment
             var gun2 = this.entityFactory.CreateGunItem();
-            this.entityFactory.AddEntityToMap(gun2, unitStartX, unitStartY + 1);
+            p = this.GetRandomSq();
+            this.entityFactory.AddEntityToMap(gun2, p.X, p.Y);
 
             // Jones
-            this.entityFactory.CreateJones(builder.rctBuiltRooms[2].X, builder.rctBuiltRooms[2].Y);
+            p = this.GetRandomSq();
+            this.entityFactory.CreateJones(p.X, p.Y);
 
             // Alien
-            this.entityFactory.CreateAlien(builder.rctBuiltRooms[1].X, builder.rctBuiltRooms[1].Y);
+            p = this.GetRandomSq();
+            this.entityFactory.CreateAlien(p.X, p.Y);
 
         }
 
@@ -90,16 +102,27 @@ namespace AlienRL {
             }
 
 
+            Point p = this.GetRandomSq();
+            this.entityFactory.CreateSelfDestructConsole(p.X, p.Y);
+        }
+
+
+        private Point GetRandomSq() {
             MovementSystem ms = (MovementSystem)this.ecs.GetSystem(nameof(MovementSystem));
             Point p = ms.GetRandomAccessibleSquare();
-            this.entityFactory.CreateSelfDestructConsole(p.X, p.Y);
+            return p;
         }
 
 
         protected override List<string> GetStatsFor_Sub(AbstractEntity e) {
             var str = new List<string>();
             str.Add($"Stats for {e.name}");
-            // todo
+            // todo - stats
+
+            CanCarryComponent ccc = (CanCarryComponent)e.GetComponent(nameof(CanCarryComponent));
+            foreach (var item in ccc.GetItems()) {
+                str.Add($"{item.name}");
+            }
             return str;
         }
 

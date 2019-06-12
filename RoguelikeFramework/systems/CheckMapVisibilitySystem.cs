@@ -20,6 +20,7 @@ namespace RoguelikeFramework.systems {
                 return;
             }
             this.ReCheckVisibility = false;
+
             // Set all to hidden initially
             for (int y = 0; y < this.map_data.getHeight(); y++) {
                 for (int x = 0; x < this.map_data.getWidth(); x++) {

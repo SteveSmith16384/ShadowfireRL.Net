@@ -24,12 +24,12 @@ namespace RoguelikeFramework.systems {
                     Point dest = md.route[0];
                     if (pos.x == dest.X && pos.y == dest.Y) {
                         md.route.RemoveAt(0); // We're on the actual square.  This should never happen!
-                    } else if (this.Move(entity, pos, dest)) {
+                    } else if (this.Move(entity, md, pos, dest)) {
                         md.route.RemoveAt(0);
                     }
                 } else if (md.offX != 0 || md.offY != 0) {
                     if (pos.x + md.offX >= 0 && pos.x + md.offX < this.map_data.getWidth() && pos.y + md.offY >= 0 && pos.y + md.offY < this.map_data.getHeight()) {
-                        this.Move(entity, pos, new Point(pos.x + md.offX, pos.y + md.offY));
+                        this.Move(entity, md, pos, new Point(pos.x + md.offX, pos.y + md.offY));
                     }
                     // Reset movement for next turn
                     md.offX = 0;
@@ -39,14 +39,13 @@ namespace RoguelikeFramework.systems {
         }
 
 
-        private bool Move(AbstractEntity entity, PositionComponent p, Point dest) {
-            if (this.IsAccessible(dest.X, dest.Y)) {// this.map_data.map[dest.X, dest.Y])) {
-
+        private bool Move(AbstractEntity entity, MovementDataComponent md, PositionComponent p, Point dest) {
+            if (this.IsAccessible(dest.X, dest.Y)) {
                 MobDataComponent mdc = (MobDataComponent)entity.GetComponent(nameof(MobDataComponent));
                 if (mdc == null || mdc.actionPoints > 0) {
-                    if (entity.name == "Alien") {
+                    /*if (entity.name == "Alien") {
                         Console.WriteLine($"Moving alien.... {mdc.actionPoints} APs left");
-                    }
+                    }*/
 
                     int cost = 50;
                     if (p.x != dest.X && p.y != dest.Y) { // Diagonal
@@ -60,9 +59,9 @@ namespace RoguelikeFramework.systems {
 
                     this.map_data.map[p.x, p.y].Add(entity);
 
-                    if (entity.name == "Alien") {
+                    /*if (entity.name == "Alien") {
                         Console.WriteLine($"Moved alien. {mdc.actionPoints} APs left");
-                    }
+                    }*/
 
                     CheckMapVisibilitySystem cmvs = (CheckMapVisibilitySystem)this.ecs.GetSystem(nameof(CheckMapVisibilitySystem));
                     cmvs.ReCheckVisibility = true;
@@ -70,7 +69,10 @@ namespace RoguelikeFramework.systems {
                 }
             } else {
                 CloseCombatSystem ccs = (CloseCombatSystem)this.ecs.GetSystem(nameof(CloseCombatSystem));
-                ccs.Combat(entity, this.map_data.map[dest.X, dest.Y]);
+                if (ccs.Combat(entity, this.map_data.map[dest.X, dest.Y]) == false) {
+                    // Movement failed
+
+                }
             }
             return false;
         }

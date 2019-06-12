@@ -20,6 +20,8 @@ namespace RoguelikeFramework.systems {
                 if (hc.health <= 0) {
                     this.log.Add($"{entity.name} has been killed");
                     entity.markForRemoval = true;
+
+                    // Create corpse
                 }
             }
         }

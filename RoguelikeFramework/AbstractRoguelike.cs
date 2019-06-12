@@ -179,7 +179,7 @@ namespace RoguelikeFramework {
                     }
 
                 case RLKey.S: // Stop moving
-                    var md = (MovementDataComponent)this.currentUnit.GetComponent(nameof(MobDataComponent));
+                    var md = (MovementDataComponent)this.currentUnit.GetComponent(nameof(MovementDataComponent));
                     md.route = null;
                     this.gameLog.Add("Movement stopped");
                     break;

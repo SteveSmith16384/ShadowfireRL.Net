@@ -17,11 +17,11 @@ namespace RoguelikeFramework.view {
         // Below the map console is the message console which displays attack rolls and other information
         private const int _messageWidth = 80;
         public const int _messageHeight = 11;
-        public RLConsole messageConsole;
+        public RLConsole logConsole;
 
         // Above the map is the inventory console which shows the players equipment, abilities, and items
         private const int crewListWidth = 20;
-        private const int crewListHeight = 8;
+        private const int crewListHeight = 10;
         public RLConsole crewListConsole;
 
         // The stat console is to the right of the map and display player and monster stats
@@ -44,7 +44,7 @@ namespace RoguelikeFramework.view {
 
             // Initialize the sub consoles that we will Blit to the root console
             this.mapConsole = new RLConsole(_mapWidth, _mapHeight);
-            this.messageConsole = new RLConsole(_messageWidth, _messageHeight);
+            this.logConsole = new RLConsole(_messageWidth, _messageHeight);
             this.statConsole = new RLConsole(_statWidth, _statHeight);
             this.crewListConsole = new RLConsole(crewListWidth, crewListHeight);
 
@@ -73,7 +73,7 @@ namespace RoguelikeFramework.view {
             RLCell cell = new RLCell(RLColor.Yellow, RLColor.Brown, 'X');
             this._mapConsole.Set(3, 3, cell);*/
 
-            this.messageConsole.SetBackColor(0, 0, _messageWidth, _messageHeight, RLColor.Gray);
+            this.logConsole.SetBackColor(0, 0, _messageWidth, _messageHeight, RLColor.Gray);
             //this.messageConsole.Print(1, 1, "Messages", RLColor.White);
 
             this.statConsole.SetBackColor(0, 0, _statWidth, _statHeight, RLColor.Brown);
@@ -107,7 +107,7 @@ namespace RoguelikeFramework.view {
             RLConsole.Blit(this.mapConsole, 0, 0, _mapWidth, _mapHeight, this.rootConsole, 0, 0);
             RLConsole.Blit(this.crewListConsole, 0, 0, crewListWidth, crewListHeight, this.rootConsole, _mapWidth, 0);
             RLConsole.Blit(this.statConsole, 0, 0, _statWidth, _statHeight, this.rootConsole, _mapWidth, crewListHeight);
-            RLConsole.Blit(this.messageConsole, 0, 0, _messageWidth, _messageHeight, this.rootConsole, 0, _screenHeight - _messageHeight);
+            RLConsole.Blit(this.logConsole, 0, 0, _messageWidth, _messageHeight, this.rootConsole, 0, _screenHeight - _messageHeight);
 
             // Tell RLNET to draw the console that we set
             this.rootConsole.Draw();
