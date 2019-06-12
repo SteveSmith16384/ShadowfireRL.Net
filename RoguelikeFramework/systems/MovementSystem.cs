@@ -1,6 +1,7 @@
 ﻿using RoguelikeFramework.astar;
 using RoguelikeFramework.components;
 using RoguelikeFramework.models;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -26,7 +27,7 @@ namespace RoguelikeFramework.systems {
                 if (md.route != null && md.route.Count > 0) { // Do they have a path set up?
                     Point dest = md.route[0];
                     if (pos.x == dest.X && pos.y == dest.Y) {
-                        md.route.RemoveAt(0); // We're on the actual square
+                        md.route.RemoveAt(0); // We're on the actual square.  This should never happen!
                     } else if (this.Move(entity, pos, dest)) {
                         md.route.RemoveAt(0);
                     }
@@ -84,7 +85,7 @@ namespace RoguelikeFramework.systems {
             AStar astar = new AStar(this);
             astar.FindPath(x1, y1, x2, y2);
             if (astar.WasSuccessful()) {
-                astar.DrawRoute();
+                //Console.WriteLine(astar.GetMapAsString());
                 return astar.GetRoute();
             } else {
                 return null;
@@ -95,21 +96,21 @@ namespace RoguelikeFramework.systems {
         public Point GetRandomAccessibleSquare() {
             int sqX = 0;
             int sqY = 0;
-            while (IsAccessible(sqX, sqY) == false) {
-                sqX = Misc.random.Next(map_data.map.GetLength(0));
-                sqY = Misc.random.Next(map_data.map.GetLength(1));
+            while (this.IsAccessible(sqX, sqY) == false) {
+                sqX = Misc.random.Next(this.map_data.map.GetLength(0));
+                sqY = Misc.random.Next(this.map_data.map.GetLength(1));
             }
             return new Point(sqX, sqY);
         }
 
 
         public int GetMapWidth() {
-            return map_data.map.GetLength(0);
+            return this.map_data.map.GetLength(0);
         }
 
 
         public int GetMapHeight() {
-            return map_data.map.GetLength(1);
+            return this.map_data.map.GetLength(1);
         }
 
 

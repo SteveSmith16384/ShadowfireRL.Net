@@ -55,6 +55,7 @@
     <Compile Include="astar\PriorityList.cs" />
     <Compile Include="components\ActionPointsData.cs" />
     <Compile Include="components\AttackAttackableComponent.cs" />
+    <Compile Include="components\ComputerConsoleComponent.cs" />
     <Compile Include="components\DoorComponent.cs" />
     <Compile Include="components\ExplodesWhenTimerExpiresComponent.cs" />
     <Compile Include="components\ItemIsWeaponComponent.cs" />
@@ -71,7 +72,6 @@
     <Compile Include="components\MiscStatsComponent.cs" />
     <Compile Include="components\ShootOnSightComponent.cs" />
     <Compile Include="components\TimerCanBeSetComponent.cs" />
-    <Compile Include="components\UseableComponent.cs" />
     <Compile Include="ECSHelper.cs" />
     <Compile Include="effects\BulletEffect.cs" />
     <Compile Include="effects\ExplosionEffect.cs" />

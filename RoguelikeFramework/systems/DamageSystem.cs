@@ -3,11 +3,11 @@ using RoguelikeFramework.models;
 
 namespace RoguelikeFramework.systems {
 
-    public class DamageSystem {
+    public class DamageSystem : AbstractSystem {
 
         private GameLog log;
 
-        public DamageSystem(GameLog _log) {
+        public DamageSystem(BasicEcs ecs, GameLog _log) : base(ecs, false) {
             this.log = _log;
         }
 

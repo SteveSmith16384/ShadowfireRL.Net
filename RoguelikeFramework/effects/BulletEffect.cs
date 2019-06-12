@@ -11,7 +11,7 @@ namespace ShadowfireRL.effects {
 
         public BulletEffect(int sx, int sy, int ex, int ey) : base(100) {
 
-            this.line = Misc.GetLine(sx, sy, ex, ey);
+            this.line = Misc.GetLine(sx, sy, ex, ey, true);
         }
 
         protected override void subprocess() {

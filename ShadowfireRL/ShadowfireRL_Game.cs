@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using RLNET;
 using RoguelikeFramework;
 using RoguelikeFramework.view;
 using RogueLikeMapBuilder;
@@ -70,11 +71,11 @@ namespace ShadowfireRL {
                 for (int x = 0; x < this.mapData.getWidth(); x++) {
                     this.mapData.map[x, y] = new List<AbstractEntity>();
                     if (builder.map[x, y] == 1) {
-                        this.entityFactory.createWallMapSquare(x, y);
+                        this.entityFactory.CreateWallMapSquare(x, y, RLColor.Cyan);
                     } else if (builder.map[x, y] == 2) {
-                        this.entityFactory.createDoorMapSquare(x, y);
+                        this.entityFactory.CreateDoorMapSquare(x, y, RLColor.Yellow);
                     } else {
-                        this.entityFactory.createFloorMapSquare(x, y);
+                        this.entityFactory.CreateFloorMapSquare(x, y);
                     }
                 }
             }

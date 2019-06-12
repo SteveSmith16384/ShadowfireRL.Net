@@ -4,6 +4,7 @@ using RoguelikeFramework.models;
 using RoguelikeFramework.systems;
 using RoguelikeFramework.view;
 using SimpleEcs;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -14,8 +15,8 @@ namespace RoguelikeFramework {
 
     public abstract class AbstractRoguelike : IEcsEventListener, IDataForView, IDebugSettings {
 
-        public enum InputMode { Normal, SelectItemFromInv, SelectItemFromFloor, SelectMapPoint, ActivatingCurrentItem, SelectShotTarget };
-        public enum InputSubMode { None, ThrowingItem, DroppingItem, PickingUpItem, SelectingDestination };
+        public enum InputMode { Normal, SelectItemFromInv, SelectItemFromFloor, SelectMapPoint, ActivatingCurrentItem };
+        public enum InputSubMode { None, ThrowingItem, DroppingItem, PickingUpItem, SelectingDestination, SelectShotTarget };
 
         protected BasicEcs ecs;
         protected MapData mapData;
@@ -25,6 +26,7 @@ namespace RoguelikeFramework {
         private InputMode currentInputMode = InputMode.Normal;
         private InputSubMode currentInputSubMode = InputSubMode.None;
         protected DefaultRLView view;
+        private bool doRepaint = true;
 
         // Systems
         private DrawingSystem drawingSystem;
@@ -51,12 +53,12 @@ namespace RoguelikeFramework {
             this.view = new DefaultRLView(this);
             this.drawingSystem = new DrawingSystem(this.view, this, this.drawEverything());
 
-            this.checkVisibilitySystem = new CheckMapVisibilitySystem(this.mapData);
+            this.checkVisibilitySystem = new CheckMapVisibilitySystem(this.ecs, this.mapData);
             new ShootOnSightSystem(this.ecs, this.checkVisibilitySystem, this.ecs.entities);
 
             this.checkVisibilitySystem.process(this.playersUnits);
-            this.damageSystem = new DamageSystem(this.gameLog);
-            this.closeCombatSystem = new CloseCombatSystem(this.damageSystem);
+            this.damageSystem = new DamageSystem(this.ecs, this.gameLog);
+            this.closeCombatSystem = new CloseCombatSystem(this.ecs);
             new MovementSystem(this.ecs, this.mapData, this.checkVisibilitySystem, this.closeCombatSystem);
             this.explosionSystem = new ExplosionSystem(this.ecs, this.checkVisibilitySystem, this.damageSystem, this.mapData, this.ecs.entities);
             new TimerCountdownSystem(this.ecs, this.explosionSystem);
@@ -74,6 +76,8 @@ namespace RoguelikeFramework {
 
 
         public void HandleKeyInput(RLKeyPress keyPress) {
+            this.doRepaint = true;
+
             if (this.effectsSystem.HasEffects()) {
                 return;
             }
@@ -207,6 +211,64 @@ namespace RoguelikeFramework {
         }
 
 
+        public void HandleMouseEvent(RLMouse mouse) {
+            this.doRepaint = true;
+
+            if (this.effectsSystem.HasEffects()) {
+                return;
+            }
+
+            if (mouse.LeftPressed) {
+                bool action_performed = false;
+                if (this.currentInputMode == InputMode.SelectMapPoint) {
+                    if (this.currentInputSubMode == InputSubMode.SelectingDestination) {
+                        var pos = (PositionComponent)this.currentUnit.GetComponent(nameof(PositionComponent));
+                        var md = (MovementDataComponent)this.currentUnit.GetComponent(nameof(MovementDataComponent));
+                        md.route = Misc.GetLine(pos.x, pos.y, mouse.X, mouse.Y, true);
+                        this.gameLog.Add("Destination selected");
+                        this.currentInputMode = InputMode.Normal;
+                    } else if (this.currentInputSubMode == InputSubMode.ThrowingItem) {
+                        this.throwingSystem.ThrowItem(this.currentUnit, mouse.X, mouse.Y);
+                        this.currentInputMode = InputMode.Normal;
+                        action_performed = true;
+                    } else if (this.currentInputSubMode == InputSubMode.SelectShotTarget) {
+                        ShootingSystem ss = (ShootingSystem)this.ecs.GetSystem(nameof(ShootingSystem));
+                        MobDataComponent att = (MobDataComponent)this.currentUnit.GetComponent(nameof(MobDataComponent));
+                        AbstractEntity target = ss.GetTargetAt(this.mapData.map[mouse.X, mouse.Y], mouse.X, mouse.Y, att.side);
+                        var pos = (PositionComponent)this.currentUnit.GetComponent(nameof(PositionComponent));
+                        ss.EntityShootingAtEntity(this.currentUnit, new Point(pos.x, pos.y), target, new Point(mouse.X, mouse.Y));
+                    }
+                } else if (this.currentInputMode == InputMode.Normal) {
+                    // Have they clicked on an adjacent square
+                    var pos = (PositionComponent)this.currentUnit.GetComponent(nameof(PositionComponent));
+                    if (GeometryFunctions.Distance(mouse.X, mouse.Y, pos.x, pos.y) < 2) {
+                        MouseClicked(mouse.X, mouse.Y);
+                    }
+
+                }
+
+                if (action_performed) {
+                    this.SingleGameLoop();
+                }
+
+            } else {
+                this.hoverText = this.GetSquareDesc(mouse.X, mouse.Y);
+
+                if (this.currentInputMode == InputMode.SelectMapPoint) {
+                    var pos = (PositionComponent)this.currentUnit.GetComponent(nameof(PositionComponent));
+                    this.line = Misc.GetLine(pos.x, pos.y, mouse.X, mouse.Y, true);
+                } else {
+                    this.line = null;
+                }
+            }
+        }
+
+
+        protected void MouseClicked(int x, int y) {
+
+        }
+
+
         protected void SelectUnit(int num) {
             if (num <= this.playersUnits.Count) {
                 this.currentUnit = this.playersUnits[num - 1];
@@ -216,6 +278,7 @@ namespace RoguelikeFramework {
 
 
         private void SingleGameLoop() {
+            this.doRepaint = true;
             this.ecs.process(); // To move the player's units
 
             // Check at least one player's entity has > 100 APs
@@ -228,21 +291,25 @@ namespace RoguelikeFramework {
                     }
                 }
             }
-            while (true) {
+
+            // Loop around all entities until none have any 
+            bool keepLooping = true;
+            while (keepLooping) {
+                keepLooping = false;
                 foreach (var e in this.ecs.entities) {
                     if (this.playersUnits.Contains(e) == false) { // Don't check player's units
                         MobDataComponent mdc = (MobDataComponent)e.GetComponent(nameof(MobDataComponent));
                         if (mdc != null) {
                             if (mdc.actionPoints > 0) {// They still have spare APs
-                                //Console.WriteLine($"{e.name} still has APs");
+                                Console.WriteLine($"{e.name} still has APs");
                                 this.ecs.process();
+                                this.doRepaint = true;
                                 Thread.Sleep(1000);//  sleep for a sec so the player can see what's going on
-                                continue;
+                                keepLooping = true;
                             }
                         }
                     }
                 }
-                break;
             }
 
             // Give everyone some APs
@@ -250,43 +317,6 @@ namespace RoguelikeFramework {
                 MobDataComponent mdc = (MobDataComponent)e.GetComponent(nameof(MobDataComponent));
                 if (mdc != null) {
                     mdc.actionPoints += mdc.apsPerTurn;
-                }
-            }
-        }
-
-
-        public void HandleMouseEvent(RLMouse mouse) {
-            if (this.effectsSystem.HasEffects()) {
-                return;
-            }
-
-            if (mouse.LeftPressed) {
-                bool action_performed = false;
-                if (this.currentInputMode == InputMode.SelectMapPoint) {
-                    if (this.currentInputSubMode == InputSubMode.SelectingDestination) {
-                        var pos = (PositionComponent)this.currentUnit.GetComponent(nameof(PositionComponent));
-                        var md = (MovementDataComponent)this.currentUnit.GetComponent(nameof(MovementDataComponent));
-                        md.route = Misc.GetLine(pos.x, pos.y, mouse.X, mouse.Y);
-                        this.gameLog.Add("Destination selected");
-                        this.currentInputMode = InputMode.Normal;
-                    } else if (this.currentInputSubMode == InputSubMode.ThrowingItem) {
-                        this.throwingSystem.ThrowItem(this.currentUnit, mouse.X, mouse.Y);
-                        this.currentInputMode = InputMode.Normal;
-                        action_performed = true;
-                    }
-                }
-
-                if (action_performed) {
-                    this.SingleGameLoop();
-                }
-
-            } else {
-                this.hoverText = this.GetSquareDesc(mouse.X, mouse.Y);
-                if (this.currentInputMode == InputMode.SelectMapPoint) {
-                    var pos = (PositionComponent)this.currentUnit.GetComponent(nameof(PositionComponent));
-                    this.line = Misc.GetLine(pos.x, pos.y, mouse.X, mouse.Y);
-                } else {
-                    this.line = null;
                 }
             }
         }
@@ -337,8 +367,11 @@ namespace RoguelikeFramework {
 
 
         public void Repaint() {
-            this.effectsSystem.Process();
-            this.drawingSystem.Process(this.effectsSystem.effects);
+            //if (this.doRepaint) {
+                this.doRepaint = false;
+                this.effectsSystem.Process();
+                this.drawingSystem.Process(this.effectsSystem.effects);
+            //}
         }
 
 
@@ -383,6 +416,7 @@ namespace RoguelikeFramework {
             }
         }
 
+
         public virtual bool drawEverything() {
             return false;
         }
@@ -390,8 +424,12 @@ namespace RoguelikeFramework {
 
         private void UseCurrentItem() {
             ItemCanShootComponent icsc = (ItemCanShootComponent)this.currentUnit.GetComponent(nameof(ItemCanShootComponent));
-            // todo if
+            if (icsc != null) {
+                this.currentInputMode = InputMode.SelectMapPoint;
+                this.currentInputSubMode = InputSubMode.SelectShotTarget;
+            }
         }
+
 
         public void EntityRemoved(AbstractEntity entity) {
             if (entity == this.currentUnit) {
@@ -403,6 +441,7 @@ namespace RoguelikeFramework {
                 }
             }
         }
+
     }
 
 }

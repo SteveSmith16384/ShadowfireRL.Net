@@ -29,28 +29,32 @@ namespace AlienRL.systems {
 
         public override void ProcessEntity(AbstractEntity entity) {
             AlienComponent sosc = (AlienComponent)entity.GetComponent(nameof(AlienComponent));
-            if (sosc != null) { // Are we an alien?
-                MobDataComponent us = (MobDataComponent)entity.GetComponent(nameof(MobDataComponent));
-                if (us.actionPoints > 0) {
-                    PositionComponent pos = (PositionComponent)entity.GetComponent(nameof(PositionComponent));
-                    AbstractEntity target = this.GetTarget(pos.x, pos.y, us.side);
-                    MovementDataComponent mdc = (MovementDataComponent)entity.GetComponent(nameof(MovementDataComponent));
-                    if (target != null) {
-                        Console.WriteLine($"Alien can see {target.name}");
-                        PositionComponent targetPos = (PositionComponent)target.GetComponent(nameof(PositionComponent));
-                        mdc.route = Misc.GetLine(pos.x, pos.y, targetPos.x, targetPos.y);
-                        sosc.moveWhenNoEnemy = true;
-                    } else {
-                        if (sosc.moveWhenNoEnemy) {
-                            sosc.moveWhenNoEnemy = false;
+            if (sosc == null) { // Are we an alien?
+                return;
+            }
+            MobDataComponent us = (MobDataComponent)entity.GetComponent(nameof(MobDataComponent));
+            if (us.actionPoints <= 0) { // Only do stuff if we've got any APs
+                return;
+            }
 
-                            MovementSystem ms = (MovementSystem)this.ecs.GetSystem(nameof(MovementSystem));
-                            Point p = ms.GetRandomAccessibleSquare();
-                            mdc.route = ms.GetAStarRoute(pos.x, pos.y, p.X, p.Y);
-                        }
-                        us.actionPoints -= 100; // Waiting....
-                    }
+            PositionComponent pos = (PositionComponent)entity.GetComponent(nameof(PositionComponent));
+            AbstractEntity target = this.GetTarget(pos.x, pos.y, us.side);
+            MovementDataComponent mdc = (MovementDataComponent)entity.GetComponent(nameof(MovementDataComponent));
+            if (target != null) {
+                Console.WriteLine($"Alien can see {target.name}");
+                PositionComponent targetPos = (PositionComponent)target.GetComponent(nameof(PositionComponent));
+                mdc.route = Misc.GetLine(pos.x, pos.y, targetPos.x, targetPos.y, true);
+                sosc.moveWhenNoEnemy = true;
+            } else {
+                if (sosc.moveWhenNoEnemy) {
+                    sosc.moveWhenNoEnemy = false;
+
+                    // Move to a random point on the map
+                    MovementSystem ms = (MovementSystem)this.ecs.GetSystem(nameof(MovementSystem));
+                    Point p = ms.GetRandomAccessibleSquare();
+                    mdc.route = ms.GetAStarRoute(pos.x, pos.y, p.X, p.Y);
                 }
+                us.actionPoints -= 100; // Waiting....
             }
         }
 

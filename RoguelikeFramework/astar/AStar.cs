@@ -181,7 +181,7 @@ namespace RoguelikeFramework.astar {
          * Draw the map and route.
          *
          */
-        public string DrawRoute() {
+        public string GetMapAsString() {
             try {
                 int w = this.map_interface.GetMapWidth();
                 int h = this.map_interface.GetMapHeight();

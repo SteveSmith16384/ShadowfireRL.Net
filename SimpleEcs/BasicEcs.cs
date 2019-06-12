@@ -22,23 +22,9 @@ public class BasicEcs {
 
 
     
-    /*public AbstractSystem GetSystem(Type cl) {
-            //MovementSystem ms = (MovementSystem)this.ecs.systems.Single(x => x.GetType() == typeof(MovementSystem));
-            return this.systems.Single(x => x.GetType() == cl);
-        }*/
-
-
     public AbstractSystem GetSystem(string name) {
-        //if (this.systems.ContainsKey(name)) {
             return this.systems[name];
-        /*} else {
-            return null;
-        }*/
     }
-
-
-
-
 
     public void process() {
         // Remove any entities

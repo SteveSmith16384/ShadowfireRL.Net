@@ -5,12 +5,12 @@ using System.Drawing;
 
 namespace RoguelikeFramework.systems {
 
-    public class CheckMapVisibilitySystem {
+    public class CheckMapVisibilitySystem : AbstractSystem {
 
         private MapData map_data;
         public bool ReCheckVisibility = true;
 
-        public CheckMapVisibilitySystem(MapData _mapData) {
+        public CheckMapVisibilitySystem(BasicEcs ecs, MapData _mapData) : base(ecs, false) {
             this.map_data = _mapData;
         }
 
@@ -54,7 +54,7 @@ namespace RoguelikeFramework.systems {
 
 
         private void CheckAndMarkVisibility(int x1, int y1, int x2, int y2) {
-            List<Point> line = Misc.GetLine(x1, y1, x2, y2);
+            List<Point> line = Misc.GetLine(x1, y1, x2, y2, true);
             foreach (var p in line) {
                 foreach (AbstractEntity sq in this.map_data.map[p.X, p.Y]) {
                     MapsquareData msdc = (MapsquareData)sq.GetComponent(nameof(MapsquareData)); // todo - better way of selecting map component
@@ -72,7 +72,7 @@ namespace RoguelikeFramework.systems {
 
 
         public bool CanSee(int x1, int y1, int x2, int y2) {
-            List<Point> line = Misc.GetLine(x1, y1, x2, y2);
+            List<Point> line = Misc.GetLine(x1, y1, x2, y2, true);
             foreach (var p in line) {
                 MapsquareData msdc = (MapsquareData)this.map_data.GetSingleComponent(p.X, p.Y, nameof(MapsquareData));
                 if (msdc.blocksView) {

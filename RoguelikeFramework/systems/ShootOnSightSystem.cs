@@ -1,5 +1,6 @@
 ﻿using RoguelikeFramework.components;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace RoguelikeFramework.systems {
 
@@ -18,20 +19,16 @@ namespace RoguelikeFramework.systems {
 
         public override void ProcessEntity(AbstractEntity entity) {
             ShootOnSightComponent sosc = (ShootOnSightComponent)entity.GetComponent(nameof(ShootOnSightComponent));
-            if (sosc != null) {
-                MobDataComponent us = (MobDataComponent)entity.GetComponent(nameof(MobDataComponent));
-                PositionComponent pos = (PositionComponent)entity.GetComponent(nameof(PositionComponent));
-                CanCarryComponent ccc = (CanCarryComponent)entity.GetComponent(nameof(CanCarryComponent));
-                if (ccc != null && ccc.CurrentItem != null) {
-                    ItemCanShootComponent icsc = (ItemCanShootComponent)ccc.CurrentItem.GetComponent(nameof(ItemCanShootComponent));
-                    if (icsc != null) {
-                        // todo - check APs
-                        AbstractEntity target = this.GetTarget(pos.x, pos.y, us.side);
-                        if (target != null) {
-                            //todo - get dynamically - this.shootingSystem.EntityShotByEntity(entity, target);
-                        }
-                    }
-                }
+            if (sosc == null) {
+                return;
+            }
+            PositionComponent shooterPos = (PositionComponent)entity.GetComponent(nameof(PositionComponent));
+            MobDataComponent us = (MobDataComponent)entity.GetComponent(nameof(MobDataComponent));
+            AbstractEntity target = this.GetTarget(shooterPos.x, shooterPos.y, us.side);
+            if (target != null) {
+                PositionComponent targetPos = (PositionComponent)target.GetComponent(nameof(PositionComponent));
+                ShootingSystem ss = (ShootingSystem)this.ecs.GetSystem(nameof(ShootingSystem));
+                ss.EntityShootingAtEntity(entity, new Point(shooterPos.x, shooterPos.y), target, new Point(targetPos.x, targetPos.y));
             }
         }
 

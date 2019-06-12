@@ -1,4 +1,5 @@
 ﻿using AlienRL.systems;
+using RLNET;
 using RoguelikeFramework;
 using RoguelikeFramework.view;
 using RogueLikeMapBuilder;
@@ -43,6 +44,7 @@ namespace AlienRL {
             int unitStartX = startRoom.X;
             int unitStartY = startRoom.Y;
 
+            // Create crew
             this.currentUnit = this.entityFactory.CreatePlayersUnit('D', "Dallas", 1, unitStartX, unitStartY, 100);
             var gun = this.entityFactory.CreateGunItem();
             this.entityFactory.AddEntityToUnit(gun, this.currentUnit);
@@ -52,9 +54,12 @@ namespace AlienRL {
             var gun2 = this.entityFactory.CreateGunItem();
             this.entityFactory.AddEntityToMap(gun2, unitStartX, unitStartY + 1);
 
+            // Jones
+            this.entityFactory.CreateJones(builder.rctBuiltRooms[2].X, builder.rctBuiltRooms[2].Y);
+
+            // Alien
             this.entityFactory.CreateAlien(builder.rctBuiltRooms[1].X, builder.rctBuiltRooms[1].Y);
 
-            this.entityFactory.CreateJones(builder.rctBuiltRooms[2].X, builder.rctBuiltRooms[2].Y);
         }
 
 
@@ -72,11 +77,11 @@ namespace AlienRL {
                 for (int x = 0; x < this.mapData.getWidth(); x++) {
                     this.mapData.map[x, y] = new List<AbstractEntity>();
                     if (builder.map[x, y] == 1) {
-                        this.entityFactory.createWallMapSquare(x, y);
+                        this.entityFactory.CreateWallMapSquare(x, y, RLColor.Green);
                     } else if (builder.map[x, y] == 2) {
-                        this.entityFactory.createDoorMapSquare(x, y);
+                        this.entityFactory.CreateDoorMapSquare(x, y, RLColor.Brown);
                     } else {
-                        this.entityFactory.createFloorMapSquare(x, y);
+                        this.entityFactory.CreateFloorMapSquare(x, y);
                     }
                 }
             }

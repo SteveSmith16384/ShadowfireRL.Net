@@ -68,8 +68,9 @@ namespace RoguelikeFramework.systems {
             this.view.mapConsole.Print(1, DefaultRLView._mapHeight - 1, this.viewData.GetHoverText(), RLColor.White);
 
             // Draw crew
-            int yPos = 1;
+            int yPos = 0;
             this.view.crewListConsole.Print(0, yPos, "CREW LIST", RLColor.White);
+            yPos++;
             int idx = 1;
             foreach (AbstractEntity e in this.viewData.GetUnits()) {
                 RLColor c = RLColor.White;

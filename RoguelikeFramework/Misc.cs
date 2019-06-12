@@ -11,7 +11,7 @@ namespace RoguelikeFramework {
 
 
         // Modified from https://stackoverflow.com/questions/11678693/all-cases-covered-bresenhams-line-algorithm
-        public static List<Point> GetLine(int x, int y, int x2, int y2) {
+        public static List<Point> GetLine(int x, int y, int x2, int y2, bool removeStartPoint) {
             int w = x2 - x;
             int h = y2 - y;
             int dx1 = 0, dy1 = 0, dx2 = 0, dy2 = 0;
@@ -38,6 +38,13 @@ namespace RoguelikeFramework {
                 } else {
                     x += dx2;
                     y += dy2;
+                }
+            }
+
+            if (removeStartPoint) {
+                Point p = list[0];
+                if (p.X == x && p.Y == y) {
+                    list.RemoveAt(0);
                 }
             }
             return list;

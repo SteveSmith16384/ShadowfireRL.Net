@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 
 namespace RoguelikeFramework.systems {
-    public class CloseCombatSystem {
+    public class CloseCombatSystem : AbstractSystem {
 
-        private DamageSystem damageSystem;
+        //private DamageSystem damageSystem;
 
-        public CloseCombatSystem(DamageSystem _damageSystem) {
-            this.damageSystem = _damageSystem;
+        public CloseCombatSystem(BasicEcs ecs) : base(ecs, false) {/*DamageSystem _damageSystem) {
+            this.damageSystem = _damageSystem;*/
         }
 
 
@@ -30,11 +30,12 @@ namespace RoguelikeFramework.systems {
             int att1 = Misc.random.Next(aa1.combatSkill);
             int att2 = Misc.random.Next(aa2.combatSkill);
 
+            DamageSystem damageSystem = (DamageSystem)this.ecs.GetSystem(nameof(DamageSystem));
             if (att1 > att2) {
-                this.damageSystem.Damage(e2, aa1.combatDamage, $"Hit by {e1.name}");
+                damageSystem.Damage(e2, aa1.combatDamage, $"Hit by {e1.name}");
             } else
             if (att1 < att2) {
-                this.damageSystem.Damage(e1, aa2.combatDamage, $"Hit by {e2.name}");
+                damageSystem.Damage(e1, aa2.combatDamage, $"Hit by {e2.name}");
             }
 
         }
