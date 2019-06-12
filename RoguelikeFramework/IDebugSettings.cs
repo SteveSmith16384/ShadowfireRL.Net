@@ -1,6 +1,6 @@
 ﻿namespace RoguelikeFramework {
     public interface IDebugSettings {
 
-        bool drawEverything();
+        //bool drawEverything();
     }
 }

@@ -11,16 +11,12 @@ namespace RoguelikeFramework.systems {
 
         private GameLog gameLog;
 
-        public ShootingSystem(BasicEcs ecs, GameLog log): base(ecs, false) {
+        public ShootingSystem(BasicEcs ecs, GameLog log) : base(ecs, false) {
             this.gameLog = log;
         }
 
 
         public void EntityShootingAtEntity(AbstractEntity shooter, Point shooterPos, AbstractEntity target, Point targetPos) {
-            /*if (shooterPos == null) {
-                PositionComponent pos = (PositionComponent)shooter.GetComponent(nameof(PositionComponent));
-                shooterPos = new Point(pos.x, pos.y);
-            }*/
             CanCarryComponent ccc = (CanCarryComponent)shooter.GetComponent(nameof(CanCarryComponent));
             if (ccc != null && ccc.CurrentItem != null) {
                 ItemCanShootComponent icsc = (ItemCanShootComponent)ccc.CurrentItem.GetComponent(nameof(ItemCanShootComponent));

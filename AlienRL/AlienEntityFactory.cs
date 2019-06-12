@@ -39,12 +39,24 @@ namespace AlienRL {
 
 
         public AbstractEntity CreateSelfDestructConsole(int x, int y) {
-            AbstractEntity e = new AbstractEntity("SelfDestruct");
+            AbstractEntity e = new AbstractEntity("SelfDestructConsole");
             e.AddComponent(new PositionComponent(e, this.map_data, x, y, true, true));
             e.AddComponent(new GraphicComponent('D', RLColor.White, RLColor.Red, 'D', 0));
-            e.AddComponent(new MapsquareData(true, false));
-            e.AddComponent(new ComputerConsoleComponent());
-            
+            //e.AddComponent(new MapsquareData(true, false));
+            e.AddComponent(new SelfDestructConsole());
+
+            this.ecs.entities.Add(e);
+            return e;
+        }
+
+
+        public AbstractEntity CreateLaunchEscapePodConsole(int x, int y) {
+            AbstractEntity e = new AbstractEntity("EscapePodConsole");
+            e.AddComponent(new PositionComponent(e, this.map_data, x, y, true, true));
+            e.AddComponent(new GraphicComponent('E', RLColor.White, RLColor.Red, 'D', 0));
+            //e.AddComponent(new MapsquareData(true, false));
+            e.AddComponent(new LaunchEscapePodComponent());
+
             this.ecs.entities.Add(e);
             return e;
         }

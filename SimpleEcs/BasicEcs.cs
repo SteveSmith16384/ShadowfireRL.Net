@@ -5,7 +5,6 @@ using System.Linq;
 
 public class BasicEcs {
 
-    //public List<AbstractSystem> systems = new List<AbstractSystem>();
     private Dictionary<string, AbstractSystem> systems = new Dictionary<string, AbstractSystem>();
     public List<AbstractEntity> entities = new List<AbstractEntity>(); // todo - use dictionary with entity id
     private IEcsEventListener eventListener;
@@ -28,7 +27,9 @@ public class BasicEcs {
 
     public void process() {
         // Remove any entities
-        foreach(AbstractEntity entity in this.entities) {
+        //foreach(AbstractEntity entity in this.entities) {
+        for (int i = this.entities.Count - 1; i >= 0; i--) {
+            var entity = this.entities[i];
             if (entity.markForRemoval) {
                 this.entities.Remove(entity);
                 this.eventListener.EntityRemoved(entity);

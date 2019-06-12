@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 
 namespace AlienRL.components {
 
-    public class SelfDestructConsole : AbstractComponent {
-
+    public class LaunchEscapePodComponent : AbstractComponent {
     }
-
 }

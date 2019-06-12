@@ -1,8 +1,11 @@
-﻿using AlienRL.systems;
+﻿using AlienRL.components;
+using AlienRL.systems;
 using RLNET;
 using RoguelikeFramework;
+using RoguelikeFramework.systems;
 using RoguelikeFramework.view;
 using RogueLikeMapBuilder;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -38,7 +41,7 @@ namespace AlienRL {
 
             csMapbuilder builder = new csMapbuilder(mapWidth, mapHeight, 10, new Size(7, 7), new Size(11, 11), 2, 5);
 
-            this.createMap(builder, mapWidth, mapHeight);
+            this.CreateMap(builder, mapWidth, mapHeight);
 
             Rectangle startRoom = builder.rctBuiltRooms[0];
             int unitStartX = startRoom.X;
@@ -63,7 +66,7 @@ namespace AlienRL {
         }
 
 
-        public void createMap(csMapbuilder builder, int w, int h) {
+        public void CreateMap(csMapbuilder builder, int w, int h) {
             //csMapbuilder builder = null;
             //while (true) {
             //builder = new csMapbuilder(w, h);
@@ -85,6 +88,11 @@ namespace AlienRL {
                     }
                 }
             }
+
+
+            MovementSystem ms = (MovementSystem)this.ecs.GetSystem(nameof(MovementSystem));
+            Point p = ms.GetRandomAccessibleSquare();
+            this.entityFactory.CreateSelfDestructConsole(p.X, p.Y);
         }
 
 
@@ -96,8 +104,17 @@ namespace AlienRL {
         }
 
 
-        public override bool drawEverything() {
-            return AlienSettings.DEBUG_DRAW_ALL;
+        protected override void MouseClicked(int x, int y) {
+            base.MouseClicked(x, y);
+            var sdc = this.mapData.GetSingleComponent(x, y, nameof(SelfDestructConsole));
+            if (sdc != null) {
+                Console.WriteLine("Self Destruct Activated!");
+            }
+
+            var lepc = this.mapData.GetSingleComponent(x, y, nameof(LaunchEscapePodComponent));
+            if (lepc != null) {
+                Console.WriteLine("Escape Pod Launched!");
+            }
         }
 
     }

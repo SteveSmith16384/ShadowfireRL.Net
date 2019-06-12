@@ -89,11 +89,6 @@ namespace ShadowfireRL {
             return str;
         }
 
-
-        public override bool drawEverything() {
-            return ShadowfireSettings.DEBUG_DRAW_ALL;
-        }
-
     }
 
 }

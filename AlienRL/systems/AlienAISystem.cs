@@ -54,7 +54,9 @@ namespace AlienRL.systems {
                     Point p = ms.GetRandomAccessibleSquare();
                     mdc.route = ms.GetAStarRoute(pos.x, pos.y, p.X, p.Y);
                 }
-                us.actionPoints -= 100; // Waiting....
+                if (mdc.route == null || mdc.route.Count == 0) {
+                    us.actionPoints -= 100; // Waiting....
+                }
             }
         }
 

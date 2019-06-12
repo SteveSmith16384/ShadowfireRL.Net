@@ -55,7 +55,6 @@
     <Compile Include="astar\PriorityList.cs" />
     <Compile Include="components\ActionPointsData.cs" />
     <Compile Include="components\AttackAttackableComponent.cs" />
-    <Compile Include="components\ComputerConsoleComponent.cs" />
     <Compile Include="components\DoorComponent.cs" />
     <Compile Include="components\ExplodesWhenTimerExpiresComponent.cs" />
     <Compile Include="components\ItemIsWeaponComponent.cs" />
@@ -82,6 +81,7 @@
     <Compile Include="models\GameLog.cs" />
     <Compile Include="models\MapData.cs" />
     <Compile Include="Mouse.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="systems\ActionPointsSystem.cs" />
     <Compile Include="systems\CheckMapVisibilitySystem.cs" />
     <Compile Include="systems\CloseCombatSystem.cs" />

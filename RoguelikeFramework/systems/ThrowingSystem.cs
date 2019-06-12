@@ -2,12 +2,13 @@
 using RoguelikeFramework.models;
 
 namespace RoguelikeFramework.systems {
-    public class ThrowingSystem {
+
+    public class ThrowingSystem : AbstractSystem {
 
         private MapData mapData;
         private GameLog gameLog;
 
-        public ThrowingSystem(MapData _mapData, GameLog log) { // todo - append to log
+        public ThrowingSystem(BasicEcs ecs, MapData _mapData, GameLog log) : base(ecs, false) {
             this.mapData = _mapData;
             this.gameLog = log;
         }

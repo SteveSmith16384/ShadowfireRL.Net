@@ -12,7 +12,8 @@ namespace RoguelikeFramework.systems {
 
 
         public void Process() {
-            foreach (var effect in this.effects) {
+            for (int i = this.effects.Count - 1; i >= 0; i--) {
+                var effect = this.effects[i];
                 effect.process();
                 if (effect.hasEnded()) {
                     this.effects.Remove(effect);

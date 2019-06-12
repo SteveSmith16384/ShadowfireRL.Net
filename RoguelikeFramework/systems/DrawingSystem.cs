@@ -11,13 +11,11 @@ namespace RoguelikeFramework.systems {
 
         private DefaultRLView view;
         private IDataForView viewData;
-        private bool debug_show_all;
         private RLCell invisible = new RLCell(RLColor.Black, RLColor.Black, ' ');
 
-        public DrawingSystem(DefaultRLView _view, IDataForView _viewData, bool _debug_show_all) {
+        public DrawingSystem(DefaultRLView _view, IDataForView _viewData) {
             this.view = _view;
             this.viewData = _viewData;
-            this.debug_show_all = _debug_show_all;
         }
 
 
@@ -31,7 +29,7 @@ namespace RoguelikeFramework.systems {
                         var entities = map_data.map[x, y];
                         var mapEnt = entities.Single(ent => ent.GetComponents().ContainsKey(nameof(MapsquareData)));
                         MapsquareData msdc = (MapsquareData)mapEnt.GetComponent(nameof(MapsquareData));
-                        if (msdc.visible || this.debug_show_all) {
+                        if (msdc.visible || Settings.DEBUG_DRAW_ALL) {
                             // Only draw stuff if mapsquare visible
                             AbstractEntity sq = map_data.GetComponentToDraw(x, y);
                             GraphicComponent gc = (GraphicComponent)sq.GetComponent(nameof(GraphicComponent));
@@ -78,7 +76,9 @@ namespace RoguelikeFramework.systems {
                     c = RLColor.Yellow; // Highlight selected unit
                 }
                 MobDataComponent mdc = (MobDataComponent)e.GetComponent(nameof(MobDataComponent));
-                this.view.crewListConsole.Print(0, yPos, $"{idx}: {e.name} ({mdc.actionPoints} APs)", c);
+                MovementDataComponent move = (MovementDataComponent)e.GetComponent(nameof(MovementDataComponent));
+                string routeIndicator = move.route == null || move.route.Count == 0 ? "(R)" : "";
+                this.view.crewListConsole.Print(0, yPos, $"{idx}: {e.name} {routeIndicator} ({mdc.actionPoints} APs)", c);
                 yPos++;
                 idx++;
             }

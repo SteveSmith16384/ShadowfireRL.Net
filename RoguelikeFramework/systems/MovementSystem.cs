@@ -9,14 +9,10 @@ namespace RoguelikeFramework.systems {
 
     public class MovementSystem : AbstractSystem, IAStarMapInterface {
 
-        private MapData map_data;
-        private CheckMapVisibilitySystem checkMapVisibilitySystem;
-        private CloseCombatSystem closeCombatSystem;
+        private readonly MapData map_data;
 
-        public MovementSystem(BasicEcs ecs, MapData _map_data, CheckMapVisibilitySystem _checkMapVisibilitySystem, CloseCombatSystem _closeCombatSystem) : base(ecs, true) {
+        public MovementSystem(BasicEcs ecs, MapData _map_data) : base(ecs, true) {
             this.map_data = _map_data;
-            this.checkMapVisibilitySystem = _checkMapVisibilitySystem;
-            this.closeCombatSystem = _closeCombatSystem;
         }
 
 
@@ -45,8 +41,13 @@ namespace RoguelikeFramework.systems {
 
         private bool Move(AbstractEntity entity, PositionComponent p, Point dest) {
             if (this.IsAccessible(dest.X, dest.Y)) {// this.map_data.map[dest.X, dest.Y])) {
+
                 MobDataComponent mdc = (MobDataComponent)entity.GetComponent(nameof(MobDataComponent));
                 if (mdc == null || mdc.actionPoints > 0) {
+                    if (entity.name == "Alien") {
+                        Console.WriteLine($"Moving alien.... {mdc.actionPoints} APs left");
+                    }
+
                     int cost = 50;
                     if (p.x != dest.X && p.y != dest.Y) { // Diagonal
                         cost = 70;
@@ -59,11 +60,17 @@ namespace RoguelikeFramework.systems {
 
                     this.map_data.map[p.x, p.y].Add(entity);
 
-                    this.checkMapVisibilitySystem.ReCheckVisibility = true;
+                    if (entity.name == "Alien") {
+                        Console.WriteLine($"Moved alien. {mdc.actionPoints} APs left");
+                    }
+
+                    CheckMapVisibilitySystem cmvs = (CheckMapVisibilitySystem)this.ecs.GetSystem(nameof(CheckMapVisibilitySystem));
+                    cmvs.ReCheckVisibility = true;
                     return true;
                 }
             } else {
-                this.closeCombatSystem.Combat(entity, this.map_data.map[dest.X, dest.Y]);
+                CloseCombatSystem ccs = (CloseCombatSystem)this.ecs.GetSystem(nameof(CloseCombatSystem));
+                ccs.Combat(entity, this.map_data.map[dest.X, dest.Y]);
             }
             return false;
         }

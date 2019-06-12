@@ -16,13 +16,14 @@ namespace RoguelikeFramework {
         }
 
         public void process() {
-            int thiscount = Environment.TickCount;
-            int diff = this.lastTick - this.lastTick;
+            int thisTick = Environment.TickCount;
+            int diff = thisTick - this.lastTick;
             this.frameTimeLeft -= diff;
             if (this.frameTimeLeft <= 0) {
                 this.subprocess();
                 this.frameTimeLeft = this.frameInterval;
             }
+            lastTick = thisTick;
         }
 
         protected abstract void subprocess();

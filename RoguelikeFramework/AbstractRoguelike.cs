@@ -3,6 +3,7 @@ using RoguelikeFramework.components;
 using RoguelikeFramework.models;
 using RoguelikeFramework.systems;
 using RoguelikeFramework.view;
+using ShadowfireRL.effects;
 using SimpleEcs;
 using System;
 using System.Collections.Generic;
@@ -33,10 +34,8 @@ namespace RoguelikeFramework {
         protected CheckMapVisibilitySystem checkVisibilitySystem;
         private PickupDropSystem pickupItemSystem;
         private EffectsSystem effectsSystem;
-        private ThrowingSystem throwingSystem;
         private ExplosionSystem explosionSystem;
         private DamageSystem damageSystem;
-        private CloseCombatSystem closeCombatSystem;
 
         protected AbstractEntity currentUnit;
         public List<AbstractEntity> playersUnits = new List<AbstractEntity>();
@@ -48,23 +47,24 @@ namespace RoguelikeFramework {
             this.mapData = new MapData();
             this.gameLog = new GameLog(maxLogEntries);
 
+            new CloseCombatSystem(this.ecs);
+            new MovementSystem(this.ecs, this.mapData);
+
             this.CreateData();
 
             this.view = new DefaultRLView(this);
-            this.drawingSystem = new DrawingSystem(this.view, this, this.drawEverything());
+            this.drawingSystem = new DrawingSystem(this.view, this);
 
             this.checkVisibilitySystem = new CheckMapVisibilitySystem(this.ecs, this.mapData);
             new ShootOnSightSystem(this.ecs, this.checkVisibilitySystem, this.ecs.entities);
 
             this.checkVisibilitySystem.process(this.playersUnits);
             this.damageSystem = new DamageSystem(this.ecs, this.gameLog);
-            this.closeCombatSystem = new CloseCombatSystem(this.ecs);
-            new MovementSystem(this.ecs, this.mapData, this.checkVisibilitySystem, this.closeCombatSystem);
             this.explosionSystem = new ExplosionSystem(this.ecs, this.checkVisibilitySystem, this.damageSystem, this.mapData, this.ecs.entities);
             new TimerCountdownSystem(this.ecs, this.explosionSystem);
             this.pickupItemSystem = new PickupDropSystem();
             this.effectsSystem = new EffectsSystem(this.ecs);
-            this.throwingSystem = new ThrowingSystem(this.mapData, this.gameLog);
+            new ThrowingSystem(this.ecs, this.mapData, this.gameLog);
             new ShootingSystem(this.ecs, this.gameLog);
 
             // Draw screen
@@ -202,6 +202,13 @@ namespace RoguelikeFramework {
                         this.gameLog.Add("Select where to walk to");
                         break;
                     }
+
+                case RLKey.X: { // Test
+                        BulletEffect be = new BulletEffect(0, 0, 20, 20);
+                        EffectsSystem es = (EffectsSystem)this.ecs.GetSystem(nameof(EffectsSystem));
+                        es.effects.Add(be);
+                        break;
+                    }
             }
 
             //if (action_performed) {
@@ -228,7 +235,8 @@ namespace RoguelikeFramework {
                         this.gameLog.Add("Destination selected");
                         this.currentInputMode = InputMode.Normal;
                     } else if (this.currentInputSubMode == InputSubMode.ThrowingItem) {
-                        this.throwingSystem.ThrowItem(this.currentUnit, mouse.X, mouse.Y);
+                        var throwingSystem = (ThrowingSystem)this.ecs.GetSystem(nameof(ThrowingSystem));
+                        throwingSystem.ThrowItem(this.currentUnit, mouse.X, mouse.Y);
                         this.currentInputMode = InputMode.Normal;
                         action_performed = true;
                     } else if (this.currentInputSubMode == InputSubMode.SelectShotTarget) {
@@ -242,7 +250,7 @@ namespace RoguelikeFramework {
                     // Have they clicked on an adjacent square
                     var pos = (PositionComponent)this.currentUnit.GetComponent(nameof(PositionComponent));
                     if (GeometryFunctions.Distance(mouse.X, mouse.Y, pos.x, pos.y) < 2) {
-                        MouseClicked(mouse.X, mouse.Y);
+                        this.MouseClicked(mouse.X, mouse.Y);
                     }
 
                 }
@@ -264,7 +272,7 @@ namespace RoguelikeFramework {
         }
 
 
-        protected void MouseClicked(int x, int y) {
+        protected virtual void MouseClicked(int x, int y) {
 
         }
 
@@ -317,6 +325,10 @@ namespace RoguelikeFramework {
                 MobDataComponent mdc = (MobDataComponent)e.GetComponent(nameof(MobDataComponent));
                 if (mdc != null) {
                     mdc.actionPoints += mdc.apsPerTurn;
+                    if (e.name == "Alien") {
+                        Console.WriteLine($"Alien now has {mdc.actionPoints} APs left");
+                    }
+
                 }
             }
         }
@@ -367,10 +379,10 @@ namespace RoguelikeFramework {
 
 
         public void Repaint() {
-            //if (this.doRepaint) {
-                this.doRepaint = false;
-                this.effectsSystem.Process();
-                this.drawingSystem.Process(this.effectsSystem.effects);
+            //if (this.doRepaint) { // Caused flickering?
+            this.doRepaint = false;
+            this.effectsSystem.Process();
+            this.drawingSystem.Process(this.effectsSystem.effects);
             //}
         }
 
@@ -414,11 +426,6 @@ namespace RoguelikeFramework {
                     idx++;
                 }
             }
-        }
-
-
-        public virtual bool drawEverything() {
-            return false;
         }
 
 

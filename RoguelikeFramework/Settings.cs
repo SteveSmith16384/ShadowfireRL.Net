@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AlienRL.components {
+namespace RoguelikeFramework {
+    public class Settings {
 
-    public class SelfDestructConsole : AbstractComponent {
+        public const bool DEBUG_DRAW_ALL = true;
 
     }
-
 }

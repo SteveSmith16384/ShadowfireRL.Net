@@ -22,7 +22,6 @@ public class AbstractEntity {
 
     public void RemoveComponent(string name) {
         this.components.Remove(name);
-
     }
 
 

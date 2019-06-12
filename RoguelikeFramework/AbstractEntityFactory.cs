@@ -55,7 +55,6 @@ namespace RoguelikeFramework {
             e.AddComponent(new GraphicComponent(ch, RLColor.LightBlue, RLColor.Black, ' ', 10));
             e.AddComponent(new CanCarryComponent(10));
             e.AddComponent(new PlayersUnitData(num));
-            //e.AddComponent(new ShootOnSightComponent());
             e.AddComponent(new MobDataComponent(0, aps));
             e.AddComponent(new AttackAttackableComponent(10, 5));
 

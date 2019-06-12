@@ -24,6 +24,7 @@ namespace RoguelikeFramework.models {
                 this.entries.RemoveAt(0);
             }
         }
+
     }
 
 }

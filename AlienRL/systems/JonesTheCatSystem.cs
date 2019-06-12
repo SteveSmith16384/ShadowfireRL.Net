@@ -26,7 +26,7 @@ namespace AlienRL.systems {
             }
 
             MovementDataComponent mdc = (MovementDataComponent)entity.GetComponent(nameof(MovementDataComponent));
-            if (mdc.route == null) {
+            if (mdc.route == null || mdc.route.Count == 0) {
                 MovementSystem ms = (MovementSystem)this.ecs.GetSystem(nameof(MovementSystem));
                 PositionComponent pos = (PositionComponent)entity.GetComponent(nameof(PositionComponent));
                 Point p = ms.GetRandomAccessibleSquare();
