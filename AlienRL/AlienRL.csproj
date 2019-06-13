@@ -45,10 +45,12 @@
     <Compile Include="AlienSettings.cs" />
     <Compile Include="components\AlienComponent.cs" />
     <Compile Include="components\EscapeShuttleControlPanel.cs" />
+    <Compile Include="components\ImpregnatedComponent.cs" />
     <Compile Include="components\JonesTheCatComponent.cs" />
     <Compile Include="components\LaunchEscapePodComponent.cs" />
     <Compile Include="components\SelfDestructConsole.cs" />
     <Compile Include="systems\AlienAISystem.cs" />
+    <Compile Include="systems\ImpregnatedSystem.cs" />
     <Compile Include="systems\JonesTheCatSystem.cs" />
   </ItemGroup>
   <ItemGroup>

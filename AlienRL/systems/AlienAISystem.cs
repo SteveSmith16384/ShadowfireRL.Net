@@ -28,8 +28,8 @@ namespace AlienRL.systems {
 
 
         public override void ProcessEntity(AbstractEntity entity) {
-            AlienComponent sosc = (AlienComponent)entity.GetComponent(nameof(AlienComponent));
-            if (sosc == null) { // Are we an alien?
+            AlienComponent alienData = (AlienComponent)entity.GetComponent(nameof(AlienComponent));
+            if (alienData == null) { // Are we an alien?
                 return;
             }
             MobDataComponent us = (MobDataComponent)entity.GetComponent(nameof(MobDataComponent));
@@ -42,12 +42,18 @@ namespace AlienRL.systems {
             MovementDataComponent mdc = (MovementDataComponent)entity.GetComponent(nameof(MovementDataComponent));
             if (target != null) {
                 Console.WriteLine($"Alien can see {target.name}");
+                alienData.moveWhenNoEnemy = true;
                 PositionComponent targetPos = (PositionComponent)target.GetComponent(nameof(PositionComponent));
-                mdc.route = Misc.GetLine(pos.x, pos.y, targetPos.x, targetPos.y, true);
-                sosc.moveWhenNoEnemy = true;
+                if (this.CheckForImpregnation(alienData, pos, target, targetPos)) {
+                    us.actionPoints -= 50;
+                } else {
+                    mdc.route = Misc.GetLine(pos.x, pos.y, targetPos.x, targetPos.y, true);
+                }
             } else {
-                if (sosc.moveWhenNoEnemy) {
-                    sosc.moveWhenNoEnemy = false;
+                if (alienData.moveWhenNoEnemy) {
+                    alienData.moveWhenNoEnemy = false;
+
+                    alienData.impregnateNextEnemy = Misc.random.Next(1, 2) == 1;
 
                     // Move to a random point on the map
                     MovementSystem ms = (MovementSystem)this.ecs.GetSystem(nameof(MovementSystem));
@@ -61,14 +67,29 @@ namespace AlienRL.systems {
         }
 
 
+        private bool CheckForImpregnation(AlienComponent alienData, PositionComponent alienPos, AbstractEntity target, PositionComponent targetPos) {
+            if (alienData.impregnateNextEnemy) {
+                double dist = GeometryFunctions.Distance(alienPos.x, alienPos.y, targetPos.x, targetPos.y);
+                if (dist < 2) {
+                    target.AddComponent(new ImpregnatedComponent());
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
         private AbstractEntity GetTarget(int ourX, int ourY, int ourSide) {
             foreach (var e in this.entities) {
-                MobDataComponent att = (MobDataComponent)e.GetComponent(nameof(MobDataComponent));
-                if (att != null && att.side != ourSide && att.side >= 0) {
-                    PositionComponent pos = (PositionComponent)e.GetComponent(nameof(PositionComponent));
-                    if (pos != null) {
-                        if (this.cmvs.CanSee(ourX, ourY, pos.x, pos.y)) {
-                            return e;
+                ImpregnatedComponent ic = (ImpregnatedComponent)e.GetComponent(nameof(ImpregnatedComponent));
+                if (ic == null) { // Don't go after anyone who's impregnated
+                    MobDataComponent att = (MobDataComponent)e.GetComponent(nameof(MobDataComponent));
+                    if (att != null && att.side != ourSide && att.side >= 0) {
+                        PositionComponent pos = (PositionComponent)e.GetComponent(nameof(PositionComponent));
+                        if (pos != null) {
+                            if (this.cmvs.CanSee(ourX, ourY, pos.x, pos.y)) {
+                                return e;
+                            }
                         }
                     }
                 }

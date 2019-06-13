@@ -112,12 +112,14 @@ namespace RoguelikeFramework {
                         }
                     } else if (this.currentInputMode == InputMode.ActivatingCurrentItem) {
                         TimerCanBeSetComponent tcbsc = (TimerCanBeSetComponent)this.currentUnit.GetComponent(nameof(TimerCanBeSetComponent));
-                        if (tcbsc.activated == false) {
-                            tcbsc.activated = true;
-                            tcbsc.timeLeft = idx;
-                            this.gameLog.Add("Timer set for " + idx);
-                        } else {
-                            this.gameLog.Add("Timer already set!");
+                        if (tcbsc != null) {
+                            if (tcbsc.activated == false) {
+                                tcbsc.activated = true;
+                                tcbsc.timeLeft = idx;
+                                this.gameLog.Add("Timer set for " + idx);
+                            } else {
+                                this.gameLog.Add("Timer already set!");
+                            }
                         }
                     } else {
                         this.SelectUnit(idx);
@@ -279,8 +281,10 @@ namespace RoguelikeFramework {
 
         protected void SelectUnit(int num) {
             if (num <= this.playersUnits.Count) {
-                this.currentUnit = this.playersUnits[num - 1];
-                this.gameLog.Add(this.currentUnit.name + " selected");
+                if (this.currentUnit != this.playersUnits[num - 1]) {
+                    this.currentUnit = this.playersUnits[num - 1];
+                    this.gameLog.Add(this.currentUnit.name + " selected");
+                }
             }
         }
 

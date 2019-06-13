@@ -73,7 +73,7 @@ namespace AlienRL {
 
             // Alien
             p = this.GetRandomSq();
-            this.entityFactory.CreateAlien(p.X, p.Y);
+            AlienEntityFactory.CreateAlien(this.ecs, this.mapData, p.X, p.Y);
 
         }
 

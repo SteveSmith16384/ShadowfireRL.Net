@@ -33,7 +33,7 @@ namespace RoguelikeFramework.models {
                     return component;
                 }
             }
-            throw new Exception($"Component {componentName} not found");
+            return null;// throw new Exception($"Component {componentName} not found");
         }
 
 

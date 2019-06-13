@@ -12,15 +12,15 @@ namespace AlienRL {
         }
 
 
-        public AbstractEntity CreateAlien(int x, int y) {
+        public static AbstractEntity CreateAlien(BasicEcs ecs, MapData map_data,  int x, int y) {
             AbstractEntity e = new AbstractEntity("Alien");
-            e.AddComponent(new PositionComponent(e, this.map_data, x, y, true, true));
+            e.AddComponent(new PositionComponent(e, map_data, x, y, true, true));
             e.AddComponent(new MovementDataComponent());
             e.AddComponent(new GraphicComponent('A', RLColor.Green, RLColor.Black, ' ', 10));
             e.AddComponent(new AlienComponent());
             e.AddComponent(new MobDataComponent(1, 150));
             e.AddComponent(new AttackAttackableComponent(30, 30));
-            this.ecs.entities.Add(e);
+            ecs.entities.Add(e);
             return e;
         }
 
